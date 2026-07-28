@@ -89,6 +89,12 @@
   .card .scope{color:var(--argile); font-size:.9rem}
   .note{color:var(--argile); font-size:.87rem}
 
+  .buy{margin:.9rem 0 0}
+  .buy button{font:inherit; font-weight:700; cursor:pointer; width:100%;
+    background:var(--capucine); color:#fff; border:0; border-radius:999px;
+    padding:.7rem 1rem; transition:transform .15s ease}
+  .buy button:hover{transform:translateY(-2px)}
+  button.cta{border:0; cursor:pointer; font:inherit; font-weight:700}
   footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
     color:var(--argile); font-size:.9rem}
   footer p{margin:0 0 .55rem}
@@ -103,7 +109,7 @@
   <h1>On vous montre comment votre IA peut être détournée — avant que le marché, la CNIL ou vos utilisateurs ne le découvrent.</h1>
   <p class="lead">Audit Red Team pour éditeurs, intégrateurs et déployeurs européens. Le AI Act s'applique : il faut <em>démontrer</em> gestion des risques, supervision humaine et robustesse — pas l'affirmer.</p>
   <p class="en">EN — AI Red-Team &amp; Drift-Audit for EU AI vendors and deployers: misuse simulation, semantic-drift testing, and the evidence pack the EU AI Act expects. Sovereign by construction — EU-hosted, no trackers, no third parties.</p>
-  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20scan">Lancer un scan — 90 €, rendu sous 24 h</a>
+  <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan"><button class="cta" type="submit">Lancer un scan — 90 €, rendu sous 24 h</button></form>
 </header>
 
 <section id="b2h">
@@ -137,16 +143,28 @@
       <h3>Scan</h3>
       <div class="scope">1 capacité · rendu &lt; 24 h · entièrement automatisé</div>
       <div class="price">90 €</div>
+      <form class="buy" method="post" action="/api/v1/checkout/form">
+        <input type="hidden" name="formula" value="scan">
+        <button type="submit">Lancer un scan</button>
+      </form>
     </div>
     <div class="card">
       <h3>Produit</h3>
       <div class="scope">Toutes les capacités · pack de preuves AI Act / RGPD</div>
       <div class="price">390 €</div>
+      <form class="buy" method="post" action="/api/v1/checkout/form">
+        <input type="hidden" name="formula" value="produit">
+        <button type="submit">Auditer le produit</button>
+      </form>
     </div>
     <div class="card">
       <h3>Veille continue</h3>
       <div class="scope">Re-scan à chaque release · alerte de dérive · historique</div>
       <div class="price">49 €/mois</div>
+      <form class="buy" method="post" action="/api/v1/checkout/form">
+        <input type="hidden" name="formula" value="veille">
+        <button type="submit">S'abonner</button>
+      </form>
     </div>
   </div>
   <p>Une <strong>revue humaine</strong> reste possible en option quand l'enjeu le justifie (contexte réglementaire lourd, arbitrage produit) — elle se greffe sur la sortie du moteur au lieu de la remplacer. Sur demande, au cas par cas.</p>
