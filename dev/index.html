@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIAME Dev — L'asymétrie comme système de référence humain</title>
+<meta name="description" content="La recherche fondatrice d'AIAME : l'asymétrie comme référent humain, le cadre B2H, les axiomes et la doctrine. Ce site ne vend rien.">
+<style>
+  /* Palette inspirée Fermob — variante recherche : Acapulco en tête */
+  :root{
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
+    --capucine:#D14E0F; --miel:#EFB63F; --verveine:#B7BE35;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
+      --capucine:#F0703A; --miel:#E8B24C; --verveine:#C4CC55;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
+  main{max-width:52rem; margin:0 auto}
+  a{color:var(--acapulco); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible{outline:3px solid var(--capucine); outline-offset:3px; border-radius:4px}
+
+  header.hero{padding:4.5rem 0 3.25rem}
+  .brand{display:flex; align-items:center; gap:.6rem;
+    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
+  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
+    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; margin:1rem 0 1.1rem; max-width:46rem}
+  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
+  .en{color:var(--argile); font-size:.95rem; max-width:42rem}
+  blockquote{border-left:.35rem solid var(--acapulco); border-radius:2px;
+    padding:.4rem 0 .4rem 1.1rem; margin:1.4rem 0; font-size:1.15rem; font-weight:600;
+    font-style:italic}
+
+  section{padding:3rem 0; border-top:1px solid var(--line)}
+  h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.25rem}
+  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
+    border-radius:999px; margin-bottom:.9rem; background:var(--acapulco)}
+  #protocole h2::before{background:var(--miel)}
+  #docs h2::before{background:var(--verveine)}
+  p{margin:0 0 1rem}
+  ul{padding-left:1.2rem; margin:0 0 1rem}
+  li{margin:.45rem 0}
+  li::marker{color:var(--acapulco)}
+  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
+    gap:.9rem; margin:1.2rem 0 .4rem}
+  .pillar{background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:.9rem 1rem; box-shadow:var(--shadow)}
+  .pillar b{display:block; margin-bottom:.25rem}
+  .pillar:nth-child(1) b{color:var(--capucine)}
+  .pillar:nth-child(2) b{color:var(--acapulco)}
+  .pillar:nth-child(3) b{color:var(--verveine)}
+  .pillar span{font-size:.9rem; color:var(--argile)}
+  .note{color:var(--argile); font-size:.87rem}
+
+  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
+    color:var(--argile); font-size:.9rem}
+  footer p{margin:0 0 .55rem}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="brand"><span class="dot"></span>AIAME · DEV</div>
+  <span class="eyebrow">Recherche fondatrice — ne vend rien</span>
+  <h1>L'asymétrie comme système de référence humain</h1>
+  <p class="lead">Il n'existe aujourd'hui aucun référent visuel humain partagé, irréfutable et non normatif, permettant d'observer l'état d'un être humain sans l'interpréter, le classer ou le juger. Les systèmes existants classent, scorent, prédisent, normalisent. <strong>Aiame observe.</strong></p>
+  <blockquote>L'asymétrie n'est pas une anomalie,<br>elle est la signature minimale du vivant.</blockquote>
+  <p class="en">EN — AIAME is an operable philosophical position before being a technical system: asymmetry as a human reference frame, under a <strong>B2H (Business to Human)</strong> contract — systems that serve the individual first, with no behavioural extraction, no addiction, no implicit promise of performance or normality.</p>
+</header>
+
+<section id="b2h">
+  <h2>B2H — la distinction essentielle</h2>
+  <p><strong>Ni B2C orienté dopamine, ni B2B orienté performance froide.</strong> Le B2H fait de l'humain le bénéficiaire final — l'institution est un support, jamais une finalité. C'est une relation de confiance réciproque où <strong>le produit ne cherche jamais à modifier l'utilisateur</strong>, codée comme contrainte structurelle dans le socle d'AIAME.</p>
+  <div class="pillars">
+    <div class="pillar"><b>Dépendance inversée</b><span>Consulter, ignorer ou partir — sans coût. Aucune rétention artificielle.</span></div>
+    <div class="pillar"><b>Silence par défaut</b><span>Des indicateurs structurels, jamais des conclusions. L'indicateur reste muet tant que le bénéfice individuel n'est pas prouvé.</span></div>
+    <div class="pillar"><b>Valeur sans extraction</b><span>Aucun autre humain n'est une référence. Aucune base ML n'est normative. Aucune donnée monétisée.</span></div>
+  </div>
+  <p class="note">Le socle est formel : la symétrie n'est pas donnée, elle est calculée — et ce calcul n'est possible qu'à partir de l'asymétrie.</p>
+</section>
+
+<section id="protocole">
+  <h2>Une recherche qui ne vend rien</h2>
+  <p>Cette recherche est volontairement séparée de l'activité commerciale d'AIAME (<a href="https://aiame.fr">aiame.fr</a>). Elle est protégée par ses propres règles : un protocole de validation avec <strong>critères d'abandon explicites</strong>, un indicateur volontairement <strong>muet</strong> tant que le bénéfice pour l'individu n'est pas scientifiquement établi, et une équipe rouge interne dont le rôle est de casser le cadre avant quiconque.</p>
+  <p>« Si Aiame disparaît un jour sans avoir été détourné, ce sera considéré comme une issue acceptable. »</p>
+</section>
+
+<section id="docs">
+  <h2>Lire</h2>
+  <ul>
+    <li><a href="https://github.com/aiame-fr/aiame-fr.github.io/blob/main/README.md">White Paper — Asymmetry as a Human Reference System (v0.1, FR/EN)</a></li>
+    <li>Constitution éthique, charte B2H, axiomes, disclosures — publication en cours sur <a href="https://github.com/aiame-fr">github.com/aiame-fr</a>.</li>
+  </ul>
+</section>
+
+<footer>
+  <p><strong>Aucun traqueur, aucun cookie, aucun script tiers.</strong> Ce site ne dit jamais qui vous êtes. Il ne le sait pas, et il n'essaiera pas.</p>
+  <p>Activité commerciale : <a href="https://aiame.fr">aiame.fr</a> · Contact : <a href="mailto:tech@aiame.fr">tech@aiame.fr</a></p>
+</footer>
+
+</main>
+</body>
+</html>

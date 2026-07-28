@@ -3,111 +3,177 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIAME — L'asymétrie comme système de référence humain</title>
-<meta name="description" content="AIAME : cadre B2H (Business to Human) — observer sans juger. Aiame Red : audit Red Team & dérive IA pour éditeurs et déployeurs européens.">
+<title>AIAME — Audit Red Team & Dérive IA</title>
+<meta name="description" content="Aiame Red : audit Red Team, simulation de mésusage et pack de preuves AI Act / RGPD pour éditeurs et déployeurs d'IA européens. Souverain, sans traqueur.">
 <style>
+  /* Palette inspirée Fermob : Capucine, Miel, Verveine, Acapulco, Carbone, Coton */
   :root{
-    --bg:#faf9f7; --fg:#1c1b1a; --muted:#6b6660; --line:#e4e0da;
-    --accent:#8a1f1f; --card:#ffffff;
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --capucine:#D14E0F; --capucine-soft:#F9E3D4;
+    --miel:#EFB63F; --acapulco:#008EA3; --verveine:#B7BE35;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
   }
   @media (prefers-color-scheme: dark){
-    :root{ --bg:#161514; --fg:#e8e5e1; --muted:#9a948c; --line:#2e2c29;
-           --accent:#d96c5f; --card:#1e1d1b; }
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --capucine:#F0703A; --capucine-soft:#3A2A20;
+      --miel:#E8B24C; --acapulco:#3FB4C6; --verveine:#C4CC55;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
   }
   *{box-sizing:border-box; margin:0}
-  body{background:var(--bg); color:var(--fg);
-    font:17px/1.65 Georgia,'Times New Roman',serif;
-    padding:0 1.25rem}
-  main{max-width:44rem; margin:0 auto}
-  header.hero{padding:5rem 0 3rem; border-bottom:1px solid var(--line)}
-  .brand{font:700 .85rem/1 system-ui,sans-serif; letter-spacing:.35em; color:var(--muted)}
-  h1{font-size:2rem; font-weight:600; margin:1rem 0 .75rem; line-height:1.25}
-  h2{font-size:1.35rem; font-weight:600; margin:0 0 1rem}
-  h3{font:600 1.05rem/1.3 system-ui,sans-serif; margin:0 0 .35rem}
-  section{padding:2.75rem 0; border-bottom:1px solid var(--line)}
+  html{scroll-behavior:smooth}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
+  main{max-width:52rem; margin:0 auto}
+  a{color:var(--capucine); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible,.cta:focus-visible{outline:3px solid var(--acapulco); outline-offset:3px; border-radius:4px}
+
+  header.hero{padding:4.5rem 0 3.25rem}
+  .brand{display:flex; align-items:center; gap:.6rem;
+    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--capucine)}
+  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
+    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--capucine); background:var(--capucine-soft); border-radius:999px}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; margin:1rem 0 1.1rem; max-width:46rem}
+  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
+  .en{color:var(--argile); font-size:.95rem; max-width:42rem; margin:0 0 1.5rem}
+  .cta{display:inline-block; font-weight:700; font-size:1rem;
+    background:var(--capucine); color:#fff; text-decoration:none;
+    padding:.9rem 1.5rem; border-radius:999px; box-shadow:var(--shadow);
+    transition:transform .15s ease}
+  .cta:hover{transform:translateY(-2px)}
+
+  section{padding:3rem 0; border-top:1px solid var(--line)}
+  h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.25rem}
+  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
+    border-radius:999px; margin-bottom:.9rem; background:var(--capucine)}
+  #livrables h2::before{background:var(--acapulco)}
+  #formules h2::before{background:var(--miel)}
+  #engagements h2::before{background:var(--verveine)}
+  #moteur h2::before{background:var(--capucine)}
+
+  /* B2H — la distinction essentielle */
+  #b2h{background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:2.25rem 1.75rem; margin:0 0 .5rem; box-shadow:var(--shadow);
+    border-left:.45rem solid var(--capucine)}
+  #b2h h2::before{display:none}
+  #b2h .versus{font-size:1.2rem; font-weight:800; letter-spacing:-.01em; margin:0 0 .9rem}
+  #b2h .versus s{color:var(--argile); font-weight:600}
+  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
+    gap:.9rem; margin:1.2rem 0 .4rem}
+  .pillar{border:1px solid var(--line); border-radius:12px; padding:.9rem 1rem}
+  .pillar b{display:block; margin-bottom:.25rem}
+  .pillar:nth-child(1) b{color:var(--capucine)}
+  .pillar:nth-child(2) b{color:var(--acapulco)}
+  .pillar:nth-child(3) b{color:var(--verveine)}
+  .pillar span{font-size:.9rem; color:var(--argile)}
+  h3{font-size:1.05rem; font-weight:700; margin:0 0 .35rem}
   p{margin:0 0 1rem}
-  .lead{font-size:1.1rem}
-  .en{color:var(--muted); font-style:italic; font-size:.95rem}
-  blockquote{border-left:3px solid var(--accent); padding:.25rem 0 .25rem 1rem;
-    margin:1.25rem 0; font-style:italic}
-  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
-    gap:1rem; margin:1.5rem 0}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:6px;
-    padding:1.1rem}
-  .card .price{font:600 1.2rem/1.2 system-ui,sans-serif; margin:.5rem 0 .25rem}
-  .card .scope{color:var(--muted); font-size:.9rem}
-  .note{color:var(--muted); font-size:.85rem}
   ul{padding-left:1.2rem; margin:0 0 1rem}
-  li{margin:.35rem 0}
-  a{color:var(--accent)}
-  .cta{display:inline-block; font:600 1rem/1 system-ui,sans-serif;
-    background:var(--accent); color:var(--bg); text-decoration:none;
-    padding:.85rem 1.4rem; border-radius:6px; margin:.5rem 0 0}
-  footer{padding:2.5rem 0 4rem; color:var(--muted); font-size:.9rem}
-  footer p{margin:0 0 .5rem}
+  li{margin:.45rem 0}
+  li::marker{color:var(--capucine)}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+    gap:1.1rem; margin:1.4rem 0}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.25rem 1.2rem; box-shadow:var(--shadow);
+    border-top:.35rem solid var(--miel); transition:transform .15s ease}
+  .card:hover{transform:translateY(-3px)}
+  .card:nth-child(1){border-top-color:var(--verveine)}
+  .card:nth-child(3){border-top-color:var(--acapulco)}
+  .card .price{font-size:1.35rem; font-weight:800; margin:.55rem 0 .2rem}
+  .card .scope{color:var(--argile); font-size:.9rem}
+  .note{color:var(--argile); font-size:.87rem}
+
+  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
+    color:var(--argile); font-size:.9rem}
+  footer p{margin:0 0 .55rem}
 </style>
 </head>
 <body>
 <main>
 
 <header class="hero">
-  <div class="brand">AIAME</div>
-  <h1>L'asymétrie comme système de référence humain</h1>
-  <p class="lead">Il n'existe aujourd'hui aucun référent visuel humain partagé, irréfutable et non normatif, permettant d'observer l'état d'un être humain sans l'interpréter, le classer ou le juger. Les systèmes existants classent, scorent, prédisent, normalisent. <strong>Aiame observe.</strong></p>
-  <blockquote>L'asymétrie n'est pas une anomalie,<br>elle est la signature minimale du vivant.</blockquote>
-  <p class="en">EN — AIAME is an operable philosophical position before being a technical system: asymmetry as a human reference frame, under a <strong>B2H (Business&nbsp;to&nbsp;Human)</strong> contract — systems that serve the individual first, with no behavioural extraction, no addiction, no implicit promise of performance or normality.</p>
+  <div class="brand"><span class="dot"></span>AIAME</div>
+  <span class="eyebrow">Aiame Red · Audit Red Team &amp; Dérive IA</span>
+  <h1>On vous montre comment votre IA peut être détournée — avant que le marché, la CNIL ou vos utilisateurs ne le découvrent.</h1>
+  <p class="lead">Audit Red Team pour éditeurs, intégrateurs et déployeurs européens. Le AI Act s'applique : il faut <em>démontrer</em> gestion des risques, supervision humaine et robustesse — pas l'affirmer.</p>
+  <p class="en">EN — AI Red-Team &amp; Drift-Audit for EU AI vendors and deployers: misuse simulation, semantic-drift testing, and the evidence pack the EU AI Act expects. Sovereign by construction — EU-hosted, no trackers, no third parties.</p>
+  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20scan">Lancer un scan — 90 €, rendu sous 24 h</a>
 </header>
 
 <section id="b2h">
   <h2>B2H — Business to Human</h2>
-  <p>Aiame formalise le B2H comme contrainte structurelle, pas comme discours : une relation de confiance réciproque entre un produit et son utilisateur, où <strong>le produit ne cherche jamais à modifier l'utilisateur</strong>. Pas de gamification, pas de scoring social, pas de coaching masqué, pas de nudging. L'utilisateur peut consulter, ignorer ou partir — sans coût.</p>
-  <p>La doctrine est publiée, datée et opposable : constitution éthique, charte B2H, axiomes formels, disclosures. Ce que nous vendons est audité par elle.</p>
+  <p class="versus"><s>B2C</s> orienté dopamine. <s>B2B</s> orienté performance froide. <strong>B2H : l'humain comme bénéficiaire final</strong> — l'institution comme support, jamais comme finalité.</p>
+  <p>Une relation de confiance réciproque et gagnant-gagnant entre un produit et son utilisateur : <strong>le produit ne cherche jamais à modifier l'utilisateur.</strong> C'est le cadre formalisé d'AIAME — codé comme contrainte structurelle, pas comme discours marketing — et c'est <strong>l'étalon de chaque audit Aiame Red</strong> : nous mesurons votre produit contre lui.</p>
+  <div class="pillars">
+    <div class="pillar"><b>Dépendance inversée</b><span>L'utilisateur peut partir sans coût. Pas de streaks, pas de notifications addictives, pas de rétention artificielle.</span></div>
+    <div class="pillar"><b>Silence par défaut</b><span>Le produit ne parle que sur demande. Aucun jugement, aucune prescription, aucune interprétation de la personne.</span></div>
+    <div class="pillar"><b>Valeur sans extraction</b><span>Aucune monétisation des données. Agrégats anonymes, opt-in explicite, jamais corrélables à l'individu.</span></div>
+  </div>
+  <p class="note">Si l'utilisateur <em>ressent</em> qu'il doit progresser, comparer, performer — le B2H est mort. C'est un test, pas un slogan.</p>
 </section>
 
-<section id="red">
-  <h2>Aiame Red — Audit Red Team &amp; Dérive IA</h2>
-  <p class="lead">On vous montre comment votre IA peut être détournée — avant que le marché, la CNIL ou vos utilisateurs ne le découvrent.</p>
-  <p>Le AI Act s'applique ; il faut <em>démontrer</em> gestion des risques, supervision humaine et robustesse — pas l'affirmer. Notre méthode vient de notre propre règle interne : chaque capacité visible a sa contre-lecture adversariale avant toute mise en public.</p>
+<section id="livrables">
+  <h2>Ce que nous livrons</h2>
   <ul>
     <li><strong>Fiches de dérive</strong> par capacité : lectures abusives plausibles, acteur malveillant réaliste, test de glissement sémantique, test RGPD &amp; dignité.</li>
-    <li><strong>Simulation de mésusage</strong> jouée contre le produit réel, preuves reproductibles.</li>
-    <li><strong>Pack de preuves</strong> AI Act (art. 9, 10, 13, 14, 15, 26, 50) et RGPD (art. 5, 22, 25, 35).</li>
-    <li><strong>Coupe-circuits</strong> : conditions d'arrêt définies, testées, avec autorité et délai.</li>
+    <li><strong>Simulation de mésusage</strong> jouée contre le produit réel — preuves reproductibles, pas de slides.</li>
+    <li><strong>Pack de preuves</strong> AI Act (art. 9, 10, 13, 14, 15, 26, 50) et RGPD (art. 5, 22, 25, 35) — ce que votre auditeur, votre DPO ou votre client grand compte doit pouvoir montrer.</li>
+    <li><strong>Coupe-circuits</strong> : conditions d'arrêt définies, testées, avec autorité et délai réels.</li>
   </ul>
-  <div class="cards">
-    <div class="card">
-      <h3>Express</h3>
-      <div class="scope">1 fonctionnalité · 5 jours</div>
-      <div class="price">4 900 €</div>
-    </div>
-    <div class="card">
-      <h3>Audit complet</h3>
-      <div class="scope">Produit entier · 3–4 semaines · re-test inclus</div>
-      <div class="price">19 000 – 29 000 €</div>
-    </div>
-    <div class="card">
-      <h3>Retainer Red Team</h3>
-      <div class="scope">Fiche de dérive à chaque release · trimestriel</div>
-      <div class="price">2 500 €/mois</div>
-    </div>
-  </div>
-  <p class="note">Prix de lancement — hypothèses affichées comme telles, ajustées après les trois premières missions. Faible volume, forte valeur : nous prenons peu de missions, nous les faisons à fond.</p>
-  <p><strong>Ce que nous ne ferons jamais :</strong> auditer des personnes (nous auditons des systèmes), produire un scoring d'individus, conserver ou réutiliser vos données, rendre un rapport complaisant. Si nous ne savons pas, nous écrivons « nous ne savons pas ».</p>
-  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20cadrage">Échange de cadrage — 45 min, gratuit, sans slide</a>
+  <p>Notre méthode vient de notre propre règle interne : <strong>chaque capacité visible a sa contre-lecture adversariale avant toute mise en public.</strong> Un bon résultat Red Team = « voilà exactement où votre système ne sait plus. »</p>
 </section>
 
-<section id="docs">
-  <h2>Lire la doctrine</h2>
+<section id="formules">
+  <h2>À la demande, automatisé</h2>
+  <p>L'audit est un <strong>moteur</strong>, pas un cabinet. Vous décrivez votre produit, le moteur joue la batterie adversariale — lectures abusives, glissement sémantique, dignité, cartographie AI&nbsp;Act — et rend une fiche de dérive exploitable. Pas de devis, pas de cycle de vente, pas de jours-homme facturés pour ce qu'une machine fait mieux.</p>
+  <div class="cards">
+    <div class="card">
+      <h3>Scan</h3>
+      <div class="scope">1 capacité · rendu &lt; 24 h · entièrement automatisé</div>
+      <div class="price">90 €</div>
+    </div>
+    <div class="card">
+      <h3>Produit</h3>
+      <div class="scope">Toutes les capacités · pack de preuves AI Act / RGPD</div>
+      <div class="price">390 €</div>
+    </div>
+    <div class="card">
+      <h3>Veille continue</h3>
+      <div class="scope">Re-scan à chaque release · alerte de dérive · historique</div>
+      <div class="price">49 €/mois</div>
+    </div>
+  </div>
+  <p>Une <strong>revue humaine</strong> reste possible en option quand l'enjeu le justifie (contexte réglementaire lourd, arbitrage produit) — elle se greffe sur la sortie du moteur au lieu de la remplacer. Sur demande, au cas par cas.</p>
+  <p class="note">Prix de lancement, affichés publiquement — pas de grille cachée, pas de « nous consulter ». Ajustés au vu des coûts réels, jamais au vu de ce que le client peut payer.</p>
+</section>
+
+<section id="moteur">
+  <h2>Le moteur tourne d'abord sur nous</h2>
+  <p>Notre règle interne veut que <strong>chaque capacité visible ait sa contre-lecture adversariale avant toute mise en public</strong>. Nous ne pouvions pas la tenir à la main : le moteur a donc été construit pour nos propres besoins, et il audite nos produits à chaque déploiement — fiches de dérive versionnées, conditions d'arrêt testées, y compris pour ce site.</p>
+  <p>Ce que vous achetez n'est pas une prestation improvisée pour vous : c'est <strong>l'outil que nous nous imposons</strong>, ouvert aux autres. Nos propres fiches sont publiques.</p>
+</section>
+
+<section id="engagements">
+  <h2>Ce que nous ne ferons jamais</h2>
   <ul>
-    <li><a href="https://github.com/aiame-fr/aiame-fr.github.io/blob/main/README.md">White Paper — Asymmetry as a Human Reference System (v0.1, FR/EN)</a></li>
-    <li>Constitution éthique, charte B2H, axiomes, disclosures — publication en cours sur <a href="https://github.com/aiame-fr">github.com/aiame-fr</a>.</li>
+    <li>Auditer des <strong>personnes</strong> (employés, candidats, clients) — nous auditons des <strong>systèmes</strong>.</li>
+    <li>Produire un scoring d'individus, même « à titre indicatif », même « pour aider ».</li>
+    <li>Vendre, conserver ou réutiliser vos données ou celles de vos utilisateurs.</li>
+    <li>Un rapport complaisant. Règle maison : si nous ne savons pas, nous écrivons « nous ne savons pas ».</li>
   </ul>
-  <p class="en">EN — Every commercial claim on this page is constrained by a published doctrine. Revenue from Aiame Red majority-funds the non-commercial core research (target rule ≥ 80 %, traceability mechanism under construction).</p>
+  <p>Ces engagements suivent le cadre <strong>B2H (Business to Human)</strong> d'AIAME : une relation où le produit ne cherche jamais à modifier l'utilisateur, publiée et datée dans notre doctrine. Ce site la pratique : hébergement UE souverain, certificat maîtrisé, zéro traqueur, zéro tiers.</p>
+  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20cadrage">Lancer un scan</a>
 </section>
 
 <footer>
   <p><strong>Aucun traqueur, aucun cookie, aucun script tiers.</strong> Cette page est un document statique versionné publiquement.</p>
-  <p>Ce site ne dit jamais qui vous êtes. Il ne le sait pas, et il n'essaiera pas.</p>
+  <p>La recherche fondatrice d'AIAME (asymétrie, B2H) vit à part : <a href="https://dev.aiame.fr">dev.aiame.fr</a>. Elle ne vend rien.</p>
   <p>Contact : <a href="mailto:tech@aiame.fr">tech@aiame.fr</a> · Source : <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
 </footer>
 
