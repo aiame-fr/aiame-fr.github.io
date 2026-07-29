@@ -1,0 +1,17 @@
+{
+  "_comment": "Données d'identité obligatoires (LCEN art. 6-III). Les pages légales ne sont PUBLIÉES qu'une fois tous les champs TODO remplis : des mentions incomplètes sont un manquement en soi.",
+  "editeur_nom": "TODO",
+  "editeur_statut": "Entrepreneur individuel (auto-entrepreneur)",
+  "editeur_adresse": "TODO",
+  "editeur_siren": "TODO",
+  "editeur_email": "tech@aiame.fr",
+  "editeur_telephone": "TODO",
+  "directeur_publication": "TODO",
+  "tva": "TVA non applicable, article 293 B du CGI",
+  "hebergeur_nom": "Hetzner Online GmbH",
+  "hebergeur_adresse": "Industriestr. 25, 91710 Gunzenhausen, Allemagne",
+  "hebergeur_tel": "+49 9831 505-0",
+  "mediateur_nom": "TODO — souscription requise avant toute vente à un consommateur",
+  "mediateur_url": "TODO",
+  "cgv_version": "2026-07-29"
+}
