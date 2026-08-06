@@ -1,0 +1,10 @@
+
+# Pages légales générées par build_legal.py — VOLONTAIREMENT NON SUIVIES.
+# Ce dépôt EST le site publié : GitHub Pages sert tout ce qui est commité.
+# Committer une page en état BROUILLON (« NE PAS PUBLIER », SIREN : TODO) revient
+# donc à la publier — c'est exactement ce qui s'est produit le 29/07, constaté le 06/08.
+# Elles sont régénérées à la demande (python3 build_legal.py) et déployées sur
+# aiame.fr par Ansible quand legal.json est complet ; le miroir ne les sert jamais.
+mentions-legales.html
+cgv.html
+confidentialite.html
