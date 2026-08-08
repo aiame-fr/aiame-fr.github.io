@@ -1,0 +1,24 @@
+name: garde-fous
+
+# Doctrinal blocking checks. Canonical script lives in aiame-doctrine and is
+# vendored here (see scripts/CANONICAL.sha256).
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  garde-fous:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: La copie du script est intacte
+        run: sha256sum -c scripts/CANONICAL.sha256
+
+      - name: Prove the guard can fail
+        run: bash scripts/test_garde_fous.sh
+
+      - name: GF-1/2/3/4 sur tout le dépôt
+        run: bash scripts/garde_fous.sh . 

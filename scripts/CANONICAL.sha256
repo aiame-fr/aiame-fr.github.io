@@ -1,0 +1,15 @@
+# COPIE VENDORÉE — NE PAS ÉDITER ICI.
+#
+# Source canonique : aiame-fr/aiame-doctrine, garde-fous/garde_fous.sh
+# Vendoré le 2026-08-08, avec GF-4 (frontière de crédential MCP côté
+# Elzéard, ADR-PC-023) déjà en place.
+#
+# Pourquoi une copie et pas un sous-module : les sous-modules sont proscrits, et
+# aiame-doctrine est privé — y accéder depuis la CI d'un autre dépôt exigerait
+# un PAT en secret d'organisation, donc plus de couplage à GitHub, pas moins.
+#
+# Ce que la somme ci-dessous prouve : que la copie locale n'a pas été bricolée.
+# Ce qu'elle NE prouve PAS : qu'elle est à jour vis-à-vis du canonique — c'est
+# une dérive amont, invisible d'ici. Elle se détecte depuis aiame-doctrine :
+#     ./garde-fous/verifier-copies.sh
+073a3eae9bcbf38178b60841b0d0c2b6dfab99a88a184ed6d04faf4c61d4548c  scripts/garde_fous.sh
