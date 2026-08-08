@@ -94,6 +94,9 @@
   .card .scope{color:var(--argile); font-size:.9rem}
   .note{color:var(--argile); font-size:.87rem}
 
+  .decl{display:flex; gap:.5rem; align-items:flex-start; font-size:.85rem;
+    color:var(--argile); margin:.7rem 0 .2rem; cursor:pointer; line-height:1.4}
+  .decl input{margin-top:.2rem; accent-color:var(--capucine); flex:none}
   .buy{margin:.9rem 0 0}
   .buy button{font:inherit; font-weight:700; cursor:pointer; width:100%;
     background:var(--capucine); color:#fff; border:0; border-radius:999px;
@@ -110,10 +113,11 @@
 
 <header class="hero">
   <div class="brand"><span class="dot"></span>AIAME</div>
-  <span class="eyebrow">Aiame Red · Audit Red Team &amp; Dérive IA</span>
+  <span class="eyebrow">Aiame Red · Audit Red Team &amp; Dérive IA · Offre réservée aux professionnels</span>
   <h1>On vous montre comment votre IA peut être détournée — avant que le marché, la CNIL ou vos utilisateurs ne le découvrent.</h1>
   <p class="lead">Audit Red Team pour éditeurs, intégrateurs et déployeurs européens. Le AI Act s'applique : il faut <em>démontrer</em> gestion des risques, supervision humaine et robustesse — pas l'affirmer.</p>
-  <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan"><button class="cta" type="submit">Demander un scan — rendu sous 24 h</button></form>
+  <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan">
+        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label><button class="cta" type="submit">Demander un scan — rendu sous 24 h</button></form>
 </header>
 
 <section id="b2h">
@@ -141,6 +145,7 @@
 
 <section id="formules">
   <h2>À la demande, automatisé</h2>
+  <p class="note"><strong>Offre réservée aux professionnels</strong> — éditeurs, intégrateurs, DPO, organisations publiques ou privées agissant dans le cadre de leur activité. Elle n'est pas proposée aux consommateurs.</p>
   <p>L'audit est un <strong>moteur</strong>, pas un cabinet. Vous décrivez votre produit, le moteur joue la batterie adversariale — lectures abusives, glissement sémantique, dignité, cartographie AI&nbsp;Act — et rend une fiche de dérive exploitable. Pas de devis, pas de cycle de vente, pas de jours-homme facturés pour ce qu'une machine fait mieux.</p>
   <div class="cards">
     <div class="card">
@@ -149,6 +154,7 @@
       <div class="price">Sur demande</div>
       <form class="buy" method="post" action="/api/v1/checkout/form">
         <input type="hidden" name="formula" value="scan">
+        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
         <button type="submit">Demander un scan</button>
       </form>
     </div>
@@ -158,6 +164,7 @@
       <div class="price">Sur demande</div>
       <form class="buy" method="post" action="/api/v1/checkout/form">
         <input type="hidden" name="formula" value="produit">
+        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
         <button type="submit">Demander un audit produit</button>
       </form>
     </div>
@@ -167,6 +174,7 @@
       <div class="price">Sur demande</div>
       <form class="buy" method="post" action="/api/v1/checkout/form">
         <input type="hidden" name="formula" value="veille">
+        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
         <button type="submit">Demander la veille</button>
       </form>
     </div>
