@@ -73,6 +73,22 @@
   #certif h2::before{display:none}
   #certif .verdict{font-size:1.2rem; font-weight:800; letter-spacing:-.01em; margin:0 0 .9rem}
   #certif .verdict b{color:var(--capucine)}
+  .certif-sub{font-size:1.05rem; font-weight:800; letter-spacing:-.01em;
+    margin:1.9rem 0 .6rem; padding-top:1.5rem; border-top:1px solid var(--line)}
+
+  /* Tableau des quatre propriétés — scroll horizontal propre, jamais le body */
+  .proptable-wrap{overflow-x:auto; margin:1.2rem 0; border-radius:12px;
+    border:1px solid var(--line)}
+  table.proptable{border-collapse:collapse; width:100%; min-width:38rem; font-size:.85rem}
+  .proptable th, .proptable td{padding:.65rem .8rem; text-align:left;
+    border-bottom:1px solid var(--line); vertical-align:top}
+  .proptable thead th{background:var(--acapulco-soft); color:var(--carbone);
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700}
+  .proptable tbody tr:last-child td{border-bottom:0}
+  .proptable td:first-child{font-weight:700; white-space:nowrap}
+  .proptable td.yes{color:var(--verveine); font-weight:700}
+  .proptable td.no{color:var(--capucine)}
+  .proptable td.partial{color:var(--miel)}
 
   /* Bandeau de stats */
   .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
@@ -140,13 +156,35 @@
   <h2>Certification e2e sandbox</h2>
   <p class="verdict">Verdict : <b>ABSENTE</b> — sur les 18 dépôts.</p>
   <p>Aucun des 18 dépôts n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel.</p>
-  <p>Quatre dépôts sortent du lot en exécutant de <strong>vrais tests automatisés</strong> en CI plutôt que la seule doctrine : <a href="#pre">aiame-fin</a>, <a href="#pre">aiame-knowledge</a>, <a href="#pre">aiame-pouls</a>, <a href="#pre">aiame-red</a>. Aucun des quatre n'est pour autant une certification croisée entre dépôts — c'est la barre la plus haute atteinte à ce jour, pas une certification e2e.</p>
+  <p>Trois dépôts ont une CI qui exécute de <strong>vrais tests automatisés</strong> plutôt que la seule doctrine : <a href="#pre">aiame-knowledge</a> (pytest backend + build frontend), <a href="#pre">aiame-pouls</a> (pytest + deux passes <code>demo.py</code>, dans <code>garde-fous.yml</code> lui-même), <a href="#pre">aiame-red</a> (<code>red-selfaudit.yml</code>, un moteur qui s'audite contre les specs d'autres dépôts). Un quatrième, <a href="#pre">aiame-fin</a>, va plus loin dans un sens précis mais reste hors CI — voir « ce qui existe vraiment » ci-dessous.</p>
   <div class="stats">
     <div class="stat prod"><div class="n">4</div><div class="lbl">prod</div></div>
     <div class="stat pre"><div class="n">5</div><div class="lbl">pré-prod</div></div>
     <div class="stat dev"><div class="n">9</div><div class="lbl">dev</div></div>
     <div class="stat"><div class="n">18</div><div class="lbl">audités</div></div>
   </div>
+
+  <h3 class="certif-sub">Ce qu'une certification e2e exigerait réellement</h3>
+  <p>« ABSENTE » n'est pas une case à cocher — c'est l'absence d'un mécanisme qui réunirait quatre propriétés à la fois :</p>
+  <div class="pillars">
+    <div class="pillar"><b>Automatique</b><span>Déclenché sans qu'un humain pense à lancer une commande — CI, cron, ou verrou de déploiement.</span></div>
+    <div class="pillar"><b>Chemin réel</b><span>Exerce l'instance réellement déployée — le conteneur qui tourne, pas un <code>TestClient</code> en mémoire ni un mock.</span></div>
+    <div class="pillar"><b>Parcours complet</b><span>Couvre le trajet utilisateur de bout en bout (clic → paiement → webhook → commande confirmée), pas une fonction isolée.</span></div>
+    <div class="pillar"><b>Fait autorité</b><span>Un échec bloque ou alerte — sinon c'est une mesure ponctuelle, pas une certification.</span></div>
+  </div>
+  <p>Aucun mécanisme trouvé dans l'organisation ne réunit les quatre. Le tableau ci-dessous montre où s'arrête chacun de ceux qui s'en rapprochent :</p>
+  <div class="proptable-wrap">
+  <table class="proptable">
+    <thead><tr><th>Mécanisme</th><th>Automatique</th><th>Chemin réel</th><th>Parcours complet</th><th>Fait autorité</th></tr></thead>
+    <tbody>
+      <tr><td>garde-fous (17 dépôts)</td><td class="yes">✓</td><td class="no">✗ — grep de texte source</td><td class="no">✗</td><td class="yes">✓ bloque le merge</td></tr>
+      <tr><td>Suites unitaires/CI (knowledge, pouls, red)</td><td class="yes">✓</td><td class="no">✗ — process/specs, pas l'instance déployée</td><td class="partial">– pouls : <code>demo.py</code> complet mais en local</td><td class="yes">✓ bloque le merge</td></tr>
+      <tr><td>Sondes réseau réelles (aiame-fin, <code>test_sandboxes.py</code>)</td><td class="no">✗ — jamais en CI, local seulement</td><td class="partial">– vraie requête, mais contre le fournisseur, pas notre pile</td><td class="no">✗ — tests à clés réelles tous <code>skip</code></td><td class="no">✗ rien ne bloque dessus</td></tr>
+      <tr><td>Vérifications HTTP en direct (cet audit, aiame.fr/eu.aiame.fr)</td><td class="no">✗ — <code>curl</code> ponctuel le 2026-08-13</td><td class="yes">✓ vraie requête, vrai domaine</td><td class="no">✗ — page chargée, pas un parcours</td><td class="no">✗ rien n'alerte si ça recasse demain</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">Le plus proche d'une certification e2e qui existe aujourd'hui dans cet organisation est fragmenté sur ces quatre mécanismes, et aucun n'a plus de deux propriétés sur quatre en même temps. C'est la mesure derrière le mot « ABSENTE ».</p>
 </section>
 
 <section id="methode">
@@ -206,9 +244,9 @@
       <h3>aiame-fin <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Paiement/PSP pour Aiame Red, pensé pour Traefik PathPrefix(/api).</p>
       <ul class="evid">
-        <li>52 tests passent, 3 ignorés (pytest, exécuté et vérifié)</li>
-        <li>Adaptateurs mock par défaut, explicitement étiquetés comme tels</li>
-        <li>Aucune preuve indépendante de trafic réel dans ce dépôt</li>
+        <li class="warn">52 tests passent, 3 ignorés — mais en local seulement : la seule CI du dépôt est garde-fous, <code>pytest</code> n'y est jamais invoqué</li>
+        <li><code>tests/test_sandboxes.py</code> va plus loin que tout le reste de l'organisation : deux sondes tapent en vrai <code>api.stripe.com</code> et <code>api.sumup.com</code> et vérifient un 401 (pas 404/400) pour prouver que la forme de la requête est correcte contre le fournisseur réel — exécuté et confirmé pendant cet audit</li>
+        <li class="warn">Les 3 tests à clés sandbox réelles — ceux qui créeraient un paiement test complet — sont tous <code>skip</code>, faute de clés provisionnées : personne n'a jamais vu un paiement traverser ce service de bout en bout</li>
       </ul>
     </div>
     <div class="repo">
