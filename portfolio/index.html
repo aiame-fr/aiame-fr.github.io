@@ -7,7 +7,7 @@
 <!-- noindex conservatoire, même raison que index.html (2026-08-07) : identité légale
      pas encore publiable (legal.json). À retirer avec le noindex de la page d'accueil. -->
 <meta name="robots" content="noindex">
-<meta name="description" content="État mesuré des 16 dépôts de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
+<meta name="description" content="État mesuré des 18 dépôts de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
 <style>
   /* Palette Fermob, variante portfolio : Acapulco en tête (registre recherche/mesure,
      pas commercial — cohérent avec dev/index.html plutôt qu'avec index.html). */
@@ -130,7 +130,7 @@
 
 <header class="hero">
   <div class="brand"><span class="dot"></span>AIAME · PORTFOLIO</div>
-  <span class="eyebrow">16 dépôts audités le 2026-08-13 — état mesuré, pas déclaré</span>
+  <span class="eyebrow">18 dépôts audités le 2026-08-13 — état mesuré, pas déclaré</span>
   <h1>Ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.</h1>
   <p class="lead">Chaque dépôt de l'organisation <strong>aiame-fr</strong> est classé <strong>prod</strong>, <strong>pré-prod</strong> ou <strong>dev</strong> à partir de preuves vérifiables — état des CI (<code>gh api</code>), vérification en direct des domaines, lecture du code — jamais à partir d'un README pris pour argent comptant.</p>
   <p class="en">A measured, not declared, staging of every repository in the aiame-fr organization — dev/pre/prod assigned from verifiable evidence, not from what each repo's own docs claim.</p>
@@ -138,14 +138,14 @@
 
 <section id="certif">
   <h2>Certification e2e sandbox</h2>
-  <p class="verdict">Verdict : <b>ABSENTE</b> — sur les 16 dépôts.</p>
-  <p>Aucun des 16 dépôts n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel.</p>
-  <p>Trois dépôts sortent du lot en exécutant de <strong>vrais tests automatisés</strong> en CI plutôt que la seule doctrine : <a href="#pre">aiame-fin</a>, <a href="#pre">aiame-pouls</a>, <a href="#pre">aiame-red</a>. Aucun des trois n'est pour autant une certification croisée entre dépôts — c'est la barre la plus haute atteinte à ce jour, pas une certification e2e.</p>
+  <p class="verdict">Verdict : <b>ABSENTE</b> — sur les 18 dépôts.</p>
+  <p>Aucun des 18 dépôts n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel.</p>
+  <p>Quatre dépôts sortent du lot en exécutant de <strong>vrais tests automatisés</strong> en CI plutôt que la seule doctrine : <a href="#pre">aiame-fin</a>, <a href="#pre">aiame-knowledge</a>, <a href="#pre">aiame-pouls</a>, <a href="#pre">aiame-red</a>. Aucun des quatre n'est pour autant une certification croisée entre dépôts — c'est la barre la plus haute atteinte à ce jour, pas une certification e2e.</p>
   <div class="stats">
     <div class="stat prod"><div class="n">4</div><div class="lbl">prod</div></div>
-    <div class="stat pre"><div class="n">4</div><div class="lbl">pré-prod</div></div>
-    <div class="stat dev"><div class="n">8</div><div class="lbl">dev</div></div>
-    <div class="stat"><div class="n">16</div><div class="lbl">audités</div></div>
+    <div class="stat pre"><div class="n">5</div><div class="lbl">pré-prod</div></div>
+    <div class="stat dev"><div class="n">9</div><div class="lbl">dev</div></div>
+    <div class="stat"><div class="n">18</div><div class="lbl">audités</div></div>
   </div>
 </section>
 
@@ -157,7 +157,7 @@
     <div class="pillar"><b>Pré-prod</b><span>Construit, avec de vrais tests qui passent en CI (pas seulement la doctrine) — mais sans preuve de service en production dans ce dépôt, ou déployé mais avec un doute non résolu sur ce qui est réellement servi.</span></div>
     <div class="pillar"><b>Dev</b><span>Travail en cours, build cassé, tests écrits mais jamais appelés par la CI, ou aucune preuve de déploiement.</span></div>
   </div>
-  <p class="note">Deux dépôts existent dans l'organisation GitHub sans être ni suivis ni exclus dans l'inventaire (<code>repos.json</code>) — voir « Trous d'inventaire » plus bas. Ils ne sont pas classés ici, faute d'un inventaire qui statue sur eux.</p>
+  <p class="note">Deux dépôts (aiame-knowledge, aiame-memory) manquaient à l'inventaire au moment du premier passage de cet audit — voir « Trous d'inventaire » plus bas pour comment ça s'est résolu. Ils sont désormais classés comme les 16 autres.</p>
 </section>
 
 <section id="prod">
@@ -200,7 +200,7 @@
 </section>
 
 <section id="pre">
-  <h2>Pré-prod — 4 dépôts</h2>
+  <h2>Pré-prod — 5 dépôts</h2>
   <div class="repos">
     <div class="repo">
       <h3>aiame-fin <span class="badge cert-absent">certif. e2e absente</span></h3>
@@ -209,6 +209,14 @@
         <li>52 tests passent, 3 ignorés (pytest, exécuté et vérifié)</li>
         <li>Adaptateurs mock par défaut, explicitement étiquetés comme tels</li>
         <li>Aucune preuve indépendante de trafic réel dans ce dépôt</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-knowledge <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Extraction et synthèse documentaire de l'org aiame-fr — inventaire, classification, synthèses.</p>
+      <ul class="evid">
+        <li>CI réelle et verte (3/3 runs) : <code>pytest</code> backend + build frontend, pas seulement garde-fous</li>
+        <li>Frontend lit un jeu de données figé (copié d'un run réel du pipeline) — pas d'API en direct pour l'instant, aucune preuve de déploiement</li>
       </ul>
     </div>
     <div class="repo">
@@ -239,7 +247,7 @@
 </section>
 
 <section id="dev">
-  <h2>Dev — 8 dépôts</h2>
+  <h2>Dev — 9 dépôts</h2>
   <div class="repos">
     <div class="repo">
       <h3>aiame-core <span class="badge cert-absent">certif. e2e absente</span></h3>
@@ -253,6 +261,14 @@
       <p class="purpose">Résumé technique du fondateur, contexte d'antériorité iVision.</p>
       <ul class="evid">
         <li>Document statique — rien à construire ni déployer</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-memory <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Mémoire persistante de session Claude Code — synthèses de contexte, pas de secrets réels.</p>
+      <ul class="evid">
+        <li>Aucun workflow CI — dépôt de notes (27 fichiers <code>.md</code>), pas de code à construire ni déployer</li>
+        <li>Six fichiers R&amp;D restreints extraits et chiffrés hors dépôt, documenté dans son propre historique</li>
       </ul>
     </div>
     <div class="repo">
@@ -307,8 +323,8 @@
 </section>
 
 <section id="trous">
-  <h2>Trous d'inventaire</h2>
-  <p><strong>aiame-knowledge</strong> et <strong>aiame-memory</strong> existent dans l'organisation GitHub (confirmé via <code>gh api orgs/aiame-fr/repos</code>) mais ne figurent ni dans les 16 dépôts de <code>repos.json</code>, ni dans sa liste d'exclusions explicite — contrairement à <code>aiame-agri-gers</code> et <code>ivx-recherche</code>, exclus avec une raison écrite. Ils ne sont pas classés dans ce portfolio : un inventaire à jour n'a pas encore statué sur eux, et l'un ou l'autre pourrait légitimement appartenir à un autre espace de travail (comme <code>ivx-recherche</code> avant lui).</p>
+  <h2>Trous d'inventaire — résolu</h2>
+  <p><strong>aiame-knowledge</strong> et <strong>aiame-memory</strong> existaient dans l'organisation GitHub (confirmé via <code>gh api orgs/aiame-fr/repos</code>) sans figurer dans les 16 dépôts de <code>repos.json</code> ni dans sa liste d'exclusions explicite — contrairement à <code>aiame-agri-gers</code> et <code>ivx-recherche</code>, exclus avec une raison écrite. Les deux se sont avérés sans ambiguïté dans le périmètre AIAME (remotes <code>aiame-fr/*</code>, contenu entièrement AIAME) — ajoutés à <code>repos.json</code> et classés ci-dessus le jour même (<a href="https://github.com/aiame-fr/aiame-workspace/pull/6">aiame-workspace#6</a>).</p>
   <p class="note">C'est exactement le type de dérive que <code>./bootstrap.sh --check</code> existe pour détecter — ce portfolio ne remplace pas cette vérification, il en donne un aperçu daté du 2026-08-13.</p>
 </section>
 
