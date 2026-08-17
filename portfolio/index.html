@@ -180,10 +180,11 @@
       <tr><td>Suites unitaires/CI (knowledge, pouls, red)</td><td class="yes">✓</td><td class="no">✗ — process/specs, pas l'instance déployée</td><td class="partial">– pouls : <code>demo.py</code> complet mais en local</td><td class="yes">✓ bloque le merge</td></tr>
       <tr><td>Sondes réseau réelles (aiame-fin, <code>test_sandboxes.py</code>)</td><td class="no">✗ — jamais en CI, local seulement</td><td class="partial">– vraie requête, mais contre le fournisseur, pas notre pile</td><td class="no">✗ — tests à clés réelles tous <code>skip</code></td><td class="no">✗ rien ne bloque dessus</td></tr>
       <tr><td>Vérifications HTTP en direct (cet audit, aiame.fr/eu.aiame.fr)</td><td class="no">✗ — <code>curl</code> ponctuel le 2026-08-13</td><td class="yes">✓ vraie requête, vrai domaine</td><td class="no">✗ — page chargée, pas un parcours</td><td class="no">✗ rien n'alerte si ça recasse demain</td></tr>
+      <tr><td>Détecteur de dérive local (aiame-doctrine, <code>verifier-copies.sh</code>)</td><td class="no">✗ — local seulement, pas en CI (dépôt privé)</td><td class="partial">– compare de vrais fichiers, mais entre checkouts locaux, pas une instance déployée</td><td class="no">✗ — intégrité d'un artefact, pas un parcours utilisateur</td><td class="no">✗ diagnostic pur, personne n'est bloqué s'il n'est pas lancé</td></tr>
     </tbody>
   </table>
   </div>
-  <p class="note">Le plus proche d'une certification e2e qui existe aujourd'hui dans cet organisation est fragmenté sur ces quatre mécanismes, et aucun n'a plus de deux propriétés sur quatre en même temps. C'est la mesure derrière le mot « ABSENTE ».</p>
+  <p class="note">Le plus proche d'une certification e2e qui existe aujourd'hui dans cet organisation est fragmenté sur ces cinq mécanismes, et aucun n'a plus de deux propriétés sur quatre en même temps. C'est la mesure derrière le mot « ABSENTE ».</p>
 </section>
 
 <section id="methode">
@@ -204,8 +205,8 @@
       <h3>aiame-doctrine <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Textes éthiques canoniques (Constitution, chartes, axiomes, White Paper) + garde-fous.</p>
       <ul class="evid">
-        <li>garde-fous vert (3/3 runs vérifiés, dernier 2026-08-08)</li>
-        <li>Source d'où toute projection publique est extraite — jamais éditée en place, seulement une nouvelle version</li>
+        <li>garde-fous vert (re-vérifié le 2026-08-17, mais aucun commit depuis le 2026-08-16 — dépôt calme, pas de nouveau signal de dérive)</li>
+        <li>« Source d'où toute projection publique est extraite » recouvre deux réalités très différentes : le script <code>garde-fous.sh</code> a un vrai détecteur de dérive (<code>garde-fous/verifier-copies.sh</code>, éprouvé par mutation) — exécuté en direct, <strong>15/15 copies vendorées à jour</strong> ; le texte doctrinal lui-même (B2H, White Paper) n'a <strong>aucun</strong> équivalent — vérifié qu'<code>index.html</code>#b2h est de la prose indépendante, pas un extrait vérifié de <code>CHARTE-B2H.md</code></li>
       </ul>
     </div>
     <div class="repo">
