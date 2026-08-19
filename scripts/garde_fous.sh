@@ -11,9 +11,25 @@ SRC="${1:?usage: garde_fous.sh <runtime_src_dir> [deps_file...]}"
 shift || true
 FAIL=0
 
+# Répertoires de DÉPENDANCES, jamais de code écrit ici : un venv/node_modules
+# installé embarque des paquets tiers qui importent légitimement openai/
+# anthropic ou déclarent une clé "mcpServers" dans leur propre config — grep
+# -r sans exclusion les lit comme si c'était notre code d'exécution. Mesuré en
+# direct le 18/08 : l'intégration OpenAI/Anthropic de sentry_sdk (dépendance
+# transitive) sous .venv/ a fait échouer GF-1 sur un arbre par ailleurs propre,
+# deux fois, dans deux dépôts différents. Motif déjà en usage ailleurs dans
+# l'org (node_modules/.venv/__pycache__/.git/dist/build), plus .next (build
+# Next.js) et target (build Rust/Cargo, aiame-core).
+EXCLURE_DEPS=(
+  --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv
+  --exclude-dir=__pycache__ --exclude-dir=dist --exclude-dir=build
+  --exclude-dir=.next --exclude-dir=target
+)
+
 echo "== GF-1 frontier-in-execution (blocking) =="
 if grep -rn -iE 'from openai|import openai|import anthropic|from anthropic|api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis' \
-    "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' --include='*.rs'; then
+    "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' --include='*.rs' \
+    "${EXCLURE_DEPS[@]}"; then
   echo "VIOLATION: frontier provider referenced in runtime code"; FAIL=1
 else
   echo "OK: no frontier provider in runtime code"
@@ -33,7 +49,7 @@ fi
 
 echo "== GF-3 discours-vs-mesure (warning only) =="
 grep -rn -iE '"[^"]*(temps réel|real[- ]time|intelligent)[^"]*"' "$SRC" \
-  --include='*.ts' --include='*.tsx' | head -5 \
+  --include='*.ts' --include='*.tsx' "${EXCLURE_DEPS[@]}" | head -5 \
   && echo "WARN: unmeasured-claim wording found (ban until measured — NN-4)" \
   || echo "OK: no banned wording"
 
@@ -45,9 +61,10 @@ echo "== GF-4 elzeard-mcp-boundary (blocking) =="
 # written in doctrine prose, has no matching chars after the underscores and
 # is deliberately not matched here), or an MCP client registration.
 if grep -rn -E 'pck_[A-Za-z0-9]{6,}_[A-Za-z0-9]{16,}|"mcpServers"' \
-    "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' --include='*.rs' --include='*.json' --include='*.yml' --include='*.yaml'; then
+    "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' --include='*.rs' --include='*.json' --include='*.yml' --include='*.yaml' \
+    "${EXCLURE_DEPS[@]}"; then
   echo "VIOLATION: Elzeard tenant credential or MCP client registration found (ADR-PC-023)"; FAIL=1
-elif find "$SRC" -type f -iname '.mcp.json' 2>/dev/null | grep -q .; then
+elif find "$SRC" \( -iname .git -o -iname node_modules -o -iname .venv -o -iname __pycache__ -o -iname dist -o -iname build -o -iname .next -o -iname target \) -prune -o -type f -iname '.mcp.json' -print 2>/dev/null | grep -q .; then
   echo "VIOLATION: .mcp.json tracked in runtime tree (ADR-PC-023)"; FAIL=1
 else
   echo "OK: no Elzeard tenant credential or MCP client registration"
