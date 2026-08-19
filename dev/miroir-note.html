@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIAME Miroir — un instrument, pas un oracle</title>
+<meta name="description" content="Aiame Miroir : visage et main mesurés dans un seul référentiel géométrique, entièrement dans le navigateur. Gratuit, sans compte, sans envoi de données.">
+<style>
+  /* Palette Fermob — même variante que dev/index.html (Acapulco en tête,
+     registre recherche, pas commercial). */
+  :root{
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
+    --capucine:#D14E0F; --miel:#EFB63F; --verveine:#B7BE35;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
+      --capucine:#F0703A; --miel:#E8B24C; --verveine:#C4CC55;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
+  main{max-width:52rem; margin:0 auto}
+  a{color:var(--acapulco); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible{outline:3px solid var(--capucine); outline-offset:3px; border-radius:4px}
+
+  header.hero{padding:4.5rem 0 3.25rem}
+  .brand{display:flex; align-items:center; gap:.6rem;
+    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
+  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
+    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; margin:1rem 0 1.1rem; max-width:46rem}
+  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
+  blockquote{border-left:.35rem solid var(--acapulco); border-radius:2px;
+    padding:.4rem 0 .4rem 1.1rem; margin:1.4rem 0; font-size:1.15rem; font-weight:600;
+    font-style:italic}
+
+  section{padding:3rem 0; border-top:1px solid var(--line)}
+  h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.25rem}
+  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
+    border-radius:999px; margin-bottom:.9rem; background:var(--acapulco)}
+  #instrument h2::before{background:var(--acapulco)}
+  #etat h2::before{background:var(--miel)}
+  #essayer h2::before{background:var(--verveine)}
+  p{margin:0 0 1rem}
+  ul{padding-left:1.2rem; margin:0 0 1rem}
+  li{margin:.45rem 0}
+  li::marker{color:var(--acapulco)}
+  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
+    gap:.9rem; margin:1.2rem 0 .4rem}
+  .pillar{background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:.9rem 1rem; box-shadow:var(--shadow)}
+  .pillar b{display:block; margin-bottom:.25rem}
+  .pillar:nth-child(1) b{color:var(--acapulco)}
+  .pillar:nth-child(2) b{color:var(--capucine)}
+  .pillar span{font-size:.9rem; color:var(--argile)}
+  .note{color:var(--argile); font-size:.87rem}
+
+  .etat-list{list-style:none; padding:0; margin:1.2rem 0}
+  .etat-list li{display:flex; gap:.65rem; align-items:baseline; margin:.6rem 0}
+  .etat-list .tag{flex-shrink:0; font-size:.68rem; font-weight:800; letter-spacing:.05em;
+    text-transform:uppercase; padding:.2rem .5rem; border-radius:999px; min-width:5.2rem;
+    text-align:center}
+  .etat-list .tag.oui{color:var(--verveine); background:color-mix(in srgb, var(--verveine) 18%, var(--coton))}
+  .etat-list .tag.non{color:var(--capucine); background:color-mix(in srgb, var(--capucine) 14%, var(--coton))}
+
+  .cta{display:inline-block; margin-top:.4rem; padding:.8rem 1.4rem; border-radius:10px;
+    background:var(--acapulco); color:#fff; font-weight:700; text-decoration:none}
+  .cta:hover{opacity:.92}
+
+  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
+    color:var(--argile); font-size:.9rem}
+  footer p{margin:0 0 .55rem}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="brand"><span class="dot"></span>AIAME · MIROIR</div>
+  <span class="eyebrow">Gratuit, sans compte — traitement 100 % local</span>
+  <h1>Un instrument, pas un oracle</h1>
+  <p class="lead">Aiame Miroir mesure la géométrie du visage et de la main d'une même personne dans un seul référentiel, dans le navigateur, sans rien envoyer nulle part. Il rend une lecture <strong>mesurée</strong> — zone, signal, type, confiance — jamais une interprétation.</p>
+  <blockquote>Même donnée, deux lectures possibles.<br>Ici, seule la mesurée est activée par défaut.</blockquote>
+</header>
+
+<section id="instrument">
+  <h2>Ce que ça fait</h2>
+  <p>Le visage et la main partagent un même calcul géométrique : plan de symétrie, écarts, longueurs, angles — normalisés, comparables dans le temps, jamais comparés à quelqu'un d'autre. La main n'est pas une extension mineure du visage : elle mesure sa propre asymétrie, indépendamment, et peut le nuancer ou le contredire — c'est voulu.</p>
+  <div class="pillars">
+    <div class="pillar"><b>Mesuré</b><span>Ce que l'instrument affiche par défaut : des valeurs, une confiance, jamais un jugement.</span></div>
+    <div class="pillar"><b>Local</b><span>Capture caméra, calcul, affichage — tout se passe dans votre navigateur. Rien n'est stocké, rien n'est envoyé.</span></div>
+  </div>
+  <p class="note">Ancrage : « un miroir computationnel minimal, stable, partageable, et respectueux de l'individu » — <a href="https://github.com/aiame-fr/aiame-fr.github.io/blob/main/README.md">White Paper §13</a>.</p>
+</section>
+
+<section id="etat">
+  <h2>État honnête</h2>
+  <ul class="etat-list">
+    <li><span class="tag oui">présent</span> Mesure du visage et de la main, dans un référentiel commun.</li>
+    <li><span class="tag oui">présent</span> Traitement local, prouvé à l'exécution — zéro requête réseau pendant une session, y compris pour les modèles de détection.</li>
+    <li><span class="tag non">pas encore</span> Lecture narrative optionnelle (« Miroir ») — la mesure seule est la seule chose activable pour l'instant.</li>
+    <li><span class="tag non">pas encore</span> Le référent Aiame Motion. Cette session ne le suit pas — la question a été creusée puis reportée, plutôt que construite à la hâte contre une doctrine jamais éprouvée avec un utilisateur.</li>
+  </ul>
+</section>
+
+<section id="essayer">
+  <h2>Utiliser l'instrument</h2>
+  <p>Aucun compte, aucun paiement, aucune donnée conservée. Fonctionne avec une caméra ; la main est une étape optionnelle.</p>
+  <a class="cta" href="https://dev.aiame.fr/miroir/">Ouvrir Aiame Miroir →</a>
+</section>
+
+<footer>
+  <p><strong>Aucun traqueur, aucun cookie, aucun script tiers.</strong> Ce que l'instrument mesure ne quitte jamais votre navigateur.</p>
+  <p>Retour à <a href="/dev/">la recherche fondatrice</a> · Source : <a href="https://github.com/aiame-fr/aiame-miroir">aiame-miroir</a> · Contact : <a href="mailto:tech@aiame.fr">tech@aiame.fr</a></p>
+</footer>
+
+</main>
+</body>
+</html>

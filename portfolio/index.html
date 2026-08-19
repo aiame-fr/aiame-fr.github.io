@@ -368,6 +368,21 @@
   <p class="note">C'est exactement le type de dérive que <code>./bootstrap.sh --check</code> existe pour détecter — ce portfolio ne remplace pas cette vérification, il en donne un aperçu daté du 2026-08-13.</p>
 </section>
 
+<section id="apres-audit">
+  <h2>Après l'audit — nouveaux dépôts</h2>
+  <p>Créé le 2026-08-18, donc postérieur à cette photographie du 2026-08-13 — non compté dans les totaux ci-dessus, qui restent ceux du 2026-08-13/15.</p>
+  <div class="repos">
+    <div class="repo">
+      <h3>aiame-miroir <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Instrument B2H : visage + main dans un référentiel géométrique unique, traitement 100 % local (WASM navigateur).</p>
+      <ul class="evid">
+        <li>Quatre jobs CI verts sur <code>main</code> (pas seulement garde-fous) : <code>cargo-test</code> (72 tests, dont 19 fixtures synthétiques pour la décomposition « Deux Vous »), <code>frontend</code> (tsc + 42 tests vitest + lint vocabulaire), <code>egress</code> — session de capture complète (visage puis mains) sous flux caméra factice, zéro requête hors localhost, contrôle positif que le modèle de détection des mains a bien été chargé en local</li>
+        <li class="warn">Aucune preuve de déploiement à ce jour — la publication (dev.aiame.fr/miroir) est une porte fondateur, pas encore franchie</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <footer>
   <p><strong>Méthodologie datée, pas continue.</strong> L'audit de fond (CI via <code>gh api</code>, lecture de code, requête HTTP réelle sur chaque domaine cité) reflète l'état vérifié le 2026-08-13 ; des corrections ponctuelles (inventaire, certification, mentions légales) ont suivi jusqu'au 2026-08-15, chacune datée dans sa propre carte. Il se périme comme tout snapshot — revérifier avant d'agir dessus.</p>
   <p>Repère visuel emprunté à une charte interne de portfolio personnel — contenu et repères de mesure propres à AIAME, aucun contenu personnel repris ici.</p>
