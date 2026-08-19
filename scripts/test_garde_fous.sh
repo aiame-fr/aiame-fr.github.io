@@ -166,6 +166,63 @@ printf 'La clé pck_a1b2c3d4_9f8e7d6c5b4a39281706f5e4d3c2b1a ne doit jamais sort
 verifier "GF-4 : clé réaliste dans un .md → pas de violation" \
   0 "OK: no Elzeard tenant credential" "$MCP_DOC"
 
+# --- exclusion des répertoires de dépendances (18/08) ------------------------
+# Régression réelle, mordue deux fois le 18/08 dans deux dépôts différents :
+# l'intégration OpenAI/Anthropic de sentry_sdk (dépendance TRANSITIVE, jamais
+# écrite par nous) vivant sous .venv/ faisait échouer GF-1 sur un arbre par
+# ailleurs propre. Le cas ci-dessous reproduit l'incident à l'identique plutôt
+# que d'inventer un exemple plus simple — c'est la panne vécue, pas une panne
+# plausible.
+DEP_PY="$(arbre dep_python)"
+mkdir -p "$DEP_PY/src/.venv/lib/python3.12/site-packages/sentry_sdk/integrations"
+printf 'from openai.resources.responses import AsyncResponses, Responses\n' \
+  > "$DEP_PY/src/.venv/lib/python3.12/site-packages/sentry_sdk/integrations/openai.py"
+verifier "GF-1 : import openai réel sous .venv/ (sentry_sdk) → pas de violation" \
+  0 "OK: no frontier provider" "$DEP_PY"
+
+DEP_JS="$(arbre dep_js)"
+mkdir -p "$DEP_JS/src/node_modules/@anthropic-ai/sdk/dist"
+printf 'import Anthropic from "anthropic";\nmodule.exports = Anthropic;\n' \
+  > "$DEP_JS/src/node_modules/@anthropic-ai/sdk/dist/index.ts"
+verifier "GF-1 : import anthropic sous node_modules/ → pas de violation" \
+  0 "OK: no frontier provider" "$DEP_JS"
+
+DEP_RUST="$(arbre dep_rust)"
+mkdir -p "$DEP_RUST/src/target/debug/build"
+printf '// import openai — genere par cargo, jamais ecrit ici\n' \
+  > "$DEP_RUST/src/target/debug/build/openai_stub.rs"
+verifier "GF-1 : mention openai sous target/ (build Rust) → pas de violation" \
+  0 "OK: no frontier provider" "$DEP_RUST"
+
+# Le cas qui compte vraiment : l'exclusion ne doit PAS avaler une vraie
+# violation qui vit à côté d'un répertoire de dépendances exclu. Sans ce test,
+# un --exclude-dir trop large (ou mal placé) passerait les mêmes cas ci-dessus
+# en rendant GF-1 aveugle partout, pas seulement dans .venv/.
+DEP_ET_VRAI="$(arbre dep_et_vrai_violation)"
+mkdir -p "$DEP_ET_VRAI/src/.venv/lib/site-packages/sentry_sdk"
+printf 'from openai import OpenAI\n' \
+  > "$DEP_ET_VRAI/src/.venv/lib/site-packages/sentry_sdk/openai.py"
+printf 'from openai import OpenAI  # celui-la est du VRAI code\n' \
+  >> "$DEP_ET_VRAI/src/app.py"
+verifier "GF-1 : violation réelle toujours détectée à côté d'un .venv/ exclu" \
+  1 "VIOLATION: frontier provider referenced" "$DEP_ET_VRAI"
+
+DEP_GF3="$(arbre dep_gf3)"
+mkdir -p "$DEP_GF3/src/node_modules/some-lib"
+printf 'export const t = "analyse en temps réel";\n' \
+  > "$DEP_GF3/src/node_modules/some-lib/index.ts"
+verifier "GF-3 : formulation non mesurée sous node_modules/ → pas d'avertissement" \
+  0 "OK: no banned wording" "$DEP_GF3"
+
+DEP_GF4="$(arbre dep_gf4)"
+mkdir -p "$DEP_GF4/src/.venv/lib/site-packages/some_mcp_client"
+printf '{"mcpServers": {"whatever": {}}}\n' \
+  > "$DEP_GF4/src/.venv/lib/site-packages/some_mcp_client/config.json"
+mkdir -p "$DEP_GF4/src/node_modules"
+printf '{}\n' > "$DEP_GF4/src/node_modules/.mcp.json"
+verifier "GF-4 : mcpServers + .mcp.json sous des dépendances → pas de violation" \
+  0 "OK: no Elzeard tenant credential" "$DEP_GF4"
+
 # --- verdict -----------------------------------------------------------------
 echo
 if [ "$ECHECS" -eq 0 ]; then

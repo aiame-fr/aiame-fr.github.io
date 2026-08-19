@@ -3,6 +3,9 @@
 # Source canonique : aiame-fr/aiame-doctrine, garde-fous/garde_fous.sh
 # Vendoré le 2026-08-08, avec GF-4 (frontière de crédential MCP côté
 # Elzéard, ADR-PC-023) déjà en place.
+# Resynchronisé le 2026-08-18 (GF-1/3/4 excluent les répertoires de
+# dépendances .git/node_modules/.venv/__pycache__/dist/build/.next/target —
+# aiame-doctrine PR#13).
 #
 # Pourquoi une copie et pas un sous-module : les sous-modules sont proscrits, et
 # aiame-doctrine est privé — y accéder depuis la CI d'un autre dépôt exigerait
@@ -12,4 +15,4 @@
 # Ce qu'elle NE prouve PAS : qu'elle est à jour vis-à-vis du canonique — c'est
 # une dérive amont, invisible d'ici. Elle se détecte depuis aiame-doctrine :
 #     ./garde-fous/verifier-copies.sh
-073a3eae9bcbf38178b60841b0d0c2b6dfab99a88a184ed6d04faf4c61d4548c  scripts/garde_fous.sh
+96f980b804b16a9e44c6cc0b3523fadf1ded5f4a450dd955c6d2ab5eda0a3b06  scripts/garde_fous.sh
