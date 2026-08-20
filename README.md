@@ -431,25 +431,6 @@ Aiame is organized as a **federation of repositories**, each with a narrow and e
 
 ---
 
-## Project Snapshot — Aiame Wrapped 2026
-
-Aiame maintains a **non-interpretative visual snapshot** of its own evolution.
-
-This snapshot documents **internal focus**, not success, adoption, or impact.
-
-![Aiame Wrapped — January 2026](wrapped/latest/Aiame_Wrapped_Janvier_2026.png)
-
-> This visualization is generated from source code  
-> under documented constraints.  
->  
-> It is descriptive, not comparative.  
->  
-> See [`wrapped/README.md`](wrapped/README.md) for methodology.
-
-**Aiame Wrapped exists to document focus, not success.**
-
----
-
 ## Estimated Progress (2026)
 
 | Component            | Status | Notes                                       |
