@@ -18,6 +18,22 @@
 
 set -uo pipefail  # PAS -e : on lance délibérément des commandes qui échouent
 
+# Lavage GIT_* -- OBLIGATOIRE avant tout `git init`/`git add` sur un arbre
+# jetable. git EXPORTE GIT_DIR/GIT_WORK_TREE/GIT_INDEX_FILE/GIT_PREFIX vers
+# l'environnement d'un hook qu'il invoque lui-même (pre-push réel, pas un
+# lancement à la main) ; hérité, GIT_DIR gagne contre `-C`/`cd` pour TOUT
+# sous-processus git. Sans lavage, `arbre()` ci-dessous ne crée PAS un dépôt
+# isolé dans $ATELIER : il réinitialise le VRAI dépôt (met `core.bare=true`
+# dessus) — corruption vue en direct le 2026-08-27 (aiame-optaplanner PUIS
+# aiame-red, toutes deux depuis un worktree lié, poussées pour de vrai — un
+# lancement à la main du script ne reproduit pas, car GIT_DIR n'est alors pas
+# exporté). Reproduit et corrigé en laboratoire isolé avant ce commit :
+# sans lavage → core.bare=true sur le dépôt principal ; avec → sain, `git
+# status` vert. Même classe de bug déjà documentée côté Elzéard
+# (reference_test_git_doit_laver_env_git.md, incident elzeard-cockpit du
+# 2026-08-08) — jamais porté ici avant aujourd'hui.
+for _var in $(env | grep -oE '^GIT_[A-Z_]+' || true); do unset "$_var"; done
+
 RACINE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GF="$RACINE/garde_fous.sh"
 ATELIER="$(mktemp -d)"
@@ -166,6 +182,58 @@ printf 'La clé pck_a1b2c3d4_9f8e7d6c5b4a39281706f5e4d3c2b1a ne doit jamais sort
 verifier "GF-4 : clé réaliste dans un .md → pas de violation" \
   0 "OK: no Elzeard tenant credential" "$MCP_DOC"
 
+# --- GF-5 frontière collecte-tierce (bloquant) -------------------------------
+verifier "témoin : arbre propre → GF-5 ok aussi" \
+  0 "OK: no third-party fetch" "$PROPRE"
+
+# Trois mutations distinctes pour trois modes de violation, comme prescrit par
+# PRATIQUE-PROUVER-LE-GARDE-FOU.md §2 — pas une seule mutation combinée.
+GF5_NOROBOTS="$(arbre gf5_norobots)"
+printf 'requests.get("https://eshop.wurth.fr/catalogue")\ntime.sleep(2)\n' >> "$GF5_NOROBOTS/src/app.py"
+printf -- '- eshop.wurth.fr\n' > "$GF5_NOROBOTS/SOURCES.md"
+verifier "GF-5 : fetch externe sans mention robots.txt → échec" \
+  1 "VIOLATION: .* sans mention de robots.txt" "$GF5_NOROBOTS"
+
+GF5_NORATELIMIT="$(arbre gf5_noratelimit)"
+printf '# robots.txt verifie manuellement\nrequests.get("https://eshop.wurth.fr/catalogue")\n' >> "$GF5_NORATELIMIT/src/app.py"
+printf -- '- eshop.wurth.fr\n' > "$GF5_NORATELIMIT/SOURCES.md"
+verifier "GF-5 : fetch externe sans limite de débit → échec" \
+  1 "VIOLATION: .* sans limite de débit" "$GF5_NORATELIMIT"
+
+GF5_NOMANIFESTE="$(arbre gf5_nomanifeste)"
+printf '# robots.txt verifie\nrequests.get("https://eshop.wurth.fr/catalogue")\ntime.sleep(2)\n' >> "$GF5_NOMANIFESTE/src/app.py"
+verifier "GF-5 : fetch externe, aucun SOURCES.md dans le dépôt → échec" \
+  1 "VIOLATION: .* aucun SOURCES.md" "$GF5_NOMANIFESTE"
+
+GF5_MANIFESTE_INCOMPLET="$(arbre gf5_manifeste_incomplet)"
+printf '# robots.txt verifie\nrequests.get("https://eshop.wurth.fr/catalogue")\ntime.sleep(2)\n' >> "$GF5_MANIFESTE_INCOMPLET/src/app.py"
+printf -- '- un-autre-domaine.example.com\n' > "$GF5_MANIFESTE_INCOMPLET/SOURCES.md"
+verifier "GF-5 : SOURCES.md existe mais ne nomme pas le domaine cité → échec" \
+  1 "VIOLATION: domaine eshop.wurth.fr .* absent de" "$GF5_MANIFESTE_INCOMPLET"
+
+# Contre-épreuve : les trois conditions réunies doivent passer.
+GF5_COMPLET="$(arbre gf5_complet)"
+printf '# robots.txt verifie le 2026-08-24\nrequests.get("https://eshop.wurth.fr/catalogue")\ntime.sleep(2)\n' >> "$GF5_COMPLET/src/app.py"
+printf -- '- eshop.wurth.fr : revue ToS en attente\n' > "$GF5_COMPLET/SOURCES.md"
+verifier "GF-5 : robots + limite de débit + SOURCES.md complet → pas de violation" \
+  0 "OK: no third-party fetch" "$GF5_COMPLET"
+
+# Contre-épreuve : un domaine interne (*.aiame.fr) n'a pas besoin de
+# SOURCES.md — l'exemption doit exempter, et rien de plus (même discipline
+# que le contre-exemple `.env.example` de GF-2).
+GF5_INTERNE="$(arbre gf5_interne)"
+printf 'requests.get("https://sov.services.aiame.fr/api/v1/health")\n' >> "$GF5_INTERNE/src/app.py"
+verifier "GF-5 : appel interne *.aiame.fr, sans robots/manifeste → pas de violation" \
+  0 "OK: no third-party fetch" "$GF5_INTERNE"
+
+# Contre-épreuve : mention en doc (.md, hors extensions scannées) ne doit pas
+# déclencher — même logique que la contre-épreuve GF-1/GF-4.
+GF5_DOC="$(arbre gf5_doc)"
+printf 'Le connecteur Würth (eshop.wurth.fr) est planifié pour le trimestre suivant.\n' \
+  > "$GF5_DOC/NOTES.md"
+verifier "GF-5 : domaine externe mentionné dans un .md → pas de violation" \
+  0 "OK: no third-party fetch" "$GF5_DOC"
+
 # --- exclusion des répertoires de dépendances (18/08) ------------------------
 # Régression réelle, mordue deux fois le 18/08 dans deux dépôts différents :
 # l'intégration OpenAI/Anthropic de sentry_sdk (dépendance TRANSITIVE, jamais
@@ -222,6 +290,13 @@ mkdir -p "$DEP_GF4/src/node_modules"
 printf '{}\n' > "$DEP_GF4/src/node_modules/.mcp.json"
 verifier "GF-4 : mcpServers + .mcp.json sous des dépendances → pas de violation" \
   0 "OK: no Elzeard tenant credential" "$DEP_GF4"
+
+DEP_GF5="$(arbre dep_gf5)"
+mkdir -p "$DEP_GF5/src/node_modules/some-fetch-lib"
+printf 'fetch("https://eshop.wurth.fr/catalogue");\n' \
+  > "$DEP_GF5/src/node_modules/some-fetch-lib/index.ts"
+verifier "GF-5 : fetch externe sous node_modules/ → pas de violation" \
+  0 "OK: no third-party fetch" "$DEP_GF5"
 
 # --- verdict -----------------------------------------------------------------
 echo

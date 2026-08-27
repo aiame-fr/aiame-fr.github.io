@@ -70,4 +70,42 @@ else
   echo "OK: no Elzeard tenant credential or MCP client registration"
 fi
 
+echo "== GF-5 third-party-scrape-boundary (blocking) =="
+# Trou de doctrine fermé le 2026-08-24 : avant aiame-price (agent de veille
+# tarifaire BTP/Würth), aiame-doctrine n'avait aucune règle sur la collecte de
+# données commerciales tierces. Portée volontairement étroite : ne regarde que
+# les fichiers qui appellent ET un domaine EXTERNE (ni *.aiame.fr ni
+# localhost) littéralement présent dans le code — un client HTTP interne
+# (aiame-auth, aiame-store, etc.) n'a pas à parler de robots.txt. Deux formes
+# de violation sur ces fichiers-là : (1) aucune mention de robots.txt ou de
+# limite de débit dans le même fichier ; (2) le domaine cité n'apparaît pas
+# dans un manifeste SOURCES.md à la racine (ou un niveau sous, ex. docs/) du
+# dépôt — pas juste "le fichier existe", chaque domaine doit y être nommé.
+GF5_FETCH=$(grep -rlE 'requests\.(get|post)\(|httpx\.(get|post|AsyncClient)\(|urlopen\(|fetch\(' \
+    "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' "${EXCLURE_DEPS[@]}" 2>/dev/null || true)
+GF5_MANIFESTE=$(find . -maxdepth 2 \( -iname .git -o -iname node_modules -o -iname .venv \) -prune -o -type f -iname 'SOURCES.md' -print 2>/dev/null | head -1 || true)
+GF5_OK=1
+for f in $GF5_FETCH; do
+  GF5_DOMAINES=$(grep -ohE 'https?://[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$f" 2>/dev/null \
+    | sed -E 's#https?://##' | grep -viE '\.aiame\.fr$' | sort -u || true)
+  [ -n "$GF5_DOMAINES" ] || continue
+  grep -qi 'robots' "$f" \
+    || { echo "VIOLATION: $f appelle un domaine externe ($GF5_DOMAINES) sans mention de robots.txt"; GF5_OK=0; }
+  grep -qE 'rate_limit|time\.sleep\(|asyncio\.sleep\(' "$f" \
+    || { echo "VIOLATION: $f appelle un domaine externe ($GF5_DOMAINES) sans limite de débit déclarée"; GF5_OK=0; }
+  if [ -z "$GF5_MANIFESTE" ]; then
+    echo "VIOLATION: $f cite un domaine externe ($GF5_DOMAINES), aucun SOURCES.md dans le dépôt"; GF5_OK=0
+  else
+    for d in $GF5_DOMAINES; do
+      grep -qi "$d" "$GF5_MANIFESTE" \
+        || { echo "VIOLATION: domaine $d cité dans $f mais absent de $GF5_MANIFESTE"; GF5_OK=0; }
+    done
+  fi
+done
+if [ "$GF5_OK" = 1 ]; then
+  echo "OK: no third-party fetch without robots/rate-limit ack and SOURCES.md entry"
+else
+  FAIL=1
+fi
+
 exit $FAIL

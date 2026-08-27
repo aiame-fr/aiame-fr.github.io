@@ -15,4 +15,5 @@
 # Ce qu'elle NE prouve PAS : qu'elle est à jour vis-à-vis du canonique — c'est
 # une dérive amont, invisible d'ici. Elle se détecte depuis aiame-doctrine :
 #     ./garde-fous/verifier-copies.sh
-96f980b804b16a9e44c6cc0b3523fadf1ded5f4a450dd955c6d2ab5eda0a3b06  scripts/garde_fous.sh
+0b633ad018dbcd5a3511794e78211752ef71677675536d6a5c263e73b7ce9e42  scripts/garde_fous.sh
+b84e559f3dd97e71954b79a33aa1d9b3e4a0cce1e8e0be1d99b0fcf59dccc926  scripts/test_garde_fous.sh
