@@ -1,0 +1,49 @@
+#!/bin/sh
+# Garde pre-push local, hors ligne, cout Actions ZERO -- GitHub Actions est
+# desactive ORG-WIDE (facturation) depuis le 2026-08-27. Mirroir du motif
+# deja prouve le 2026-07-30 sur 5 depots (aiame-memory:
+# reference-gates-locaux-zero-cout), etendu a tout l'org cette fois puisque
+# la panne est org-wide cette fois, pas cinq depots.
+#
+# NON ACTIF sur un clone/worktree frais -- core.hooksPath n'est pas versionne :
+#   git config core.hooksPath .githooks
+# Verifier : `git config core.hooksPath` (vide = garde inactif, votre push
+# n'est verifie par rien ci-dessous).
+#
+# Trois issues, jamais deux : VERT (passe), ABSTENTION (outillage absent,
+# signale, jamais presente comme un vert), ECHEC (bloque le push). Piege
+# connu (memoire ci-dessus) : `S="$(cmd)"; c=$?` MEURT sous `set -e` a
+# l'affectation si cmd sort non-nul -- capturer avec `&&`/`||` a la place.
+#
+# Ne mirroite PAS la CI complete (juste ce que garde-fous.yml faisait) --
+# la suite complete reste le role de la CI quand la facturation revient. Ne
+# PAS supprimer .github/workflows/garde-fous.yml : inerte, cout nul, reste
+# la specification a laquelle revenir.
+set -u
+
+fail=0
+
+run_check() {
+  label="$1"; shift
+  OUT="$("$@" 2>&1)" && rc=0 || rc=$?
+  echo "$OUT" | tail -20
+  if [ "$rc" -ne 0 ]; then
+    echo "✗ $label ECHEC"
+    fail=1
+  else
+    echo "✓ $label vert"
+  fi
+}
+echo "== preuve que le garde sait echouer =="
+run_check "test_garde_fous" bash scripts/test_garde_fous.sh
+
+echo "== GF-1/2/3/4 sur tout le depot =="
+run_check "garde_fous.sh" bash scripts/garde_fous.sh .
+
+echo ""
+if [ "$fail" -ne 0 ]; then
+  echo "✗ pre-push : au moins un controle a echoue -- push bloque"
+  exit 1
+fi
+echo "✅ pre-push au vert"
+exit 0
