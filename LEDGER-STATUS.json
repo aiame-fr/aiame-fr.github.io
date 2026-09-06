@@ -1,0 +1,49 @@
+{
+  "produit": "aiame-ledger",
+  "deterministe": true,
+  "genere_le": "2026-09-06",
+  "verifie": true,
+  "incoherences": 0,
+  "services": [
+    {
+      "service_id": "aiame-red",
+      "statut_vente": "offered_sandbox_only",
+      "statut_vente_depuis": "2026-08-22",
+      "etat": "gris",
+      "revenu_sandbox_cents": null,
+      "revenu_sandbox_raison_gris": "aucun export aiame-fin fourni pour ce run (--fin-base-url absent)"
+    },
+    {
+      "service_id": "aiame-sov",
+      "statut_vente": "offered_sandbox_only",
+      "statut_vente_depuis": "2026-08-22",
+      "etat": "gris",
+      "revenu_sandbox_cents": null,
+      "revenu_sandbox_raison_gris": "aucun export aiame-fin fourni pour ce run (--fin-base-url absent)"
+    },
+    {
+      "service_id": "aiame-auth",
+      "statut_vente": "not_offered",
+      "statut_vente_depuis": "2026-08-22",
+      "etat": "not_wired_for_sale",
+      "revenu_sandbox_cents": null,
+      "revenu_sandbox_raison_gris": null
+    },
+    {
+      "service_id": "aiame-optaplanner",
+      "statut_vente": "not_offered",
+      "statut_vente_depuis": "2026-08-22",
+      "etat": "not_wired_for_sale",
+      "revenu_sandbox_cents": null,
+      "revenu_sandbox_raison_gris": null
+    },
+    {
+      "service_id": "aiame-fin",
+      "statut_vente": "not_offered",
+      "statut_vente_depuis": "2026-08-22",
+      "etat": "not_wired_for_sale",
+      "revenu_sandbox_cents": null,
+      "revenu_sandbox_raison_gris": null
+    }
+  ]
+}
