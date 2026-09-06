@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIAME — Transparence coût/revenu</title>
+<meta name="description" content="Grand livre coût/revenu par service AIAME, service par service, gagé sur la Loi de la Preuve : un chiffre non mesuré s'affiche gris honnête, jamais vert fabriqué.">
+<style>
+  /* Palette Fermob, variante mesure — même registre que /portfolio/ (Acapulco en
+     tête, pas Capucine : ceci est un constat, pas une offre commerciale). */
+  :root{
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
+    --verveine:#B7BE35; --verveine-soft:#EEF1D3;
+    --capucine:#D14E0F; --capucine-soft:#F9E3D4;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
+      --verveine:#C4CC55; --verveine-soft:#2A2E12;
+      --capucine:#F0703A; --capucine-soft:#3A2A20;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
+  main{max-width:52rem; margin:0 auto}
+  a{color:var(--acapulco); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible{outline:3px solid var(--capucine); outline-offset:3px; border-radius:4px}
+
+  header.hero{padding:4.5rem 0 3.25rem}
+  .brand{display:flex; align-items:center; gap:.6rem;
+    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
+  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
+    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; margin:1rem 0 1.1rem; max-width:44rem}
+  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
+  .en{color:var(--argile); font-size:.95rem; max-width:42rem}
+
+  section{padding:2.5rem 0; border-top:1px solid var(--line)}
+  h2{font-size:1.35rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.1rem}
+  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
+    border-radius:999px; margin-bottom:.9rem; background:var(--acapulco)}
+
+  table{border-collapse:collapse; width:100%; min-width:32rem; font-size:.9rem}
+  th, td{padding:.65rem .8rem; text-align:left; border-bottom:1px solid var(--line);
+    vertical-align:top}
+  thead th{background:var(--acapulco-soft); color:var(--carbone);
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700}
+  tbody tr:last-child td{border-bottom:0}
+  .table-scroll{overflow-x:auto}
+
+  .etat{display:inline-block; padding:.15rem .55rem; border-radius:999px;
+    font-size:.78rem; font-weight:700}
+  .etat.gris{background:var(--line); color:var(--argile)}
+  .etat.not-wired{background:var(--line); color:var(--argile)}
+  .etat.mesure{background:var(--verveine-soft); color:var(--carbone)}
+
+  .box{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.2rem 1.4rem; box-shadow:var(--shadow)}
+  .box p{margin:0 0 .6rem} .box p:last-child{margin-bottom:0}
+
+  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
+    color:var(--argile); font-size:.9rem}
+  footer p{margin:0 0 .55rem}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="brand"><span class="dot"></span>AIAME · TRANSPARENCE</div>
+  <span class="eyebrow">Grand livre vérifié le 2026-09-06 — 0 incohérence</span>
+  <h1>Le coût et le revenu de chaque service, mesurés — jamais arrondis.</h1>
+  <p class="lead">Engagement pris le 2026-08-22 (<a href="https://github.com/aiame-fr/aiame-doctrine/blob/main/DECISION-2026-08-22-cost-revenue-transparency-commitment.md">décision</a>) : publier un ratio coût/revenu <strong>cumulé sur la vie</strong> de chaque service E3 vendu, gagé sur la vérifiabilité du grand livre seule — jamais sur l'allure du chiffre. Un service sans donnée s'affiche <strong>gris honnête</strong>, jamais à zéro ; un service non câblé pour la vente s'affiche comme tel, pas comme « 0&nbsp;€ ».</p>
+  <p class="en">A lifetime cost/revenue ratio per sold service, gated on the ledger's own verifiability — never on how the number looks. A service with no data renders gray-honest, never zero; a service not yet wired for sale is shown as such, not as "€0".</p>
+</header>
+
+<section id="services">
+  <h2>Les 5 services E3</h2>
+  <div class="table-scroll">
+  <table>
+    <thead>
+      <tr><th>Service</th><th>Statut de vente</th><th>Revenu</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>aiame-red</code></td>
+        <td><span class="etat gris">offered_sandbox_only</span></td>
+        <td>gris — aucune revenue réelle n'existe encore (aucune clé de paiement de production n'a jamais été configurée, pour aucun service AIAME)</td>
+      </tr>
+      <tr>
+        <td><code>aiame-sov</code></td>
+        <td><span class="etat gris">offered_sandbox_only</span></td>
+        <td>gris — même raison</td>
+      </tr>
+      <tr>
+        <td><code>aiame-auth</code></td>
+        <td><span class="etat not-wired">not_offered</span></td>
+        <td>pas encore câblé pour la vente</td>
+      </tr>
+      <tr>
+        <td><code>aiame-optaplanner</code></td>
+        <td><span class="etat not-wired">not_offered</span></td>
+        <td>pas encore câblé pour la vente</td>
+      </tr>
+      <tr>
+        <td><code>aiame-fin</code></td>
+        <td><span class="etat not-wired">not_offered</span></td>
+        <td>pas encore câblé pour la vente</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="lire">
+  <h2>Comment lire ce tableau</h2>
+  <div class="box">
+    <p><strong>Trois états possibles, jamais un blanc.</strong> <span class="etat not-wired">not_offered</span> : aucune offre n'existe au catalogue — différent de « 0&nbsp;€ », les confondre serait déjà une petite malhonnêteté. <span class="etat gris">gris</span> : mesurable en principe, rien à mesurer aujourd'hui, avec la raison écrite en clair. Un troisième état, <span class="etat mesure">mesuré</span>, apparaît le jour où une commande réelle (pas sandbox) existe pour un service — aucun ne l'est aujourd'hui.</p>
+    <p>Le temps du fondateur est exclu de ce calcul, explicitement — aucune source de mesure n'existe encore pour lui, et l'omettre en silence aurait été plus simple mais moins honnête.</p>
+    <p>Le grand livre lui-même (<a href="https://github.com/aiame-fr/aiame-ledger">code source</a>) fait redescendre chaque chiffre jusqu'à une pièce justificative — aucun montant affiché ne peut exister sans un chemin de dérivation vérifiable. Cette page est un instantané régénéré à la main (aucun cron ne la met à jour) ; sa fraîcheur est vérifiée par un garde-fou mutation-testé (<a href="https://github.com/aiame-fr/aiame-ledger/blob/main/docs/ADR-LEDGER-003-freshness-cadence.md">ADR-LEDGER-003</a>) plutôt que simplement promise.</p>
+    <p>Données machine-lisibles : <a href="/LEDGER-STATUS.json">LEDGER-STATUS.json</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Instantané daté, pas continu.</strong> Régénéré à la main le 2026-09-06 depuis <a href="https://github.com/aiame-fr/aiame-ledger">aiame-ledger</a> (<code>cli.py regenerate &amp;&amp; verify &amp;&amp; publier</code>) ; se périme comme tout snapshot, sa politique de rafraîchissement est documentée, pas improvisée.</p>
+  <p>Retour à <a href="/">l'accueil</a> · État mesuré des dépôts : <a href="/portfolio/">portfolio</a> · Source : <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
+</footer>
+
+</main>
+</body>
+</html>
