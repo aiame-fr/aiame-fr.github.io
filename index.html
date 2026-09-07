@@ -149,7 +149,7 @@
   <div class="cards">
     <div class="card">
       <h3>Scan</h3>
-      <div class="scope">1 capacité · rendu &lt; 24 h · entièrement automatisé</div>
+      <div class="scope">1 capacité · rendu &lt; 24 h après cadrage</div>
       <div class="price">Sur demande</div>
       <form class="buy" method="post" action="/api/v1/checkout/form">
         <input type="hidden" name="formula" value="scan">
@@ -170,16 +170,12 @@
     <div class="card">
       <h3>Veille continue</h3>
       <div class="scope">Re-scan à chaque release · alerte de dérive · historique</div>
-      <div class="price">Sur demande</div>
-      <form class="buy" method="post" action="/api/v1/checkout/form">
-        <input type="hidden" name="formula" value="veille">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
-        <button type="submit">Demander la veille</button>
-      </form>
+      <div class="price">Pas encore vendable</div>
+      <p class="note">Retirée de la vente le 2026-08-19 : aucune infrastructure de re-scan planifié, d'alerte ou d'historique n'existe encore (voir <a href="https://github.com/aiame-fr/aiame-doctrine/blob/main/DECISION-2026-08-19-no-sale-before-e2e-clean.md">la décision</a>). Remise en vente quand — et seulement quand — l'infrastructure existe et une preuve e2e est écrite.</p>
     </div>
   </div>
   <p>Une <strong>revue humaine</strong> reste possible en option quand l'enjeu le justifie (contexte réglementaire lourd, arbitrage produit) — elle se greffe sur la sortie du moteur au lieu de la remplacer. Sur demande, au cas par cas.</p>
-  <p class="note"><strong>Tarifs communiqués lors du cadrage</strong>, avant toute commande et sans engagement — prix nets, TVA non applicable (article 293 B du CGI). Notre règle reste la même : un tarif fixé au vu des coûts réels, jamais au vu de ce que le client peut payer.</p>
+  <p class="note"><strong>Tarifs communiqués lors du cadrage</strong>, avant toute commande et sans engagement — prix nets, TVA non applicable (article 293 B du CGI). Notre règle reste la même : un tarif fixé au vu des coûts réels, jamais au vu de ce que le client peut payer. Le délai de 24 h du Scan court à partir du cadrage : le moteur qui produit la fiche de dérive est réellement automatisé, mais le cadrage tarifaire est une conversation humaine, pas une case à cocher.</p>
 </section>
 
 <section id="moteur">
