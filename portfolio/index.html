@@ -6,7 +6,7 @@
 <title>AIAME — Portfolio des dépôts</title>
 <!-- noindex conservatoire levé le 2026-08-15, même condition que index.html :
      identité légale désormais publiable (legal.json complet). -->
-<meta name="description" content="État mesuré des 30 dépôts de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
+<meta name="description" content="État mesuré des 33 dépôts de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
 <style>
   /* Palette Fermob, variante portfolio : Acapulco en tête (registre recherche/mesure,
      pas commercial — cohérent avec dev/index.html plutôt qu'avec index.html). */
@@ -148,7 +148,7 @@
 
 <header class="hero">
   <div class="brand"><span class="dot"></span>AIAME · PORTFOLIO</div>
-  <span class="eyebrow">30 dépôts audités le 2026-08-26 — état mesuré, pas déclaré</span>
+  <span class="eyebrow">33 dépôts — audit de fond le 2026-08-26, revérification en profondeur le 2026-09-08 — état mesuré, pas déclaré</span>
   <h1>Ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.</h1>
   <p class="lead">Chaque dépôt de l'organisation <strong>aiame-fr</strong> est classé <strong>prod</strong>, <strong>pré-prod</strong> ou <strong>dev</strong> à partir de preuves vérifiables — état des CI (<code>gh api</code>), vérification en direct des domaines, lecture du code — jamais à partir d'un README pris pour argent comptant.</p>
   <p class="en">A measured, not declared, staging of every repository in the aiame-fr organization — dev/pre/prod assigned from verifiable evidence, not from what each repo's own docs claim.</p>
@@ -156,13 +156,13 @@
 
 <section id="certif">
   <h2>Certification e2e sandbox</h2>
-  <p class="verdict">Verdict : <b>ABSENTE</b> — sur les 30 dépôts.</p>
-  <p>Aucun des 30 dépôts n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel — et depuis aujourd'hui, un badge <strong>rouge</strong> n'en dit pas plus non plus (voir « État de la CI » ci-dessous).</p>
+  <p class="verdict">Verdict : <b>ABSENTE</b> — sur les 33 dépôts.</p>
+  <p>Aucun des 33 dépôts n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel — et un badge <strong>rouge</strong> aujourd'hui n'en dit pas plus non plus (voir « État de la CI » ci-dessous, revu en profondeur le 2026-09-08 : la cause de facturation du 26/08 est résolue, mais la réactivation dépôt par dépôt ne l'est pas).</p>
   <div class="stats">
     <div class="stat prod"><div class="n">9</div><div class="lbl">prod</div></div>
-    <div class="stat pre"><div class="n">13</div><div class="lbl">pré-prod</div></div>
-    <div class="stat dev"><div class="n">8</div><div class="lbl">dev</div></div>
-    <div class="stat"><div class="n">30</div><div class="lbl">audités</div></div>
+    <div class="stat pre"><div class="n">15</div><div class="lbl">pré-prod</div></div>
+    <div class="stat dev"><div class="n">9</div><div class="lbl">dev</div></div>
+    <div class="stat"><div class="n">33</div><div class="lbl">audités</div></div>
   </div>
 
   <h3 class="certif-sub">Ce qu'une certification e2e exigerait réellement</h3>
@@ -177,10 +177,11 @@
 </section>
 
 <section id="ci-status">
-  <h2>État de la CI aujourd'hui — un badge rouge ne veut pas dire « code cassé »</h2>
-  <p><strong>Blocage de facturation GitHub Actions constaté en direct le 2026-08-26</strong> sur au moins trois dépôts (<code>aiame-miroir</code>, <code>aiame-price</code>, <code>aiame-sov-kernel</code>) : les runs déclenchés automatiquement (push/PR) échouent en quelques secondes, un job jamais démarré, annotation GitHub littérale <em>« recent account payments have failed or your spending limit needs to be increased »</em>. Vérifié en direct sur <code>aiame-sov-kernel</code> pendant cette revue : les deux derniers runs <code>push</code> (11:58 UTC aujourd'hui) affichent <code>conclusion: failure</code> avec une étape de job à <code>null</code> — jamais exécutée, pas un test qui échoue.</p>
-  <p>Deux dépôts (<code>aiame-knowledge</code> PR#9, <code>aiame-price</code>) ont réagi le jour même en passant leurs workflows en <code>workflow_dispatch</code> seul (plus de déclenchement automatique push/PR) — un contournement documenté du blocage, pas une désactivation silencieuse. <code>aiame-miroir</code> n'a pas encore fait ce changement : son badge CI est rouge aujourd'hui pour cette raison, alors que la dernière exécution réellement passée (2026-08-21, avant le blocage) était verte sur les mêmes fichiers.</p>
-  <p class="note">Org sur plan GitHub gratuit (<code>gh api orgs/aiame-fr</code> : <code>plan.name = "free"</code>) — cohérent avec un plafond de minutes Actions atteint. Cause exacte non tranchée ici (facturation vs plafond) ; ce qui est vérifié, c'est l'effet : le job ne démarre jamais, indépendamment du code. Chaque carte ci-dessous qui est concernée le signale explicitement plutôt que de citer un badge rouge sans contexte.</p>
+  <h2>État de la CI — la facturation est résolue, la réactivation ne l'est pas</h2>
+  <p><strong>Le blocage de facturation GitHub Actions constaté le 2026-08-26 est vérifié résolu au niveau de l'org</strong>, pas juste annoncé : <code>aiame-miroir</code> a re-diagnostiqué et re-vérifié en direct le 2026-09-02 (PR#16) — facturation nette à 0 $ sur tous les mois récents, politique org <code>enabled_repositories: all</code> confirmée par <code>gh api orgs/aiame-fr/actions/permissions</code> — puis réactivé Actions pour ce dépôt spécifiquement. Son run du 09-02 a réellement tourné sur des runners GitHub réels (<code>runner_id</code> non nul, étapes complètes checkout/tests/build), les 4 jobs verts. C'est la seule preuve de réactivation complète et re-vérifiée trouvée dans l'org à ce jour.</p>
+  <p><strong>Mais le reste de la flotte n'a pas suivi.</strong> Revérifié dépôt par dépôt le 2026-09-08 (<code>gh api repos/aiame-fr/&lt;repo&gt;/actions/permissions</code>) : <strong>34 des 36 dépôts de l'org ont encore Actions désactivé au niveau du dépôt</strong> — un interrupteur resté sur OFF depuis le 27/08, pas une nouvelle panne. Sur ces 34, aucun run (pas même <code>workflow_dispatch</code>) n'a pu s'exécuter depuis le 26 ou 27/08, quel que soit le nombre de commits/PR mergés depuis (jusqu'à 9 commits sans aucun signal CI pour certains dépôts). L'enforcement s'est reporté, dépôt par dépôt, sur un hook git local (<code>.githooks/pre-push</code>) introduit la même semaine — mais ce hook n'est <strong>pas versionné comme actif</strong> : chaque clone/worktree doit exécuter <code>git config core.hooksPath .githooks</code> lui-même, sans quoi il n'existe aucune vérification du tout (le propre commentaire du hook sur <code>aiame-store</code> le dit noir sur blanc : « NON ACTIF sur un clone/worktree frais »).</p>
+  <p>Cas à part trouvé le 09-08 : <code>aiame-ledger</code> a bien retenté deux runs le 06-09 (<code>workflow_dispatch</code>, pas le silence qu'affirmait la version précédente de cette page) — mais les deux sont restés bloqués en <code>queued</code>, jamais assignés à un runner, plus de 2 jours plus tard. Un problème distinct de la facturation, jamais résolu ni même relancé.</p>
+  <p class="note">Chaque carte concernée ci-dessous signale son propre état vérifié en direct le 2026-09-08 plutôt que de renvoyer ici sans détail — certaines sont toujours désactivées, une (<code>aiame-miroir</code>) est réactivée et verte, <code>aiame-graine</code> n'a jamais été affectée (Actions déclenché sur push/PR, checks verts sur HEAD). Cette section date d'aujourd'hui ; comme le reste de la page, elle se périme.</p>
 </section>
 
 <section id="methode">
@@ -198,11 +199,19 @@
   <h2>Prod — 9 dépôts</h2>
   <div class="repos">
     <div class="repo">
+      <h3>aiame-angel <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">« Aiame Angel » — planification infirmière (roster CP-SAT + tournée VRPTW déterministe, hors-ligne), publique sur angel.services.aiame.fr derrière aiame-auth ; scindée d'aiame-optaplanner le 27/08, qui reste le moteur solveur consommé comme bibliothèque (voir sa carte en pré-prod).</p>
+      <ul class="evid">
+        <li>angel.services.aiame.fr → 200 (vraie appli Next.js) et <code>/api/v1/health</code> → 200 ; <code>/api/v1/nurses</code> → 401 <code>MISSING_TOKEN</code> — le verrou aiame-auth est réellement actif en prod, pas juste le défaut du code (dont la valeur par défaut est <code>auth_required=False</code>)</li>
+        <li>Persistance réelle (Postgres + migrations Alembic sur storage-01) ; zéro commit métier depuis la scission — mais le déploiement tourne encore sous les anciens conteneurs <code>aiame-optaplanner-backend/-frontend</code>, la bascule du chemin de déploiement lui-même reste une tâche ouverte (documentée dans ce dépôt et repos.json)</li>
+      </ul>
+    </div>
+    <div class="repo">
       <h3>aiame-auth <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Service d'authentification transversal AIAME — jetons courts EdDSA, refresh rotatif, multi-tenant produit+org.</p>
       <ul class="evid">
-        <li><code>/v1/auth/public-key</code> répond en direct une clé Ed25519 PEM réelle (pas un stub statique) ; <code>aiame-optaplanner</code> (storage-01) est configuré en prod avec <code>AUTH_REQUIRED=true</code> et vérifie réellement contre cette clé</li>
-        <li>66 tests passent en local (non rejoués par la CI, qui ne fait que la doctrine garde-fous) — vérifié en exécutant la suite, pas en citant le README</li>
+        <li><code>/v1/auth/public-key</code> répond en direct une clé Ed25519 PEM réelle (pas un stub statique) ; <code>aiame-angel</code> (storage-01) est configuré en prod avec <code>AUTH_REQUIRED=true</code> et vérifie réellement contre cette clé — corrigé le 09-08 : c'est <code>aiame-angel</code> qui porte ce consommateur depuis la scission du 27/08, pas <code>aiame-optaplanner</code> (devenu bibliothèque, voir sa carte en pré-prod)</li>
+        <li>66 tests passent en local, rejoué en direct — CI GitHub désactivée pour ce dépôt depuis le 27/08 (facturation, réactivation non faite), enforcement reporté sur un hook pre-push local</li>
       </ul>
     </div>
     <div class="repo">
@@ -210,30 +219,31 @@
       <p class="purpose">Textes éthiques canoniques (Constitution, chartes, axiomes, White Paper) + générateurs des pages légales.</p>
       <ul class="evid">
         <li><code>sov.services.aiame.fr/mentions-legales.html</code> contient en direct le commentaire « GÉNÉRÉ par aiame-doctrine/legal/build_legal_sov.py » — le générateur de ce dépôt est bien ce qui sert la page réelle, pas une affirmation</li>
-        <li class="warn"><code>verifier-copies.sh</code> rejoué en direct : 2/25 copies vendorées à jour (GF-5, ajouté le 24/08), pas 15/15 comme l'audit précédent l'affirmait — dérive réelle, corrigée ici</li>
+        <li class="warn"><code>verifier-copies.sh</code> rejoué en direct le 09-08 : <strong>1/25</strong> copie vendorée à jour (aiame-fin seul), pas 2/25 comme cette page l'affirmait il y a deux jours — le canonique a encore bougé deux fois depuis (09-06), la dérive s'aggrave plus vite qu'elle ne se résorbe</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-eu <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">eu.aiame.fr — services ouverts pour les citoyens européens (APOD).</p>
       <ul class="evid">
-        <li>Revérifié en direct le 2026-08-26 : <code>/api/apod</code> renvoie un contenu daté du jour même (Webb/Jupiter), pas un cache figé</li>
-        <li>CI a un vrai job <code>tests</code> distinct de garde-fous (793 lignes de tests backend), les deux verts au dernier run</li>
+        <li>Revérifié en direct le 09-08 : <code>/api/apod</code> répond toujours, 66/66 tests rejoués localement (identique au 793 lignes du dernier run CI)</li>
+        <li>CI GitHub désactivée depuis le 27/08 (facturation, non réactivée) — dernier run réel le 08-19, 2 PR mergées depuis sans aucun check GitHub</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-fin <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Checkout/entitlements/livraison transversal AIAME (catalogue, PSP Stripe/SumUp/SEPA) — la facturation elle-même reste « planned ».</p>
       <ul class="evid">
-        <li><code>/health</code> en direct aujourd'hui renvoie l'état réel des adaptateurs (tous en <code>mode:mock</code>, aucun paiement réel ne transite actuellement) — recoupé avec le code, pas cité du README</li>
-        <li>CI a un job <code>pytest-offline</code> réel (~94 tests) distinct de garde-fous, vert au dernier run</li>
+        <li><code>/health</code> en direct renvoie l'état réel des adaptateurs (tous en <code>mode:mock</code>, aucun paiement réel ne transite) — recoupé avec le code, pas cité du README</li>
+        <li class="warn">CI GitHub désactivée depuis le 27/08 (facturation, non réactivée ici) : 9 commits mergés depuis sans aucun check, dont un correctif P0 réel (SEPA signalait « sandbox » à tort). Suite rejouée en local le 09-08 : 108 passed (montée de 87 à la même date que la dérive)</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-fr.github.io <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Vitrine publique statique — miroir GitHub Pages ; source réelle de www.aiame.fr.</p>
       <ul class="evid">
-        <li>Pages GitHub actif et servant réellement (<code>status: built</code>), <code>aiame.fr</code>/<code>www.aiame.fr</code> vérifiés 200 en direct aujourd'hui</li>
+        <li>Pages GitHub actif et servant réellement (<code>status: built</code>), <code>aiame.fr</code>/<code>www.aiame.fr</code> vérifiés 200 en direct — le pipeline Pages est indépendant de la facturation Actions ci-dessous, il n'a jamais cessé de déployer</li>
+        <li class="warn">CI GitHub (garde-fous) désactivée depuis le 27/08 côté ce dépôt (non réactivée) : 9 commits sans check GitHub, y compris ceux qui ont écrit ces lignes mêmes ; enforcement uniquement local depuis</li>
         <li>Ce que sert réellement www.aiame.fr après qu'un opérateur humain lance <code>make play-vitrine</code> depuis aiame-infra — pas de synchronisation automatique entre les deux</li>
       </ul>
     </div>
@@ -246,19 +256,11 @@
       </ul>
     </div>
     <div class="repo">
-      <h3>aiame-optaplanner <span class="badge cert-absent">certif. e2e absente</span></h3>
-      <p class="purpose">« Aiame Angel » — planification infirmière (roster, tournée VRPTW), née d'une étude OptaPlanner/Timefold jamais réellement branchée (JDK bloquant) ; solveur réel = OR-Tools CP-SAT.</p>
-      <ul class="evid">
-        <li><code>angel.services.aiame.fr</code> répond en direct, mur d'authentification actif ; <code>/api/v1/nurses</code> exige un jeton (401 propre, pas une erreur)</li>
-        <li class="warn">Le README du dépôt affirme encore l'absence de CI GitHub Actions — faux, <code>garde-fous.yml</code> existe et tourne</li>
-      </ul>
-    </div>
-    <div class="repo">
       <h3>aiame-sov <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">France Sov — assistant souverain du dirigeant de TPE/PME (FastAPI + SQLModel, RAG, veille territoriale).</p>
       <ul class="evid">
         <li><code>sov.services.aiame.fr</code> répond en direct, <code>/api/v1/version</code> confirme <code>environment:"production"</code> ; réplique <code>sov.dev.aiame.fr</code> également live (<code>"staging"</code>)</li>
-        <li class="warn">Le README du dépôt signale lui-même une faille d'autorisation ouverte sur le module Territoire (pas de tenant-scoping) — non corrigée à ce jour</li>
+        <li>Corrigé le 09-08 : le README affirme encore une faille d'autorisation ouverte sur le module Territoire, mais l'issue #73 qui la documentait a été fermée le 01-09 — le vrai trou (routes sans <code>require_role</code>) était déjà corrigé le jour même de sa découverte (6/6 tests dédiés passent, 401 vérifié en direct sur <code>/api/v1/regional/entities</code>) ; l'absence de cloisonnement multi-tenant reste vraie mais reclassée décision d'architecture assumée (mono-tenant par instance jusqu'en 2028), pas un bug</li>
       </ul>
     </div>
     <div class="repo">
@@ -266,21 +268,30 @@
       <p class="purpose">SVCMGR — console d'activation de services et paliers de licence, WebSocket temps réel.</p>
       <ul class="evid">
         <li><code>svcmgr.services.aiame.fr</code> live ; auth migrée le 21/08 vers la vérification de jetons aiame-auth (ADR-AA-001)</li>
-        <li class="warn">CI ne rejoue jamais la suite pytest du backend (12 tests réels existent, jamais appelés) ; frontend sans aucun test</li>
+        <li class="warn">CI GitHub désactivée depuis le 27/08 (facturation, non réactivée) : 16 tests backend réels (montés de 12) toujours jamais rejoués par CI, seulement en local ; frontend sans aucun test</li>
       </ul>
     </div>
   </div>
 </section>
 
 <section id="pre">
-  <h2>Pré-prod — 13 dépôts</h2>
+  <h2>Pré-prod — 15 dépôts</h2>
   <div class="repos">
     <div class="repo">
       <h3>aiame-core <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Rust — mathématiques d'asymétrie (Kabsch, Laplacian, spectral), destiné au WASM pour un frontend.</p>
       <ul class="evid">
-        <li>22/22 tests réels passent en CI (job <code>cargo-test</code> distinct de garde-fous) — rejoué en local, identique</li>
+        <li>22/22 tests réels rejoués en local le 09-08, identique — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), dernier run réel le 08-19 ; le hook pre-push local qui a pris le relais ne couvre pas <code>cargo test</code>, seulement la doctrine garde-fous</li>
         <li class="warn">La CI ne construit jamais la cible WASM réelle (seulement le natif) ; du code mort existe dans l'arbre (<code>src/analysis/</code>, jamais câblé)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-graine <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">POC « Aiame Graine » — moteur coreless + carte « On vous doit » scorée par TinyML (dérive de paiement), inférence Rust→WASM identique navigateur/serveur.</p>
+      <ul class="evid">
+        <li>38/38 tests rejoués en direct, dont un kill-test mutation-testé (gain AUC TinyML vs règle naïve 19,7 points, seuil de mort à 10) ; <code>cargo test</code> 5/5 (parité numérique Python↔Rust &lt; 1e-4)</li>
+        <li>Un des rares dépôts <strong>non</strong> touchés par le blocage Actions : CI déclenchée sur push/PR (pas <code>dispatch</code>-only), 3 checks verts sur HEAD dont un job dédié qui compile réellement la cible wasm32 (84 Ko, &lt; 2 Mo)</li>
+        <li>Aucune surface de déploiement (le README liste lui-même 13 lignes ABSENT : frontend, persistance, LLM) — d'où pré-prod, pas prod</li>
       </ul>
     </div>
     <div class="repo">
@@ -295,37 +306,46 @@
       <h3>aiame-ledger <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">CLI manuel qui construit le grand livre coût/revenu des 5 services E3 avec traçabilité obligatoire (« Loi de la Preuve »).</p>
       <ul class="evid">
-        <li>Un vrai step de tests (<code>pytest</code>) existe dans la CI, distinct de la doctrine, vert au dernier run — CI n'a tourné qu'à la création (22/08), rien depuis, cohérent avec un CLI à déclenchement manuel</li>
+        <li class="warn">Corrigé le 09-08 : ce n'est pas « rien depuis le 22/08 » — deux nouveaux runs <code>workflow_dispatch</code> ont bien été relancés le 06-09, mais tous deux restent bloqués en <code>queued</code> plus de 2 jours plus tard, jamais assignés à un runner. Un problème distinct de la facturation Actions org-wide (voir « État de la CI »), jamais résolu ni relancé depuis</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-mcp <span class="badge cert-absent">certif. e2e absente</span></h3>
-      <p class="purpose">Serveur MCP stdio-only exposant les services AIAME (auth, RAG, embeddings, blob) comme outils — un sous-processus, pas un service réseau hébergé.</p>
+      <p class="purpose">Serveur MCP stdio-only exposant 6 services AIAME (auth, RAG, embeddings/blob, knowledge, angel, one) comme 9 outils — un sous-processus, pas un service réseau hébergé.</p>
       <ul class="evid">
-        <li>Job <code>tests</code> réel (ruff + pytest), 89 tests passants aujourd'hui — pas d'URL possible par conception (stdio), donc pas de preuve « live » applicable</li>
+        <li>91 tests réels rejoués en direct le 09-08 (montés de 89), ruff propre — pas d'URL possible par conception (stdio), donc pas de preuve « live » applicable</li>
+        <li class="warn">CI GitHub désactivée depuis le 27/08 (facturation, non réactivée) : les 4 derniers commits, dont celui qui a fait grandir la suite à 91, n'ont jamais tourné sur GitHub — seulement rejoués en local</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-miroir <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Instrument B2H : visage + main dans un référentiel géométrique unique, 100 % local (WASM navigateur).</p>
       <ul class="evid">
-        <li><code>dev.aiame.fr/miroir/</code> live, vérifié en direct — quatre jobs CI distincts (cargo-test 72 tests, frontend, egress zéro-fuite) verts au dernier run réellement exécuté (21/08)</li>
-        <li class="warn">Bloqué depuis par le verrou de facturation Actions org-wide (voir « État de la CI ») — badge rouge aujourd'hui, code inchangé depuis le dernier vert</li>
+        <li><code>dev.aiame.fr/miroir/</code> live, vérifié en direct — quatre jobs CI distincts (cargo-test 72 tests, frontend, egress zéro-fuite)</li>
+        <li>Corrigé le 09-08 : ce dépôt n'est plus bloqué. Seul cas de réactivation complète et re-vérifiée dans l'org (voir « État de la CI ») — PR#16 (02-09) a re-diagnostiqué la facturation (saine), réactivé Actions pour ce dépôt, et fait rouler les 4 jobs pour de vrai sur des runners réels, tous verts, contre 9 commits de code réel mergés depuis le dernier vert du 21/08 (pas du code figé)</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-one <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Ingestion multi-format/voix → RAG → brouillon ERP (spike opérateur unique).</p>
       <ul class="evid">
-        <li>CI verte avec un vrai job pytest backend (README affirme 66/66, comptage direct trouve 70 tests — écart mineur, suite réelle)</li>
+        <li>74 tests backend rejoués en direct le 09-08 (montés de 70 le 08-26 ; README toujours à 66/66, écart désormais de 8) — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), les 2 dernières PR mergées (dont celle qui porte ce HEAD) n'ont eu aucun check GitHub</li>
         <li class="warn">Le frontend (TypeScript, vitest) n'est jamais exercé par la CI, seul le backend l'est — gap reconnu dans le commentaire du <code>ci.yml</code> lui-même</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-optaplanner <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Moteur de résolution transversal AIAME — CP-SAT (roster) et VRPTW heuristique (tournée) ; bibliothèque pure sans domaine métier ni API, consommée en-process par aiame-angel depuis leur scission du 27/08.</p>
+      <ul class="evid">
+        <li><code>git ls-files backend/app</code> vide (vérifié 09-08) : plus aucune route API ni domaine métier versionné ici — seul <code>backend/aiame_optaplanner/{rostering,routing}</code> subsiste, le README le dit explicitement</li>
+        <li>30/30 tests verts + ruff propre, rejoués en direct le 09-08 ; conception honnête par construction : un résultat OPTIMAL/FEASIBLE malhonnête est <code>ValueError</code> à la construction, pas juste une convention. Seule CI = doctrine garde-fous (désactivée depuis le 27/08, non réactivée) ; seul consommateur trouvé org-wide = aiame-angel (import de chemin local, pas de déploiement propre)</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-pouls <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">POC « Le Pouls » — cartes C1 « On vous doit » / C3 « Ça arrive », registre de provenance.</p>
       <ul class="evid">
-        <li>Suite rejouée en direct dans un venv neuf : verte, 80 tests (le README affirme encore 65/65, daté du 01/08 — la suite a grandi depuis via 4 PR mergées)</li>
+        <li>Suite rejouée en direct : verte, 80 tests — corrigé le 09-08 : le README citait encore 65/65 il y a deux jours, mais PR#10 (06-09) a resynchronisé les 3 mentions à 80/80, plus d'écart aujourd'hui. Note pour la suite : le clone local utilisé pour cet audit était lui-même 2 commits en retard (<code>git fetch</code> seul ne suffit pas), corrigé avant de vérifier</li>
       </ul>
     </div>
     <div class="repo">
@@ -340,15 +360,15 @@
       <h3>aiame-rag <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">RAG arXiv full-stack (Qdrant, Celery/Redis, agent LangGraph) — travail actif sur l'auto-calibration.</p>
       <ul class="evid">
-        <li>CI verte avec un vrai conteneur Qdrant de test (pas un mock) et un vrai job pytest</li>
-        <li class="warn">Aucune route live trouvée ; <code>repos.json</code> le décrit comme « fonctionnelle » sans réserve — l'infra elle-même documente cette route comme « pas encore câblée »</li>
+        <li>Un vrai conteneur Qdrant de test (pas un mock) et un vrai job pytest, rejoué en direct le 09-08 : 14/14 verts — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), 27 commits mergés depuis sans aucun check GitHub, seulement local</li>
+        <li class="warn">Aucune route live trouvée (rag.aiame.fr/rag.services.aiame.fr/rag.dev.aiame.fr : NXDOMAIN les trois, vérifié 09-08) ; <code>repos.json</code> le décrit comme « fonctionnelle » sans réserve — l'infra elle-même documente cette route comme « pas encore câblée »</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-red <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Moteur d'audit de dérive IA déterministe, vendu comme offre (aiame.fr) et auto-appliqué en CI contre 5 autres dépôts.</p>
       <ul class="evid">
-        <li><code>red-selfaudit.yml</code> exécute une vraie suite pytest puis le moteur lui-même contre un état assumé versionné (<code>--baseline</code>) — pas une prestation à la demande sans trace</li>
+        <li>28/28 tests rejoués en direct le 09-08, moteur relancé contre <code>specs/BASELINE.json</code> : zéro dérive — la logique de <code>red-selfaudit.yml</code> (<code>--baseline</code>) tient, mais ce workflow n'a en fait pas tourné sur GitHub depuis le 22/08 (CI désactivée depuis le 27/08, facturation, non réactivée) : 9 commits/PR mergés depuis sans aucun check, malgré le pitch « auto-appliqué en CI » du dépôt</li>
         <li>Pas de surface de déploiement propre (CLI/librairie) — pas de vérification HTTP directe possible</li>
       </ul>
     </div>
@@ -356,7 +376,7 @@
       <h3>aiame-scheduler <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Micro-librairie vendorée (un seul fichier) fournissant un wrapper APScheduler câblé au lifespan FastAPI — corrige une classe de bug (scheduler mort silencieusement).</p>
       <ul class="evid">
-        <li>CI réelle verte (3 runs), petit dépôt neuf (24/08), aucune surface de déploiement par conception (librairie vendorée, jamais servie)</li>
+        <li>CI réellement verte à la création (24/08, 3 runs), mais désactivée depuis le 27/08 (facturation, non réactivée) : 2 PR mergées depuis (27/08, 29/08) n'ont eu aucun check GitHub, seulement le hook local. Aucune surface de déploiement par conception (librairie vendorée, jamais servie)</li>
         <li class="warn">Le bug qu'il corrige n'est pas encore rétrofité dans aiame-agri-gers, le dépôt qui l'a motivé</li>
       </ul>
     </div>
@@ -364,15 +384,15 @@
       <h3>aiame-sov-kernel <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Noyau Python vendoré (2 fichiers, checksum) — notation de provenance déterministe + mitigations FD-01, vendoré dans aiame-sov et aiame-one.</p>
       <ul class="evid">
-        <li>PR#2 (22/08) est passée verte en CI avant le blocage de facturation ; l'arbre actuel est identique à cette version (diff vide)</li>
-        <li class="warn">Bloqué par le même verrou de facturation Actions que aiame-miroir — les 2 derniers runs affichent <code>failure</code> mais le job n'a jamais démarré</li>
+        <li>Le noyau lui-même (<code>safety.py</code>/<code>critique_service.py</code>) est identique à PR#2, vert avant le blocage — mais 4 PR de plus ont mergé depuis (garde-fous, hooks), donc l'arbre entier n'est plus un diff vide comme cette page l'affirmait</li>
+        <li class="warn">Corrigé le 09-08 : plus « le même verrou que aiame-miroir » — miroir est réactivé et vert depuis le 02-09 (voir sa carte), <code>aiame-sov-kernel</code> ne l'est pas : Actions y reste désactivée au niveau du dépôt (le même correctif d'un clic qu'a appliqué miroir, jamais fait ici), aucun run retenté depuis le 26-08</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-store <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Trois mécanismes de stockage vendorables (blob S3/Garage, provisioning Postgres) plus un microservice réel, <code>embedding-compute</code>.</p>
       <ul class="evid">
-        <li>Job <code>tests</code> réel (pytest) distinct de garde-fous, vert au dernier run</li>
+        <li>13 tests rejoués en direct le 09-08, tous verts — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), 3 PR mergées depuis sans aucun check GitHub, seulement un hook local lui-même « NON ACTIF sur un clone/worktree frais » par son propre commentaire</li>
         <li>Aucune route live trouvée pour <code>embedding-compute</code> à ce jour malgré son statut de service déployable</li>
       </ul>
     </div>
@@ -380,7 +400,7 @@
 </section>
 
 <section id="dev">
-  <h2>Dev — 8 dépôts</h2>
+  <h2>Dev — 9 dépôts</h2>
   <div class="repos">
     <div class="repo">
       <h3>aiame-agri-gers <span class="badge cert-absent">certif. e2e absente</span></h3>
@@ -388,6 +408,14 @@
       <ul class="evid">
         <li class="warn">Suite pytest (23 tests) et build frontend fonctionnent réellement en local — rejoué cette session — mais la CI ne les appelle jamais, seulement la doctrine garde-fous</li>
         <li>Aucune preuve de déploiement (aucune route infra, DNS ne résout nulle part)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-compliance <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Substrat transversal de journalisation/signal de risque EU AI Act (art. 12/13/50) pour aiame-rag/aiame-sov/aiame-one — vendoré (checksum-pinné) dans aiame-rag depuis le 01-09.</p>
+      <ul class="evid">
+        <li>14/14 tests rejoués en direct, ruff propre — aucun workflow CI dans ce dépôt (seul Dependabot existe), la suite n'est jamais appelée automatiquement</li>
+        <li>Vendoring vérifié octet pour octet (sha256) dans aiame-rag, importé à 3 points d'entrée réels du pipeline (pas du code mort) — mais aiame-rag lui-même n'a aucune route live (NXDOMAIN sur les 3 domaines plausibles), et son propre README dit encore « n'est câblé dans aucun consommateur », resté périmé depuis le vendoring du jour même</li>
       </ul>
     </div>
     <div class="repo">
@@ -401,7 +429,7 @@
       <h3>aiame-dream <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">CLI déterministe (zéro LLM) qui exploite les documents gouvernés de l'écosystème AIAME (ADR, VISION.md) avec provenance obligatoire fichier:ligne sur chaque fait.</p>
       <ul class="evid">
-        <li>Suite e2e réelle (9 tests) rejouée en local, verte — jamais appelée par la CI, qui ne fait que la doctrine</li>
+        <li>Suite e2e réelle (9 tests) rejouée en local, verte — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), pas seulement « jamais câblée pour ces tests »</li>
         <li>CLI-only par conception (README) — aucune surface de déploiement voulue à ce stade</li>
       </ul>
     </div>
@@ -409,14 +437,15 @@
       <h3>aiame-ivx <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Espace de recherche privé, docs uniquement : étudie une archive système « IVX » héritée et produit des synthèses qui alimentent des ADR ailleurs.</p>
       <ul class="evid">
-        <li>Aucun code applicatif — CI = doctrine uniquement, aucune preuve de déploiement recherchée par conception</li>
+        <li>Aucun code applicatif — CI = doctrine uniquement quand elle tourne, mais désactivée depuis le 27/08 (facturation, non réactivée) : la doctrine elle-même n'est plus vérifiée sur GitHub, seulement en local. Aucune preuve de déploiement recherchée par conception</li>
       </ul>
     </div>
     <div class="repo">
       <h3>aiame-memory <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Mémoire persistante de session Claude Code — synthèses de contexte, pas de secrets réels.</p>
       <ul class="evid">
-        <li>Aucun workflow CI au-delà de la doctrine — dépôt de notes (~120 fichiers <code>.md</code>), pas de code à construire ni déployer</li>
+        <li>Dépôt de notes, désormais 183 fichiers <code>.md</code> (montés de ~120), pas de code à construire ni déployer</li>
+        <li class="warn">Corrigé le 09-08 : sa propre copie du script garde-fous a dérivé (hash différent du canonique aiame-doctrine, ancienne regex GF-5) — et surtout, ce dépôt n'est même pas déclaré dans <code>verifier-copies.sh</code>, l'outil de détection de dérive de l'org : sa dérive est invisible à son propre tooling, exactement le mode de défaillance que cet outil dit vouloir attraper</li>
       </ul>
     </div>
     <div class="repo">
@@ -445,13 +474,14 @@
 </section>
 
 <section id="trous">
-  <h2>Trous d'inventaire — résolus le 2026-08-26</h2>
+  <h2>Trous d'inventaire — résolus le 2026-08-26, rouvert le 2026-09-08</h2>
   <p><strong>11 dépôts sur 30</strong> existaient dans <code>repos.json</code> sans jamais avoir figuré sur cette page : <code>aiame-agri-gers</code>, <code>aiame-auth</code>, <code>aiame-dream</code>, <code>aiame-ivx</code>, <code>aiame-ledger</code>, <code>aiame-mcp</code>, <code>aiame-optaplanner</code>, <code>aiame-price</code>, <code>aiame-scheduler</code>, <code>aiame-sov-kernel</code>, <code>aiame-store</code>. Deux d'entre eux (<code>aiame-auth</code>, <code>aiame-optaplanner</code>/Angel) sont des services publics déjà en production depuis plusieurs jours — l'omission n'était pas neutre, elle laissait deux dépôts prod entiers hors de l'audit. Les 19 autres classifications de l'audit précédent (2026-08-13/17) ont été relues intégralement plutôt que reportées telles quelles ; <strong>7</strong> ont changé de palier au vu de preuves nouvelles (détail dans chaque carte ci-dessus), pas 5 comme cette page l'affirmait un temps — deux changements (<code>aiame-one</code>, <code>aiame-prd</code>) avaient été appliqués aux cartes sans être comptés dans cette phrase, trouvé en relisant cette page après coup, corrigé ici plutôt que laissé : <code>aiame-sov</code> et <code>services-manager</code> (dev → prod), <code>aiame-fin</code> (pré-prod → prod), <code>aiame-core</code>, <code>aiame-rag</code> et <code>aiame-one</code> (dev → pré-prod), <code>aiame-prd</code> (pré-prod → dev). <code>aiame-miroir</code>, qui n'avait qu'une section provisoire « après l'audit » le temps de sa preuve de déploiement, est désormais une carte pré-prod normale.</p>
-  <p class="note">C'est exactement le type de dérive que <code>./bootstrap.sh --check</code> existe pour détecter — ce portfolio ne remplace pas cette vérification, il en donne un aperçu daté du 2026-08-26.</p>
+  <p><strong>Rouvert le 2026-09-08</strong> : la même classe de trou s'est reproduite en 13 jours. L'org compte 36 dépôts, pas 30 — 3 méritaient vraiment une carte (<code>aiame-angel</code>, <code>aiame-compliance</code>, <code>aiame-graine</code>, tous audités ci-dessus), portant le total à 33. Deux autres noms trouvés (<code>aiame-tf</code>, <code>changedetection.io</code>) se sont révélés être de fausses pistes déjà réglées ailleurs — <code>aiame-tf</code> est archivé, son contenu fusionné dans <code>aiame-infra/terraform/dns/</code> ; <code>changedetection.io</code> est un fork public d'un outil tiers, jamais déployé par AIAME — les deux sont bien déclarés dans <code>excluded[]</code> de <code>repos.json</code> sur <code>main</code>, seule la copie de travail utilisée pour cette revue en était temporairement dépourvue. <code>repos.json</code> lui-même n'a donc pas besoin de correction.</p>
+  <p class="note">C'est exactement le type de dérive que <code>./bootstrap.sh --check</code> existe pour détecter — ce portfolio ne remplace pas cette vérification, il en donne un aperçu daté du 2026-09-08.</p>
 </section>
 
 <footer>
-  <p><strong>Méthodologie datée, pas continue.</strong> Cet audit reflète l'état vérifié le 2026-08-26 — refait intégralement, pas une correction ponctuelle sur l'audit du 2026-08-13/17. Il se périme comme tout snapshot — revérifier avant d'agir dessus.</p>
+  <p><strong>Méthodologie datée, pas continue.</strong> Audit de fond refait intégralement le 2026-08-26 ; revérification en profondeur le 2026-09-08 (133 vérifications live indépendantes, chacune adversarialement réfutée avant d'être retenue — 32 des 34 écarts trouvés ont survécu à cette réfutation). Il se périme comme tout snapshot — revérifier avant d'agir dessus.</p>
   <p>Repère visuel emprunté à une charte interne de portfolio personnel — contenu et repères de mesure propres à AIAME, aucun contenu personnel repris ici.</p>
   <p>Retour à <a href="/">l'accueil</a> · Recherche fondatrice : <a href="https://dev.aiame.fr">dev.aiame.fr</a> · Source : <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
 </footer>
