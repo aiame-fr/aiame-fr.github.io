@@ -3,25 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIAME — Audit Red Team & Dérive IA</title>
-<!-- noindex conservatoire (2026-08-07) levé le 2026-08-15 : mentions-legales.html
-     est désormais publiable — legal.json complet (nom, adresse, SIREN, téléphone),
-     build_legal.py confirme « publiable », les trois pages légales sont en ligne
-     sur www.aiame.fr sans bandeau brouillon. Condition écrite ci-dessus remplie. -->
-<meta name="description" content="Aiame Red : audit Red Team, simulation de mésusage et pack de preuves AI Act / RGPD pour éditeurs et déployeurs d'IA européens. Hébergement en UE (Hetzner, Allemagne), sans traqueur.">
+<title>AIAME — Portfolio des dépôts</title>
+<!-- noindex conservatoire levé le 2026-08-15, même condition que index.html :
+     identité légale désormais publiable (legal.json complet). -->
+<meta name="description" content="État mesuré des 33 dépôts de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
 <style>
-  /* Palette inspirée Fermob : Capucine, Miel, Verveine, Acapulco, Carbone, Coton */
+  /* Palette Fermob, variante portfolio : Acapulco en tête (registre recherche/mesure,
+     pas commercial — cohérent avec dev/index.html plutôt qu'avec index.html). */
   :root{
     --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
     --capucine:#D14E0F; --capucine-soft:#F9E3D4;
-    --miel:#EFB63F; --acapulco:#008EA3; --verveine:#B7BE35;
+    --miel:#EFB63F; --miel-soft:#FBEDD1;
+    --verveine:#B7BE35; --verveine-soft:#EEF1D3;
     --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
   }
   @media (prefers-color-scheme: dark){
     :root{
       --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
       --capucine:#F0703A; --capucine-soft:#3A2A20;
-      --miel:#E8B24C; --acapulco:#3FB4C6; --verveine:#C4CC55;
+      --miel:#E8B24C; --miel-soft:#3A2E14;
+      --verveine:#C4CC55; --verveine-soft:#2A2E12;
       --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
     }
   }
@@ -30,78 +33,111 @@
   body{background:var(--coton); color:var(--carbone);
     font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
     padding:0 1.25rem; -webkit-font-smoothing:antialiased}
-  main{max-width:52rem; margin:0 auto}
-  a{color:var(--capucine); text-decoration-thickness:1px; text-underline-offset:3px}
-  a:focus-visible,.cta:focus-visible{outline:3px solid var(--acapulco); outline-offset:3px; border-radius:4px}
+  main{max-width:58rem; margin:0 auto}
+  a{color:var(--acapulco); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible{outline:3px solid var(--capucine); outline-offset:3px; border-radius:4px}
 
   header.hero{padding:4.5rem 0 3.25rem}
   .brand{display:flex; align-items:center; gap:.6rem;
     font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
-  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--capucine)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
   .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
     font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--capucine); background:var(--capucine-soft); border-radius:999px}
+    color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
   h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
     line-height:1.15; margin:1rem 0 1.1rem; max-width:46rem}
   .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
-  .en{color:var(--argile); font-size:.95rem; max-width:42rem; margin:0 0 1.5rem}
-  .cta{display:inline-block; font-weight:700; font-size:1rem;
-    background:var(--capucine); color:#fff; text-decoration:none;
-    padding:.9rem 1.5rem; border-radius:999px; box-shadow:var(--shadow);
-    transition:transform .15s ease}
-  .cta:hover{transform:translateY(-2px)}
+  .en{color:var(--argile); font-size:.95rem; max-width:42rem}
 
   section{padding:3rem 0; border-top:1px solid var(--line)}
   h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.25rem}
   h2::before{content:""; display:block; width:2.5rem; height:.35rem;
-    border-radius:999px; margin-bottom:.9rem; background:var(--capucine)}
-  #livrables h2::before{background:var(--acapulco)}
-  #formules h2::before{background:var(--miel)}
-  #engagements h2::before{background:var(--verveine)}
-  #moteur h2::before{background:var(--capucine)}
-
-  /* B2H — la distinction essentielle */
-  #b2h{background:var(--card); border:1px solid var(--line); border-radius:20px;
-    padding:2.25rem 1.75rem; margin:0 0 .5rem; box-shadow:var(--shadow);
-    border-left:.45rem solid var(--capucine)}
-  #b2h h2::before{display:none}
-  #b2h .versus{font-size:1.2rem; font-weight:800; letter-spacing:-.01em; margin:0 0 .9rem}
-  #b2h .versus s{color:var(--argile); font-weight:600}
-  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
-    gap:.9rem; margin:1.2rem 0 .4rem}
-  .pillar{border:1px solid var(--line); border-radius:12px; padding:.9rem 1rem}
-  .pillar b{display:block; margin-bottom:.25rem}
-  .pillar:nth-child(1) b{color:var(--capucine)}
-  .pillar:nth-child(2) b{color:var(--acapulco)}
-  .pillar:nth-child(3) b{color:var(--verveine)}
-  .pillar span{font-size:.9rem; color:var(--argile)}
-  h3{font-size:1.05rem; font-weight:700; margin:0 0 .35rem}
+    border-radius:999px; margin-bottom:.9rem; background:var(--acapulco)}
+  #certif h2::before{background:var(--capucine)}
+  #methode h2::before{background:var(--miel)}
+  #prod h2::before{background:var(--verveine)}
+  #pre h2::before{background:var(--miel)}
+  #dev h2::before{background:var(--argile)}
+  #trous h2::before{background:var(--capucine)}
+  #ci-status h2::before{background:var(--capucine)}
   p{margin:0 0 1rem}
   ul{padding-left:1.2rem; margin:0 0 1rem}
   li{margin:.45rem 0}
-  li::marker{color:var(--capucine)}
-
-  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
-    gap:1.1rem; margin:1.4rem 0}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:16px;
-    padding:1.25rem 1.2rem; box-shadow:var(--shadow);
-    border-top:.35rem solid var(--miel); transition:transform .15s ease}
-  .card:hover{transform:translateY(-3px)}
-  .card:nth-child(1){border-top-color:var(--verveine)}
-  .card:nth-child(3){border-top-color:var(--acapulco)}
-  .card .price{font-size:1.35rem; font-weight:800; margin:.55rem 0 .2rem}
-  .card .scope{color:var(--argile); font-size:.9rem}
+  li::marker{color:var(--acapulco)}
   .note{color:var(--argile); font-size:.87rem}
 
-  .decl{display:flex; gap:.5rem; align-items:flex-start; font-size:.85rem;
-    color:var(--argile); margin:.7rem 0 .2rem; cursor:pointer; line-height:1.4}
-  .decl input{margin-top:.2rem; accent-color:var(--capucine); flex:none}
-  .buy{margin:.9rem 0 0}
-  .buy button{font:inherit; font-weight:700; cursor:pointer; width:100%;
-    background:var(--capucine); color:#fff; border:0; border-radius:999px;
-    padding:.7rem 1rem; transition:transform .15s ease}
-  .buy button:hover{transform:translateY(-2px)}
-  button.cta{border:0; cursor:pointer; font:inherit; font-weight:700}
+  /* Bandeau de certification — le fait le plus important de la page */
+  #certif{background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:2.25rem 1.75rem; margin:0 0 .5rem; box-shadow:var(--shadow);
+    border-left:.45rem solid var(--capucine)}
+  #certif h2::before{display:none}
+  #certif .verdict{font-size:1.2rem; font-weight:800; letter-spacing:-.01em; margin:0 0 .9rem}
+  #certif .verdict b{color:var(--capucine)}
+  .certif-sub{font-size:1.05rem; font-weight:800; letter-spacing:-.01em;
+    margin:1.9rem 0 .6rem; padding-top:1.5rem; border-top:1px solid var(--line)}
+
+  /* Tableau des quatre propriétés — scroll horizontal propre, jamais le body */
+  .proptable-wrap{overflow-x:auto; margin:1.2rem 0; border-radius:12px;
+    border:1px solid var(--line)}
+  table.proptable{border-collapse:collapse; width:100%; min-width:38rem; font-size:.85rem}
+  .proptable th, .proptable td{padding:.65rem .8rem; text-align:left;
+    border-bottom:1px solid var(--line); vertical-align:top}
+  .proptable thead th{background:var(--acapulco-soft); color:var(--carbone);
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700}
+  .proptable tbody tr:last-child td{border-bottom:0}
+  .proptable td:first-child{font-weight:700; white-space:nowrap}
+  .proptable td.yes{color:var(--verveine); font-weight:700}
+  .proptable td.no{color:var(--capucine)}
+  .proptable td.partial{color:var(--miel)}
+
+  /* Bandeau de stats */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
+    gap:.9rem; margin:1.4rem 0}
+  .stat{border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem;
+    background:var(--card)}
+  .stat .n{font-size:2rem; font-weight:800; letter-spacing:-.02em}
+  .stat .lbl{font-size:.85rem; color:var(--argile)}
+  .stat.prod .n{color:var(--verveine)}
+  .stat.pre .n{color:var(--miel)}
+  .stat.dev .n{color:var(--argile)}
+
+  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+    gap:.9rem; margin:1.2rem 0 .4rem}
+  .pillar{border:1px solid var(--line); border-radius:12px; padding:.9rem 1rem;
+    background:var(--card)}
+  .pillar b{display:block; margin-bottom:.25rem}
+  .pillar:nth-child(1) b{color:var(--verveine)}
+  .pillar:nth-child(2) b{color:var(--miel)}
+  .pillar:nth-child(3) b{color:var(--argile)}
+  .pillar span{font-size:.9rem; color:var(--argile)}
+
+  /* Grille de dépôts */
+  .repos{display:grid; grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));
+    gap:1.1rem; margin:1.4rem 0}
+  .repo{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.25rem 1.2rem; box-shadow:var(--shadow); border-top:.35rem solid var(--argile);
+    transition:transform .15s ease}
+  .repo:hover{transform:translateY(-3px)}
+  #prod .repo{border-top-color:var(--verveine)}
+  #pre .repo{border-top-color:var(--miel)}
+  #dev .repo{border-top-color:var(--argile)}
+  .repo h3{font-size:1.02rem; font-weight:800; margin:0 0 .3rem}
+  .repo .purpose{font-size:.88rem; color:var(--argile); margin:0 0 .7rem}
+  .repo .evid{list-style:none; padding:0; margin:0; font-size:.85rem}
+  .repo .evid li{margin:.4rem 0; padding-left:1.1rem; position:relative}
+  .repo .evid li::before{content:"—"; position:absolute; left:0; color:var(--argile)}
+  .repo .evid li.warn{color:var(--capucine); font-weight:600}
+  .repo .evid li.warn::before{content:"⚠"; color:var(--capucine)}
+  .badge{display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.04em;
+    text-transform:uppercase; padding:.2rem .55rem; border-radius:999px; margin-left:.4rem;
+    vertical-align:middle}
+  .badge.cert-absent{background:var(--capucine-soft); color:var(--capucine)}
+
+  #trous{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.5rem 1.5rem; box-shadow:var(--shadow)}
+  #ci-status{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.5rem 1.5rem; box-shadow:var(--shadow); border-left:.35rem solid var(--capucine)}
+
   footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
     color:var(--argile); font-size:.9rem}
   footer p{margin:0 0 .55rem}
@@ -111,102 +147,343 @@
 <main>
 
 <header class="hero">
-  <div class="brand"><span class="dot"></span>AIAME</div>
-  <span class="eyebrow">Aiame Red · Audit Red Team &amp; Dérive IA · Offre réservée aux professionnels</span>
-  <h1>On vous montre comment votre IA peut être détournée — avant que le marché, la CNIL ou vos utilisateurs ne le découvrent.</h1>
-  <p class="lead">Audit Red Team pour éditeurs, intégrateurs et déployeurs européens. Le AI Act s'applique : il faut <em>démontrer</em> gestion des risques, supervision humaine et robustesse — pas l'affirmer.</p>
-  <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label><button class="cta" type="submit">Demander un scan — rendu sous 24 h</button></form>
+  <div class="brand"><span class="dot"></span>AIAME · PORTFOLIO</div>
+  <span class="eyebrow">33 dépôts — audit de fond le 2026-08-26, revérification en profondeur le 2026-09-08 — état mesuré, pas déclaré</span>
+  <h1>Ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.</h1>
+  <p class="lead">Chaque dépôt de l'organisation <strong>aiame-fr</strong> est classé <strong>prod</strong>, <strong>pré-prod</strong> ou <strong>dev</strong> à partir de preuves vérifiables — état des CI (<code>gh api</code>), vérification en direct des domaines, lecture du code — jamais à partir d'un README pris pour argent comptant.</p>
+  <p class="en">A measured, not declared, staging of every repository in the aiame-fr organization — dev/pre/prod assigned from verifiable evidence, not from what each repo's own docs claim.</p>
 </header>
 
-<section id="b2h">
-  <h2>B2H — Business to Human</h2>
-  <p class="versus"><s>B2C</s> orienté dopamine. <s>B2B</s> orienté performance froide. <strong>B2H : l'humain comme bénéficiaire final</strong> — l'institution comme support, jamais comme finalité.</p>
-  <p>Une relation de confiance réciproque et gagnant-gagnant entre un produit et son utilisateur : <strong>le produit ne cherche jamais à modifier l'utilisateur.</strong> C'est le cadre formalisé d'AIAME — codé comme contrainte structurelle, pas comme discours marketing — et c'est <strong>l'étalon de chaque audit Aiame Red</strong> : nous mesurons votre produit contre lui.</p>
+<section id="certif">
+  <h2>Certification e2e sandbox</h2>
+  <p class="verdict">Verdict : <b>ABSENTE</b> — sur les 33 dépôts.</p>
+  <p>Aucun des 33 dépôts n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel — et un badge <strong>rouge</strong> aujourd'hui n'en dit pas plus non plus (voir « État de la CI » ci-dessous, revu en profondeur le 2026-09-08 : la cause de facturation du 26/08 est résolue, mais la réactivation dépôt par dépôt ne l'est pas).</p>
+  <div class="stats">
+    <div class="stat prod"><div class="n">9</div><div class="lbl">prod</div></div>
+    <div class="stat pre"><div class="n">15</div><div class="lbl">pré-prod</div></div>
+    <div class="stat dev"><div class="n">9</div><div class="lbl">dev</div></div>
+    <div class="stat"><div class="n">33</div><div class="lbl">audités</div></div>
+  </div>
+
+  <h3 class="certif-sub">Ce qu'une certification e2e exigerait réellement</h3>
+  <p>« ABSENTE » n'est pas une case à cocher — c'est l'absence d'un mécanisme qui réunirait quatre propriétés à la fois :</p>
   <div class="pillars">
-    <div class="pillar"><b>Dépendance inversée</b><span>L'utilisateur peut partir sans coût. Pas de streaks, pas de notifications addictives, pas de rétention artificielle.</span></div>
-    <div class="pillar"><b>Silence par défaut</b><span>Le produit ne parle que sur demande. Aucun jugement, aucune prescription, aucune interprétation de la personne.</span></div>
-    <div class="pillar"><b>Valeur sans extraction</b><span>Aucune monétisation des données. Agrégats anonymes, opt-in explicite, jamais corrélables à l'individu.</span></div>
+    <div class="pillar"><b>Automatique</b><span>Déclenché sans qu'un humain pense à lancer une commande — CI, cron, ou verrou de déploiement.</span></div>
+    <div class="pillar"><b>Chemin réel</b><span>Exerce l'instance réellement déployée — le conteneur qui tourne, pas un <code>TestClient</code> en mémoire ni un mock.</span></div>
+    <div class="pillar"><b>Parcours complet</b><span>Couvre le trajet utilisateur de bout en bout (clic → paiement → webhook → commande confirmée), pas une fonction isolée.</span></div>
+    <div class="pillar"><b>Fait autorité</b><span>Un échec bloque ou alerte — sinon c'est une mesure ponctuelle, pas une certification.</span></div>
   </div>
-  <p class="note">Si l'utilisateur <em>ressent</em> qu'il doit progresser, comparer, performer — le B2H est mort. C'est un test, pas un slogan.</p>
+  <p class="note">Le plus proche d'une certification e2e (aiame-fin, aiame-red) reste fragmenté sur ces quatre propriétés — voir l'historique de cette page pour le détail par mécanisme. Ce qui a changé depuis le dernier audit (2026-08-13/17) : la CI elle-même n'est plus un signal fiable aujourd'hui, org-wide — voir ci-dessous.</p>
 </section>
 
-<section id="livrables">
-  <h2>Ce que nous livrons</h2>
-  <ul>
-    <li><strong>Fiches de dérive</strong> par capacité : lectures abusives plausibles, acteur malveillant réaliste, test de glissement sémantique, test RGPD &amp; dignité.</li>
-    <li><strong>Simulation de mésusage</strong> jouée contre le produit réel — preuves reproductibles, pas de slides.</li>
-    <li><strong>Pack de preuves</strong> AI Act (art. 9, 10, 13, 14, 15, 26, 50) et RGPD (art. 5, 22, 25, 35) — ce que votre auditeur, votre DPO ou votre client grand compte doit pouvoir montrer.</li>
-    <li><strong>Coupe-circuits</strong> : conditions d'arrêt définies, testées, avec autorité et délai réels.</li>
-  </ul>
-  <p>Notre méthode vient de notre propre règle interne : <strong>chaque capacité visible a sa contre-lecture adversariale avant toute mise en public.</strong> Un bon résultat Red Team = « voilà exactement où votre système ne sait plus. »</p>
+<section id="ci-status">
+  <h2>État de la CI — la facturation est résolue, la réactivation ne l'est pas</h2>
+  <p><strong>Le blocage de facturation GitHub Actions constaté le 2026-08-26 est vérifié résolu au niveau de l'org</strong>, pas juste annoncé : <code>aiame-miroir</code> a re-diagnostiqué et re-vérifié en direct le 2026-09-02 (PR#16) — facturation nette à 0 $ sur tous les mois récents, politique org <code>enabled_repositories: all</code> confirmée par <code>gh api orgs/aiame-fr/actions/permissions</code> — puis réactivé Actions pour ce dépôt spécifiquement. Son run du 09-02 a réellement tourné sur des runners GitHub réels (<code>runner_id</code> non nul, étapes complètes checkout/tests/build), les 4 jobs verts. C'est la seule preuve de réactivation complète et re-vérifiée trouvée dans l'org à ce jour.</p>
+  <p><strong>Mais le reste de la flotte n'a pas suivi.</strong> Revérifié dépôt par dépôt le 2026-09-08 (<code>gh api repos/aiame-fr/&lt;repo&gt;/actions/permissions</code>) : <strong>34 des 36 dépôts de l'org ont encore Actions désactivé au niveau du dépôt</strong> — un interrupteur resté sur OFF depuis le 27/08, pas une nouvelle panne. Sur ces 34, aucun run (pas même <code>workflow_dispatch</code>) n'a pu s'exécuter depuis le 26 ou 27/08, quel que soit le nombre de commits/PR mergés depuis (jusqu'à 9 commits sans aucun signal CI pour certains dépôts). L'enforcement s'est reporté, dépôt par dépôt, sur un hook git local (<code>.githooks/pre-push</code>) introduit la même semaine — mais ce hook n'est <strong>pas versionné comme actif</strong> : chaque clone/worktree doit exécuter <code>git config core.hooksPath .githooks</code> lui-même, sans quoi il n'existe aucune vérification du tout (le propre commentaire du hook sur <code>aiame-store</code> le dit noir sur blanc : « NON ACTIF sur un clone/worktree frais »).</p>
+  <p>Cas à part trouvé le 09-08 : <code>aiame-ledger</code> a bien retenté deux runs le 06-09 (<code>workflow_dispatch</code>, pas le silence qu'affirmait la version précédente de cette page) — mais les deux sont restés bloqués en <code>queued</code>, jamais assignés à un runner, plus de 2 jours plus tard. Un problème distinct de la facturation, jamais résolu ni même relancé.</p>
+  <p class="note">Chaque carte concernée ci-dessous signale son propre état vérifié en direct le 2026-09-08 plutôt que de renvoyer ici sans détail — certaines sont toujours désactivées, une (<code>aiame-miroir</code>) est réactivée et verte, <code>aiame-graine</code> n'a jamais été affectée (Actions déclenché sur push/PR, checks verts sur HEAD). Cette section date d'aujourd'hui ; comme le reste de la page, elle se périme.</p>
 </section>
 
-<section id="formules">
-  <h2>À la demande, automatisé</h2>
-  <p class="note"><strong>Offre réservée aux professionnels</strong> — éditeurs, intégrateurs, DPO, organisations publiques ou privées agissant dans le cadre de leur activité. Elle n'est pas proposée aux consommateurs.</p>
-  <p>L'audit est un <strong>moteur</strong>, pas un cabinet. Vous décrivez votre produit, le moteur joue la batterie adversariale — lectures abusives, glissement sémantique, dignité, cartographie AI&nbsp;Act — et rend une fiche de dérive exploitable. Pas de devis, pas de cycle de vente, pas de jours-homme facturés pour ce qu'une machine fait mieux.</p>
-  <div class="cards">
-    <div class="card">
-      <h3>Scan</h3>
-      <div class="scope">1 capacité · rendu &lt; 24 h après cadrage</div>
-      <div class="price">Sur demande</div>
-      <form class="buy" method="post" action="/api/v1/checkout/form">
-        <input type="hidden" name="formula" value="scan">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
-        <button type="submit">Demander un scan</button>
-      </form>
+<section id="methode">
+  <h2>Méthode</h2>
+  <p>Trois classes, définies par preuve et non par ambition déclarée dans le README du dépôt :</p>
+  <div class="pillars">
+    <div class="pillar"><b>Prod</b><span>Vivant et vérifié en direct (requête HTTP réelle le jour de l'audit), ou texte canonique dont d'autres dépôts dépendent et qui se corrige par nouvelle version, jamais par édition en place.</span></div>
+    <div class="pillar"><b>Pré-prod</b><span>Construit, avec de vrais tests qui passent en CI (pas seulement la doctrine) — mais sans preuve de service en production dans ce dépôt, ou déployé mais avec un doute non résolu sur ce qui est réellement servi.</span></div>
+    <div class="pillar"><b>Dev</b><span>Travail en cours, build cassé, tests écrits mais jamais appelés par la CI, ou aucune preuve de déploiement.</span></div>
+  </div>
+  <p class="note">Refait intégralement le 2026-08-26 : les 30 dépôts déclarés dans <code>repos.json</code> ont été relus un par un — CI (<code>gh api</code>, logs de job, pas seulement le badge), code réel, requête HTTP en direct sur chaque URL plausible. 11 dépôts n'avaient jamais figuré sur cette page (voir « Trous d'inventaire » plus bas) ; 7 ont changé de palier depuis le dernier audit (2026-08-13/17) au vu de preuves nouvelles, pas d'une nouvelle politique de notation.</p>
+</section>
+
+<section id="prod">
+  <h2>Prod — 9 dépôts</h2>
+  <div class="repos">
+    <div class="repo">
+      <h3>aiame-angel <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">« Aiame Angel » — planification infirmière (roster CP-SAT + tournée VRPTW déterministe, hors-ligne), publique sur angel.services.aiame.fr derrière aiame-auth ; scindée d'aiame-optaplanner le 27/08, qui reste le moteur solveur consommé comme bibliothèque (voir sa carte en pré-prod).</p>
+      <ul class="evid">
+        <li>angel.services.aiame.fr → 200 (vraie appli Next.js) et <code>/api/v1/health</code> → 200 ; <code>/api/v1/nurses</code> → 401 <code>MISSING_TOKEN</code> — le verrou aiame-auth est réellement actif en prod, pas juste le défaut du code (dont la valeur par défaut est <code>auth_required=False</code>)</li>
+        <li>Persistance réelle (Postgres + migrations Alembic sur storage-01) ; zéro commit métier depuis la scission — mais le déploiement tourne encore sous les anciens conteneurs <code>aiame-optaplanner-backend/-frontend</code>, la bascule du chemin de déploiement lui-même reste une tâche ouverte (documentée dans ce dépôt et repos.json)</li>
+      </ul>
     </div>
-    <div class="card">
-      <h3>Produit</h3>
-      <div class="scope">Toutes les capacités · pack de preuves AI Act / RGPD</div>
-      <div class="price">Sur demande</div>
-      <form class="buy" method="post" action="/api/v1/checkout/form">
-        <input type="hidden" name="formula" value="produit">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
-        <button type="submit">Demander un audit produit</button>
-      </form>
+    <div class="repo">
+      <h3>aiame-auth <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Service d'authentification transversal AIAME — jetons courts EdDSA, refresh rotatif, multi-tenant produit+org.</p>
+      <ul class="evid">
+        <li><code>/v1/auth/public-key</code> répond en direct une clé Ed25519 PEM réelle (pas un stub statique) ; <code>aiame-angel</code> (storage-01) est configuré en prod avec <code>AUTH_REQUIRED=true</code> et vérifie réellement contre cette clé — corrigé le 09-08 : c'est <code>aiame-angel</code> qui porte ce consommateur depuis la scission du 27/08, pas <code>aiame-optaplanner</code> (devenu bibliothèque, voir sa carte en pré-prod)</li>
+        <li>66 tests passent en local, rejoué en direct — CI GitHub désactivée pour ce dépôt depuis le 27/08 (facturation, réactivation non faite), enforcement reporté sur un hook pre-push local</li>
+      </ul>
     </div>
-    <div class="card">
-      <h3>Veille continue</h3>
-      <div class="scope">Re-scan à chaque release · alerte de dérive · historique</div>
-      <div class="price">Pas encore vendable</div>
-      <p class="note">Retirée de la vente le 2026-08-19 : aucune infrastructure de re-scan planifié, d'alerte ou d'historique n'existe encore (voir <a href="https://github.com/aiame-fr/aiame-doctrine/blob/main/DECISION-2026-08-19-no-sale-before-e2e-clean.md">la décision</a>). Remise en vente quand — et seulement quand — l'infrastructure existe et une preuve e2e est écrite.</p>
+    <div class="repo">
+      <h3>aiame-doctrine <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Textes éthiques canoniques (Constitution, chartes, axiomes, White Paper) + générateurs des pages légales.</p>
+      <ul class="evid">
+        <li><code>sov.services.aiame.fr/mentions-legales.html</code> contient en direct le commentaire « GÉNÉRÉ par aiame-doctrine/legal/build_legal_sov.py » — le générateur de ce dépôt est bien ce qui sert la page réelle, pas une affirmation</li>
+        <li class="warn"><code>verifier-copies.sh</code> rejoué en direct le 09-08 : <strong>1/25</strong> copie vendorée à jour (aiame-fin seul), pas 2/25 comme cette page l'affirmait il y a deux jours — le canonique a encore bougé deux fois depuis (09-06), la dérive s'aggrave plus vite qu'elle ne se résorbe</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-eu <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">eu.aiame.fr — services ouverts pour les citoyens européens (APOD).</p>
+      <ul class="evid">
+        <li>Revérifié en direct le 09-08 : <code>/api/apod</code> répond toujours, 66/66 tests rejoués localement (identique au 793 lignes du dernier run CI)</li>
+        <li>CI GitHub désactivée depuis le 27/08 (facturation, non réactivée) — dernier run réel le 08-19, 2 PR mergées depuis sans aucun check GitHub</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-fin <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Checkout/entitlements/livraison transversal AIAME (catalogue, PSP Stripe/SumUp/SEPA) — la facturation elle-même reste « planned ».</p>
+      <ul class="evid">
+        <li><code>/health</code> en direct renvoie l'état réel des adaptateurs (tous en <code>mode:mock</code>, aucun paiement réel ne transite) — recoupé avec le code, pas cité du README</li>
+        <li class="warn">CI GitHub désactivée depuis le 27/08 (facturation, non réactivée ici) : 9 commits mergés depuis sans aucun check, dont un correctif P0 réel (SEPA signalait « sandbox » à tort). Suite rejouée en local le 09-08 : 108 passed (montée de 87 à la même date que la dérive)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-fr.github.io <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Vitrine publique statique — miroir GitHub Pages ; source réelle de www.aiame.fr.</p>
+      <ul class="evid">
+        <li>Pages GitHub actif et servant réellement (<code>status: built</code>), <code>aiame.fr</code>/<code>www.aiame.fr</code> vérifiés 200 en direct — le pipeline Pages est indépendant de la facturation Actions ci-dessous, il n'a jamais cessé de déployer</li>
+        <li class="warn">CI GitHub (garde-fous) désactivée depuis le 27/08 côté ce dépôt (non réactivée) : 9 commits sans check GitHub, y compris ceux qui ont écrit ces lignes mêmes ; enforcement uniquement local depuis</li>
+        <li>Ce que sert réellement www.aiame.fr après qu'un opérateur humain lance <code>make play-vitrine</code> depuis aiame-infra — pas de synchronisation automatique entre les deux</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-infra <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Terraform (Hetzner) + Ansible + Traefik v3 — pilier d'infrastructure ; déploie tout le reste.</p>
+      <ul class="evid">
+        <li>Applique réellement aiame.fr, eu.aiame.fr et la famille <code>*.services.aiame.fr</code>/<code>*.dev.aiame.fr</code> (sov, svcmgr, fin, angel, auth, price, miroir) — certificat Let's Encrypt actif, vérifié en direct</li>
+        <li>Sa propre CI ne prouve que la doctrine (garde-fous) — le verdict prod vient exclusivement des vérifications HTTP en direct sur les services qu'il déploie, pas de son propre badge</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-sov <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">France Sov — assistant souverain du dirigeant de TPE/PME (FastAPI + SQLModel, RAG, veille territoriale).</p>
+      <ul class="evid">
+        <li><code>sov.services.aiame.fr</code> répond en direct, <code>/api/v1/version</code> confirme <code>environment:"production"</code> ; réplique <code>sov.dev.aiame.fr</code> également live (<code>"staging"</code>)</li>
+        <li>Corrigé le 09-08 : le README affirme encore une faille d'autorisation ouverte sur le module Territoire, mais l'issue #73 qui la documentait a été fermée le 01-09 — le vrai trou (routes sans <code>require_role</code>) était déjà corrigé le jour même de sa découverte (6/6 tests dédiés passent, 401 vérifié en direct sur <code>/api/v1/regional/entities</code>) ; l'absence de cloisonnement multi-tenant reste vraie mais reclassée décision d'architecture assumée (mono-tenant par instance jusqu'en 2028), pas un bug</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>services-manager <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">SVCMGR — console d'activation de services et paliers de licence, WebSocket temps réel.</p>
+      <ul class="evid">
+        <li><code>svcmgr.services.aiame.fr</code> live ; auth migrée le 21/08 vers la vérification de jetons aiame-auth (ADR-AA-001)</li>
+        <li class="warn">CI GitHub désactivée depuis le 27/08 (facturation, non réactivée) : 16 tests backend réels (montés de 12) toujours jamais rejoués par CI, seulement en local ; frontend sans aucun test</li>
+      </ul>
     </div>
   </div>
-  <p>Une <strong>revue humaine</strong> reste possible en option quand l'enjeu le justifie (contexte réglementaire lourd, arbitrage produit) — elle se greffe sur la sortie du moteur au lieu de la remplacer. Sur demande, au cas par cas.</p>
-  <p class="note"><strong>Tarifs communiqués lors du cadrage</strong>, avant toute commande et sans engagement — prix nets, TVA non applicable (article 293 B du CGI). Notre règle reste la même : un tarif fixé au vu des coûts réels, jamais au vu de ce que le client peut payer. Le délai de 24 h du Scan court à partir du cadrage : le moteur qui produit la fiche de dérive est réellement automatisé, mais le cadrage tarifaire est une conversation humaine, pas une case à cocher.</p>
 </section>
 
-<section id="moteur">
-  <h2>Le moteur tourne d'abord sur nous</h2>
-  <p>Notre règle interne veut que <strong>chaque capacité visible ait sa contre-lecture adversariale avant toute mise en public</strong>. Nous ne pouvions pas la tenir à la main : le moteur a donc été construit pour nos propres besoins, et il audite nos produits à chaque déploiement — fiches de dérive versionnées, conditions d'arrêt testées, y compris pour ce site.</p>
-  <p>Ce que vous achetez n'est pas une prestation improvisée pour vous : c'est <strong>l'outil que nous nous imposons</strong>, ouvert aux autres. Nos propres fiches sont publiques.</p>
+<section id="pre">
+  <h2>Pré-prod — 15 dépôts</h2>
+  <div class="repos">
+    <div class="repo">
+      <h3>aiame-core <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Rust — mathématiques d'asymétrie (Kabsch, Laplacian, spectral), destiné au WASM pour un frontend.</p>
+      <ul class="evid">
+        <li>22/22 tests réels rejoués en local le 09-08, identique — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), dernier run réel le 08-19 ; le hook pre-push local qui a pris le relais ne couvre pas <code>cargo test</code>, seulement la doctrine garde-fous</li>
+        <li class="warn">La CI ne construit jamais la cible WASM réelle (seulement le natif) ; du code mort existe dans l'arbre (<code>src/analysis/</code>, jamais câblé)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-graine <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">POC « Aiame Graine » — moteur coreless + carte « On vous doit » scorée par TinyML (dérive de paiement), inférence Rust→WASM identique navigateur/serveur.</p>
+      <ul class="evid">
+        <li>38/38 tests rejoués en direct, dont un kill-test mutation-testé (gain AUC TinyML vs règle naïve 19,7 points, seuil de mort à 10) ; <code>cargo test</code> 5/5 (parité numérique Python↔Rust &lt; 1e-4)</li>
+        <li>Un des rares dépôts <strong>non</strong> touchés par le blocage Actions : CI déclenchée sur push/PR (pas <code>dispatch</code>-only), 3 checks verts sur HEAD dont un job dédié qui compile réellement la cible wasm32 (84 Ko, &lt; 2 Mo)</li>
+        <li>Aucune surface de déploiement (le README liste lui-même 13 lignes ABSENT : frontend, persistance, LLM) — d'où pré-prod, pas prod</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-knowledge <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Extraction et synthèse documentaire de l'org aiame-fr.</p>
+      <ul class="evid">
+        <li class="warn">CI passée aujourd'hui même en <code>workflow_dispatch</code> seul (PR#9) suite au blocage de facturation Actions — plus de déclenchement automatique push/PR ; le README affirme encore le contraire</li>
+        <li>Suite pytest réelle existe et passait avant le changement de déclencheur</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-ledger <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">CLI manuel qui construit le grand livre coût/revenu des 5 services E3 avec traçabilité obligatoire (« Loi de la Preuve »).</p>
+      <ul class="evid">
+        <li class="warn">Corrigé le 09-08 : ce n'est pas « rien depuis le 22/08 » — deux nouveaux runs <code>workflow_dispatch</code> ont bien été relancés le 06-09, mais tous deux restent bloqués en <code>queued</code> plus de 2 jours plus tard, jamais assignés à un runner. Un problème distinct de la facturation Actions org-wide (voir « État de la CI »), jamais résolu ni relancé depuis</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-mcp <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Serveur MCP stdio-only exposant 6 services AIAME (auth, RAG, embeddings/blob, knowledge, angel, one) comme 9 outils — un sous-processus, pas un service réseau hébergé.</p>
+      <ul class="evid">
+        <li>91 tests réels rejoués en direct le 09-08 (montés de 89), ruff propre — pas d'URL possible par conception (stdio), donc pas de preuve « live » applicable</li>
+        <li class="warn">CI GitHub désactivée depuis le 27/08 (facturation, non réactivée) : les 4 derniers commits, dont celui qui a fait grandir la suite à 91, n'ont jamais tourné sur GitHub — seulement rejoués en local</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-miroir <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Instrument B2H : visage + main dans un référentiel géométrique unique, 100 % local (WASM navigateur).</p>
+      <ul class="evid">
+        <li><code>dev.aiame.fr/miroir/</code> live, vérifié en direct — quatre jobs CI distincts (cargo-test 72 tests, frontend, egress zéro-fuite)</li>
+        <li>Corrigé le 09-08 : ce dépôt n'est plus bloqué. Seul cas de réactivation complète et re-vérifiée dans l'org (voir « État de la CI ») — PR#16 (02-09) a re-diagnostiqué la facturation (saine), réactivé Actions pour ce dépôt, et fait rouler les 4 jobs pour de vrai sur des runners réels, tous verts, contre 9 commits de code réel mergés depuis le dernier vert du 21/08 (pas du code figé)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-one <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Ingestion multi-format/voix → RAG → brouillon ERP (spike opérateur unique).</p>
+      <ul class="evid">
+        <li>74 tests backend rejoués en direct le 09-08 (montés de 70 le 08-26 ; README toujours à 66/66, écart désormais de 8) — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), les 2 dernières PR mergées (dont celle qui porte ce HEAD) n'ont eu aucun check GitHub</li>
+        <li class="warn">Le frontend (TypeScript, vitest) n'est jamais exercé par la CI, seul le backend l'est — gap reconnu dans le commentaire du <code>ci.yml</code> lui-même</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-optaplanner <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Moteur de résolution transversal AIAME — CP-SAT (roster) et VRPTW heuristique (tournée) ; bibliothèque pure sans domaine métier ni API, consommée en-process par aiame-angel depuis leur scission du 27/08.</p>
+      <ul class="evid">
+        <li><code>git ls-files backend/app</code> vide (vérifié 09-08) : plus aucune route API ni domaine métier versionné ici — seul <code>backend/aiame_optaplanner/{rostering,routing}</code> subsiste, le README le dit explicitement</li>
+        <li>30/30 tests verts + ruff propre, rejoués en direct le 09-08 ; conception honnête par construction : un résultat OPTIMAL/FEASIBLE malhonnête est <code>ValueError</code> à la construction, pas juste une convention. Seule CI = doctrine garde-fous (désactivée depuis le 27/08, non réactivée) ; seul consommateur trouvé org-wide = aiame-angel (import de chemin local, pas de déploiement propre)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-pouls <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">POC « Le Pouls » — cartes C1 « On vous doit » / C3 « Ça arrive », registre de provenance.</p>
+      <ul class="evid">
+        <li>Suite rejouée en direct : verte, 80 tests — corrigé le 09-08 : le README citait encore 65/65 il y a deux jours, mais PR#10 (06-09) a resynchronisé les 3 mentions à 80/80, plus d'écart aujourd'hui. Note pour la suite : le clone local utilisé pour cet audit était lui-même 2 commits en retard (<code>git fetch</code> seul ne suffit pas), corrigé avant de vérifier</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-price <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Veille de prix tiers (backend + dashboard), scope BTP/construction via un adaptateur Würth.</p>
+      <ul class="evid">
+        <li><code>price.dev.aiame.fr</code> répond 200 aujourd'hui (<code>/api/v1/health</code> ok) — explicitement un hôte de préproduction, pas prod, par la propre convention DNS de l'org</li>
+        <li class="warn">Bascule vers <code>workflow_dispatch</code> le jour même (commit du 26/08), même cause que aiame-knowledge — arbre de code identique à un run vert antérieur, vérifié par hash</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-rag <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">RAG arXiv full-stack (Qdrant, Celery/Redis, agent LangGraph) — travail actif sur l'auto-calibration.</p>
+      <ul class="evid">
+        <li>Un vrai conteneur Qdrant de test (pas un mock) et un vrai job pytest, rejoué en direct le 09-08 : 14/14 verts — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), 27 commits mergés depuis sans aucun check GitHub, seulement local</li>
+        <li class="warn">Aucune route live trouvée (rag.aiame.fr/rag.services.aiame.fr/rag.dev.aiame.fr : NXDOMAIN les trois, vérifié 09-08) ; <code>repos.json</code> le décrit comme « fonctionnelle » sans réserve — l'infra elle-même documente cette route comme « pas encore câblée »</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-red <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Moteur d'audit de dérive IA déterministe, vendu comme offre (aiame.fr) et auto-appliqué en CI contre 5 autres dépôts.</p>
+      <ul class="evid">
+        <li>28/28 tests rejoués en direct le 09-08, moteur relancé contre <code>specs/BASELINE.json</code> : zéro dérive — la logique de <code>red-selfaudit.yml</code> (<code>--baseline</code>) tient, mais ce workflow n'a en fait pas tourné sur GitHub depuis le 22/08 (CI désactivée depuis le 27/08, facturation, non réactivée) : 9 commits/PR mergés depuis sans aucun check, malgré le pitch « auto-appliqué en CI » du dépôt</li>
+        <li>Pas de surface de déploiement propre (CLI/librairie) — pas de vérification HTTP directe possible</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-scheduler <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Micro-librairie vendorée (un seul fichier) fournissant un wrapper APScheduler câblé au lifespan FastAPI — corrige une classe de bug (scheduler mort silencieusement).</p>
+      <ul class="evid">
+        <li>CI réellement verte à la création (24/08, 3 runs), mais désactivée depuis le 27/08 (facturation, non réactivée) : 2 PR mergées depuis (27/08, 29/08) n'ont eu aucun check GitHub, seulement le hook local. Aucune surface de déploiement par conception (librairie vendorée, jamais servie)</li>
+        <li class="warn">Le bug qu'il corrige n'est pas encore rétrofité dans aiame-agri-gers, le dépôt qui l'a motivé</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-sov-kernel <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Noyau Python vendoré (2 fichiers, checksum) — notation de provenance déterministe + mitigations FD-01, vendoré dans aiame-sov et aiame-one.</p>
+      <ul class="evid">
+        <li>Le noyau lui-même (<code>safety.py</code>/<code>critique_service.py</code>) est identique à PR#2, vert avant le blocage — mais 4 PR de plus ont mergé depuis (garde-fous, hooks), donc l'arbre entier n'est plus un diff vide comme cette page l'affirmait</li>
+        <li class="warn">Corrigé le 09-08 : plus « le même verrou que aiame-miroir » — miroir est réactivé et vert depuis le 02-09 (voir sa carte), <code>aiame-sov-kernel</code> ne l'est pas : Actions y reste désactivée au niveau du dépôt (le même correctif d'un clic qu'a appliqué miroir, jamais fait ici), aucun run retenté depuis le 26-08</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-store <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Trois mécanismes de stockage vendorables (blob S3/Garage, provisioning Postgres) plus un microservice réel, <code>embedding-compute</code>.</p>
+      <ul class="evid">
+        <li>13 tests rejoués en direct le 09-08, tous verts — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), 3 PR mergées depuis sans aucun check GitHub, seulement un hook local lui-même « NON ACTIF sur un clone/worktree frais » par son propre commentaire</li>
+        <li>Aucune route live trouvée pour <code>embedding-compute</code> à ce jour malgré son statut de service déployable</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
-<section id="engagements">
-  <h2>Ce que nous ne ferons jamais</h2>
-  <ul>
-    <li>Auditer des <strong>personnes</strong> (employés, candidats, clients) — nous auditons des <strong>systèmes</strong>.</li>
-    <li>Produire un scoring d'individus, même « à titre indicatif », même « pour aider ».</li>
-    <li>Vendre, conserver ou réutiliser vos données ou celles de vos utilisateurs.</li>
-    <li>Un rapport complaisant. Règle maison : si nous ne savons pas, nous écrivons « nous ne savons pas ».</li>
-  </ul>
-  <p class="note"><strong>L'audit est une prestation technique, pas un conseil juridique.</strong> La cartographie AI Act / RGPD documente des éléments de preuve exploitables par votre DPO, votre conseil ou votre auditeur ; elle ne constitue ni un avis juridique, ni une certification de conformité.</p>
-  <p>Ces engagements suivent le cadre <strong>B2H (Business to Human)</strong> d'AIAME : une relation où le produit ne cherche jamais à modifier l'utilisateur, publiée et datée dans notre doctrine. <strong>aiame.fr</strong> la pratique : hébergement en Union européenne administré directement, certificat maîtrisé, zéro traqueur, zéro tiers. (Exception délibérée à ce « zéro tiers », assumée plutôt que tue : une copie de cette page est aussi publiée sur <a href="https://aiame-fr.github.io/">aiame-fr.github.io</a> à des fins de versionnement public — hébergée par GitHub, pas par notre infrastructure.)</p>
-  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20cadrage">Demander un scan</a>
+<section id="dev">
+  <h2>Dev — 9 dépôts</h2>
+  <div class="repos">
+    <div class="repo">
+      <h3>aiame-agri-gers <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">POC de coordination pour travailleurs saisonniers agricoles du Gers (logement, mobilité, offres) — intérêt public, pas une marketplace.</p>
+      <ul class="evid">
+        <li class="warn">Suite pytest (23 tests) et build frontend fonctionnent réellement en local — rejoué cette session — mais la CI ne les appelle jamais, seulement la doctrine garde-fous</li>
+        <li>Aucune preuve de déploiement (aucune route infra, DNS ne résout nulle part)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-compliance <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Substrat transversal de journalisation/signal de risque EU AI Act (art. 12/13/50) pour aiame-rag/aiame-sov/aiame-one — vendoré (checksum-pinné) dans aiame-rag depuis le 01-09.</p>
+      <ul class="evid">
+        <li>14/14 tests rejoués en direct, ruff propre — aucun workflow CI dans ce dépôt (seul Dependabot existe), la suite n'est jamais appelée automatiquement</li>
+        <li>Vendoring vérifié octet pour octet (sha256) dans aiame-rag, importé à 3 points d'entrée réels du pipeline (pas du code mort) — mais aiame-rag lui-même n'a aucune route live (NXDOMAIN sur les 3 domaines plausibles), et son propre README dit encore « n'est câblé dans aucun consommateur », resté périmé depuis le vendoring du jour même</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-creator <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Résumé technique du fondateur, contexte d'antériorité iVision.</p>
+      <ul class="evid">
+        <li>Document statique — rien à construire ni déployer, par conception</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-dream <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">CLI déterministe (zéro LLM) qui exploite les documents gouvernés de l'écosystème AIAME (ADR, VISION.md) avec provenance obligatoire fichier:ligne sur chaque fait.</p>
+      <ul class="evid">
+        <li>Suite e2e réelle (9 tests) rejouée en local, verte — CI GitHub désactivée depuis le 27/08 (facturation, non réactivée), pas seulement « jamais câblée pour ces tests »</li>
+        <li>CLI-only par conception (README) — aucune surface de déploiement voulue à ce stade</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-ivx <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Espace de recherche privé, docs uniquement : étudie une archive système « IVX » héritée et produit des synthèses qui alimentent des ADR ailleurs.</p>
+      <ul class="evid">
+        <li>Aucun code applicatif — CI = doctrine uniquement quand elle tourne, mais désactivée depuis le 27/08 (facturation, non réactivée) : la doctrine elle-même n'est plus vérifiée sur GitHub, seulement en local. Aucune preuve de déploiement recherchée par conception</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-memory <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Mémoire persistante de session Claude Code — synthèses de contexte, pas de secrets réels.</p>
+      <ul class="evid">
+        <li>Dépôt de notes, désormais 183 fichiers <code>.md</code> (montés de ~120), pas de code à construire ni déployer</li>
+        <li class="warn">Corrigé le 09-08 : sa propre copie du script garde-fous a dérivé (hash différent du canonique aiame-doctrine, ancienne regex GF-5) — et surtout, ce dépôt n'est même pas déclaré dans <code>verifier-copies.sh</code>, l'outil de détection de dérive de l'org : sa dérive est invisible à son propre tooling, exactement le mode de défaillance que cet outil dit vouloir attraper</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-motion <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Deux choses sans rapport sous le même nom : un concept produit jamais construit (référent perceptif partagé) et le seul code réel présent, un crawler EU-APOD.</p>
+      <ul class="evid">
+        <li class="warn">Écart doc/réalité majeur : le README décrit un produit d'analyse biométrique, le code réel est un scraper d'images sans rapport — ni l'un ni l'autre n'a de test ni de preuve de déploiement</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-prd <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">Corpus de spécifications produit (PRD Aiame v1.3, PRD Elzéard v2 porté pour antériorité IP, PRD Le Pouls, MISSION 2027) — pas un dépôt de code.</p>
+      <ul class="evid">
+        <li>Aucun code applicatif, rien à déployer — classé dev au sens « pas de service », pas au sens « en cours de construction »</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-wrapped <span class="badge cert-absent">certif. e2e absente</span></h3>
+      <p class="purpose">« Aiame Wrapped » — rétrospective visuelle des projets (maquette matplotlib).</p>
+      <ul class="evid">
+        <li>Auto-déclaré « maquette, pas outil » dans son propre README</li>
+        <li>Poids qualitatifs codés en dur, rien de calculé</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="trous">
+  <h2>Trous d'inventaire — résolus le 2026-08-26, rouvert le 2026-09-08</h2>
+  <p><strong>11 dépôts sur 30</strong> existaient dans <code>repos.json</code> sans jamais avoir figuré sur cette page : <code>aiame-agri-gers</code>, <code>aiame-auth</code>, <code>aiame-dream</code>, <code>aiame-ivx</code>, <code>aiame-ledger</code>, <code>aiame-mcp</code>, <code>aiame-optaplanner</code>, <code>aiame-price</code>, <code>aiame-scheduler</code>, <code>aiame-sov-kernel</code>, <code>aiame-store</code>. Deux d'entre eux (<code>aiame-auth</code>, <code>aiame-optaplanner</code>/Angel) sont des services publics déjà en production depuis plusieurs jours — l'omission n'était pas neutre, elle laissait deux dépôts prod entiers hors de l'audit. Les 19 autres classifications de l'audit précédent (2026-08-13/17) ont été relues intégralement plutôt que reportées telles quelles ; <strong>7</strong> ont changé de palier au vu de preuves nouvelles (détail dans chaque carte ci-dessus), pas 5 comme cette page l'affirmait un temps — deux changements (<code>aiame-one</code>, <code>aiame-prd</code>) avaient été appliqués aux cartes sans être comptés dans cette phrase, trouvé en relisant cette page après coup, corrigé ici plutôt que laissé : <code>aiame-sov</code> et <code>services-manager</code> (dev → prod), <code>aiame-fin</code> (pré-prod → prod), <code>aiame-core</code>, <code>aiame-rag</code> et <code>aiame-one</code> (dev → pré-prod), <code>aiame-prd</code> (pré-prod → dev). <code>aiame-miroir</code>, qui n'avait qu'une section provisoire « après l'audit » le temps de sa preuve de déploiement, est désormais une carte pré-prod normale.</p>
+  <p><strong>Rouvert le 2026-09-08</strong> : la même classe de trou s'est reproduite en 13 jours. L'org compte 36 dépôts, pas 30 — 3 méritaient vraiment une carte (<code>aiame-angel</code>, <code>aiame-compliance</code>, <code>aiame-graine</code>, tous audités ci-dessus), portant le total à 33. Deux autres noms trouvés (<code>aiame-tf</code>, <code>changedetection.io</code>) se sont révélés être de fausses pistes déjà réglées ailleurs — <code>aiame-tf</code> est archivé, son contenu fusionné dans <code>aiame-infra/terraform/dns/</code> ; <code>changedetection.io</code> est un fork public d'un outil tiers, jamais déployé par AIAME — les deux sont bien déclarés dans <code>excluded[]</code> de <code>repos.json</code> sur <code>main</code>, seule la copie de travail utilisée pour cette revue en était temporairement dépourvue. <code>repos.json</code> lui-même n'a donc pas besoin de correction.</p>
+  <p class="note">C'est exactement le type de dérive que <code>./bootstrap.sh --check</code> existe pour détecter — ce portfolio ne remplace pas cette vérification, il en donne un aperçu daté du 2026-09-08.</p>
 </section>
 
 <footer>
-  <p><strong>Aucun traqueur, aucun cookie, aucun script tiers.</strong> Cette page est un document statique versionné publiquement.</p>
-  <p>La recherche fondatrice d'AIAME (asymétrie, B2H) vit à part : <a href="https://dev.aiame.fr">dev.aiame.fr</a>. Elle ne vend rien.</p>
-  <p>État mesuré, dépôt par dépôt, sans arrondir : <a href="/portfolio/">portfolio des dépôts</a>. Coût/revenu, service par service, gris honnête plutôt que zéro fabriqué : <a href="/transparence.html">transparence financière</a>.</p>
-  <p>Éditeur : entrepreneur individuel français, TVA non applicable (art. 293 B du
-  CGI) ; hébergement Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen,
-  Allemagne. Identité complète (SIREN), CGV et politique de confidentialité :
-  <a href="/mentions-legales.html">mentions légales</a> ·
-  <a href="/cgv.html">CGV</a> · <a href="/confidentialite.html">confidentialité</a>.</p>
-  <p>Contact : <a href="mailto:tech@aiame.fr">tech@aiame.fr</a> · Source : <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
+  <p><strong>Méthodologie datée, pas continue.</strong> Audit de fond refait intégralement le 2026-08-26 ; revérification en profondeur le 2026-09-08 (133 vérifications live indépendantes, chacune adversarialement réfutée avant d'être retenue — 32 des 34 écarts trouvés ont survécu à cette réfutation). Il se périme comme tout snapshot — revérifier avant d'agir dessus.</p>
+  <p>Repère visuel emprunté à une charte interne de portfolio personnel — contenu et repères de mesure propres à AIAME, aucun contenu personnel repris ici.</p>
+  <p>Voir aussi la <a href="/vitrine/">vitrine commerciale</a> · Recherche fondatrice : <a href="https://dev.aiame.fr">dev.aiame.fr</a> · Source : <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
 </footer>
 
 </main>
