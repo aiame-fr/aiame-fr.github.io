@@ -226,6 +226,24 @@ printf 'requests.get("https://sov.services.aiame.fr/api/v1/health")\n' >> "$GF5_
 verifier "GF-5 : appel interne *.aiame.fr, sans robots/manifeste → pas de violation" \
   0 "OK: no third-party fetch" "$GF5_INTERNE"
 
+# Le domaine NU compte autant que ses sous-domaines. Trouvé le 2026-09-06 en
+# resynchronisant aiame-fin : `https://aiame.fr/merci` (l'URL de retour de nos
+# propres paiements) était traité comme un domaine TIERS, parce que le filtre
+# exigeait un point devant. Nous aurait forcés à déclarer notre propre site
+# dans un manifeste de sources tierces — un faux étiquetage, exactement ce que
+# GF-5 existe pour empêcher.
+GF5_INTERNE_NU="$(arbre gf5_interne_nu)"
+printf 'SUCCESS = "https://aiame.fr/merci"\nrequests.get(SUCCESS)\n' >> "$GF5_INTERNE_NU/src/app.py"
+verifier "GF-5 : domaine NU aiame.fr (sans sous-domaine) → pas de violation" \
+  0 "OK: no third-party fetch" "$GF5_INTERNE_NU"
+
+# Et l'exemption ne doit pas déborder sur un domaine qui se TERMINE par notre
+# nom sans être à nous : `notaiame.fr` et `aiame.fr.evil.com` restent tiers.
+GF5_VOISIN="$(arbre gf5_voisin)"
+printf 'requests.get("https://notaiame.fr/collecte")\n' >> "$GF5_VOISIN/src/app.py"
+verifier "GF-5 : domaine voisin notaiame.fr → toujours violation" \
+  1 "VIOLATION: .*sans mention de robots" "$GF5_VOISIN"
+
 # Contre-épreuve : mention en doc (.md, hors extensions scannées) ne doit pas
 # déclencher — même logique que la contre-épreuve GF-1/GF-4.
 GF5_DOC="$(arbre gf5_doc)"
@@ -297,6 +315,66 @@ printf 'fetch("https://eshop.wurth.fr/catalogue");\n' \
   > "$DEP_GF5/src/node_modules/some-fetch-lib/index.ts"
 verifier "GF-5 : fetch externe sous node_modules/ → pas de violation" \
   0 "OK: no third-party fetch" "$DEP_GF5"
+
+# --- GF-5 : domaines réservés RFC 2606 (05/09) --------------------------------
+# Un domaine-placeholder dans une fixture de test (example.com/.net/.org, ou
+# les TLD .test/.example/.invalid/.localhost) n'est jamais un vrai appel
+# réseau. Trouvé en resynchronisant aiame-rag : une fixture citant
+# http://example.test/... faisait échouer GF-5 sur un arbre par ailleurs
+# propre, sans robots.txt ni SOURCES.md — et pour cause, il n'y a rien à
+# scraper.
+RFC2606="$(arbre rfc2606)"
+printf 'r = requests.get(f"http://example.test/{item_id}")\n' \
+  >> "$RFC2606/src/app.py"
+verifier "GF-5 : domaine example.test (RFC 2606) → pas de violation" \
+  0 "OK: no third-party fetch" "$RFC2606"
+
+RFC2606_ORG="$(arbre rfc2606_org)"
+printf 'r = requests.get("https://example.org/spec")\n' \
+  >> "$RFC2606_ORG/src/app.py"
+verifier "GF-5 : domaine example.org (RFC 2606) → pas de violation" \
+  0 "OK: no third-party fetch" "$RFC2606_ORG"
+
+# Contre-épreuve : un domaine qui contient juste "example" en sous-domaine
+# n'est PAS le example.com/.org/.net réservé — l'exemption ne doit matcher
+# QUE le domaine exact ou les 4 TLD, jamais une sous-chaîne.
+RFC2606_FAUX="$(arbre rfc2606_faux)"
+printf 'r = requests.get("https://example.evil-tracker.com/pixel")\n' \
+  >> "$RFC2606_FAUX/src/app.py"
+verifier "GF-5 : « example » en sous-domaine d'un vrai domaine → toujours violation" \
+  1 "VIOLATION: .*sans mention de robots" "$RFC2606_FAUX"
+
+# --- GF-5 : API tierce sous contrat, jamais du scraping (05/09) --------------
+# Trouvé en resynchronisant aiame-fin : api.stripe.com/api.sumup.com (des API
+# de paiement AUTHENTIFIÉES, sous contrat) se faisaient traiter comme du
+# contenu public à scraper — exiger un robots.txt ou une "limite de débit
+# polie" d'un PSP est un non-sens qui aurait bloqué tout futur intégrateur de
+# paiement. Le marqueur lève CES DEUX exigences ; SOURCES.md reste dû, dans
+# tous les cas — contre-épreuve juste après.
+API_OK="$(arbre api_contractee_ok)"
+printf '# GF-5: api-tierce-sous-contrat — PSP authentifié, pas du scraping\nr = requests.post("https://api.stripe.com/v1/charges")\n' \
+  >> "$API_OK/src/app.py"
+printf 'api.stripe.com — PSP sous contrat (paiement), voir ADR-AF-002\n' \
+  > "$API_OK/SOURCES.md"
+verifier "GF-5 : API sous contrat + domaine dans SOURCES.md → pas de violation" \
+  0 "OK: no third-party fetch" "$API_OK"
+
+# Contre-épreuve : le marqueur ne dispense JAMAIS de nommer le domaine — la
+# transparence sur qui on appelle n'est pas négociable, seule l'étiquette
+# "scraping" (robots.txt/limite de débit) l'est.
+API_SANS_SOURCES="$(arbre api_contractee_sans_sources)"
+printf '# GF-5: api-tierce-sous-contrat\nr = requests.post("https://api.stripe.com/v1/charges")\n' \
+  >> "$API_SANS_SOURCES/src/app.py"
+verifier "GF-5 : API sous contrat SANS SOURCES.md → viole quand même (transparence due)" \
+  1 "VIOLATION: .*aucun SOURCES.md" "$API_SANS_SOURCES"
+
+# Contre-épreuve : sans le marqueur, le même appel Stripe reste un scraping
+# ordinaire aux yeux du garde — robots.txt et limite de débit restent exigés.
+API_SANS_MARQUEUR="$(arbre api_sans_marqueur)"
+printf 'r = requests.post("https://api.stripe.com/v1/charges")\n' \
+  >> "$API_SANS_MARQUEUR/src/app.py"
+verifier "GF-5 : appel Stripe SANS le marqueur → robots.txt toujours exigé" \
+  1 "VIOLATION: .*sans mention de robots" "$API_SANS_MARQUEUR"
 
 # --- verdict -----------------------------------------------------------------
 echo

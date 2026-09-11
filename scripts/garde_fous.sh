@@ -74,25 +74,49 @@ echo "== GF-5 third-party-scrape-boundary (blocking) =="
 # Trou de doctrine fermé le 2026-08-24 : avant aiame-price (agent de veille
 # tarifaire BTP/Würth), aiame-doctrine n'avait aucune règle sur la collecte de
 # données commerciales tierces. Portée volontairement étroite : ne regarde que
-# les fichiers qui appellent ET un domaine EXTERNE (ni *.aiame.fr ni
-# localhost) littéralement présent dans le code — un client HTTP interne
+# les fichiers qui appellent ET un domaine EXTERNE (ni aiame.fr, nu ou en
+# sous-domaine, ni localhost) littéralement présent — un client HTTP interne
 # (aiame-auth, aiame-store, etc.) n'a pas à parler de robots.txt. Deux formes
 # de violation sur ces fichiers-là : (1) aucune mention de robots.txt ou de
-# limite de débit dans le même fichier ; (2) le domaine cité n'apparaît pas
-# dans un manifeste SOURCES.md à la racine (ou un niveau sous, ex. docs/) du
-# dépôt — pas juste "le fichier existe", chaque domaine doit y être nommé.
+# limite de débit dans le même fichier, SAUF marqueur api-tierce-sous-contrat
+# (voir plus bas) ; (2) le domaine cité n'apparaît pas dans un manifeste
+# SOURCES.md à la racine (ou un niveau sous, ex. docs/) du dépôt — pas juste
+# "le fichier existe", chaque domaine doit y être nommé, TOUJOURS, y compris
+# sous le marqueur.
+#
+# Deux trous trouvés le 2026-09-05, en resynchronisant 4 dépôts en retard :
+# (a) un domaine réservé à la doc/aux tests (RFC 2606 : example.com/.net/.org,
+#     TLD .test/.example/.invalid/.localhost) dans une fixture de test n'est
+#     jamais un vrai appel réseau — grep sur du texte l'ignorait déjà pour les
+#     dépendances (EXCLURE_DEPS) mais pas pour ces domaines-placeholder ;
+# (b) la portée "scraping" ne distingue pas un site public à collecter (le
+#     public visé) d'une API tierce AUTHENTIFIÉE SOUS CONTRAT (PSP Stripe/
+#     SumUp, etc.) — celle-ci n'a ni robots.txt ni notion de "limite de débit
+#     polie", exiger l'un ou l'autre est un non-sens qui aurait bloqué tout
+#     futur intégrateur de paiement. Le marqueur `GF-5: api-tierce-sous-contrat`
+#     (commentaire, n'importe où dans le fichier) lève UNIQUEMENT ces deux
+#     exigences-là ; la déclaration SOURCES.md, elle, reste due dans tous les
+#     cas — la transparence sur qui on appelle n'est jamais négociable, seule
+#     l'étiquette "scraping" l'est.
 GF5_FETCH=$(grep -rlE 'requests\.(get|post)\(|httpx\.(get|post|AsyncClient)\(|urlopen\(|fetch\(' \
     "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' "${EXCLURE_DEPS[@]}" 2>/dev/null || true)
 GF5_MANIFESTE=$(find . -maxdepth 2 \( -iname .git -o -iname node_modules -o -iname .venv \) -prune -o -type f -iname 'SOURCES.md' -print 2>/dev/null | head -1 || true)
 GF5_OK=1
 for f in $GF5_FETCH; do
   GF5_DOMAINES=$(grep -ohE 'https?://[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$f" 2>/dev/null \
-    | sed -E 's#https?://##' | grep -viE '\.aiame\.fr$' | sort -u || true)
+    | sed -E 's#https?://##' \
+    | grep -viE '(^|\.)aiame\.fr$|\.(test|example|invalid|localhost)$|^example\.(com|net|org)$' \
+    | sort -u || true)
   [ -n "$GF5_DOMAINES" ] || continue
-  grep -qi 'robots' "$f" \
-    || { echo "VIOLATION: $f appelle un domaine externe ($GF5_DOMAINES) sans mention de robots.txt"; GF5_OK=0; }
-  grep -qE 'rate_limit|time\.sleep\(|asyncio\.sleep\(' "$f" \
-    || { echo "VIOLATION: $f appelle un domaine externe ($GF5_DOMAINES) sans limite de débit déclarée"; GF5_OK=0; }
+  if grep -qi 'GF-5: api-tierce-sous-contrat' "$f"; then
+    : # API authentifiée sous contrat (PSP, etc.) — pas du scraping ; le
+      # domaine reste dû en SOURCES.md, jamais dispensé plus bas.
+  else
+    grep -qi 'robots' "$f" \
+      || { echo "VIOLATION: $f appelle un domaine externe ($GF5_DOMAINES) sans mention de robots.txt"; GF5_OK=0; }
+    grep -qE 'rate_limit|time\.sleep\(|asyncio\.sleep\(' "$f" \
+      || { echo "VIOLATION: $f appelle un domaine externe ($GF5_DOMAINES) sans limite de débit déclarée"; GF5_OK=0; }
+  fi
   if [ -z "$GF5_MANIFESTE" ]; then
     echo "VIOLATION: $f cite un domaine externe ($GF5_DOMAINES), aucun SOURCES.md dans le dépôt"; GF5_OK=0
   else
