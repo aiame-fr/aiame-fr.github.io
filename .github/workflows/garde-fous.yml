@@ -2,6 +2,16 @@ name: garde-fous
 
 # Doctrinal blocking checks. Canonical script lives in aiame-doctrine and is
 # vendored here (see scripts/CANONICAL.sha256).
+#
+# 2026-09-20 : ce workflow n'avait plus tourné une seule fois depuis le
+# 2026-08-20 — repos.actions.permissions.allowed_actions était passé à
+# "local_only" sur ce dépôt, ce qui rejette actions/checkout@v4 ci-dessous
+# (et n'importe quelle action hors de ce dépôt) avant même que le job ne
+# démarre. Le site public n'en a rien laissé paraître : .nojekyll fait que
+# GitHub Pages sert les fichiers du dépôt tels quels, sans build — seul ce
+# garde-fou, la seule vérification doctrinale que ce dépôt possède, était
+# silencieusement mort. Remis à "all" le même jour ; ce commit est la
+# première preuve d'un run réel depuis.
 on: [push, pull_request]
 
 permissions:
