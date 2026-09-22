@@ -252,6 +252,72 @@ printf 'Le connecteur Würth (eshop.wurth.fr) est planifié pour le trimestre su
 verifier "GF-5 : domaine externe mentionné dans un .md → pas de violation" \
   0 "OK: no third-party fetch" "$GF5_DOC"
 
+# --- GF-5 : formes DÉCLARATIVES et élargissement du filtre (21/09) -----------
+# Incident réel, pas un exemple plausible : `aiame-services` servait en
+# PRODUCTION un `@import url("https://fonts.googleapis.com/...")` en première
+# ligne de son bundle CSS. GF-5 ne le voyait pas — non parce que son motif
+# était trop étroit, mais parce qu'un `.css` n'était JAMAIS ouvert. Les cinq cas
+# ci-dessous couvrent des modes distincts, jamais une mutation combinée.
+
+# (1) Le défaut exact, reproduit tel qu'il était en production.
+GF5_CSS="$(arbre gf5_css_import)"
+printf '@import url("https://fonts.googleapis.com/css2?family=Syne&display=swap");\nbody { margin: 0; }\n' \
+  > "$GF5_CSS/src/globals.css"
+verifier "GF-5 : @import CSS vers un domaine externe, aucun SOURCES.md → échec" \
+  1 "VIOLATION: .* aucun SOURCES.md" "$GF5_CSS"
+
+# (2) Contre-épreuve DÉCISIVE : déclaré en SOURCES.md, ça passe — et SANS
+# exiger robots.txt ni limite de débit, qui n'ont aucun sens pour une feuille
+# de style. Un garde-fou qui refuserait aussi la forme légitime ne serait pas
+# plus sûr, il serait inutilisable.
+GF5_CSS_OK="$(arbre gf5_css_declare)"
+printf '@import url("https://fonts.googleapis.com/css2?family=Syne&display=swap");\n' \
+  > "$GF5_CSS_OK/src/globals.css"
+printf -- '- fonts.googleapis.com : polices, chargement navigateur\n' > "$GF5_CSS_OK/SOURCES.md"
+verifier "GF-5 : @import CSS déclaré en SOURCES.md → pas de violation, sans exiger robots/débit" \
+  0 "OK: no third-party fetch" "$GF5_CSS_OK"
+
+# (3) Même angle mort en HTML : <link href> et <script src> sont exécutés par
+# le navigateur sans qu'aucun code ne les appelle.
+GF5_HTML="$(arbre gf5_html_link)"
+printf '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pkg/style.css">\n' \
+  > "$GF5_HTML/src/index.html"
+verifier "GF-5 : <link href> externe en HTML, aucun SOURCES.md → échec" \
+  1 "VIOLATION: .* aucun SOURCES.md" "$GF5_HTML"
+
+# (4) Contre-épreuve : la précision du motif. Un `url()` LOCAL ne déclenche
+# rien — les motifs déclaratifs exigent `https?://` dans la construction
+# elle-même. Sans ce cas, on ne saurait pas distinguer « GF-5 attrape le bon
+# fichier » de « GF-5 attrape tous les CSS ».
+GF5_CSS_LOCAL="$(arbre gf5_css_local)"
+printf 'body { background: url(/images/fond.svg); }\n@font-face { src: url("./polices/syne.woff2"); }\n' \
+  > "$GF5_CSS_LOCAL/src/globals.css"
+verifier "GF-5 : url() local dans un CSS → pas de violation" \
+  0 "OK: no third-party fetch" "$GF5_CSS_LOCAL"
+
+# (5) Contre-épreuve trouvée EN MESURANT, pas imaginée : le motif déclaratif ne
+# doit tourner que sur .css/.html. `aiame-rag` porte une fixture Atom XML dans
+# un test Python, contenant `<link href="http://arxiv.org/...">` — de la
+# DONNÉE, pas un document que le navigateur rend. Le premier jet de ce
+# correctif passait le motif déclaratif à tous les types et le signalait :
+# faux positif immédiat. Ce cas est ce qui empêche la régression de revenir.
+GF5_LINK_DATA="$(arbre gf5_link_dans_donnee)"
+printf 'FLUX = """<entry><link href="http://export.arxiv.org/abs/2301.1"/></entry>"""\n' \
+  >> "$GF5_LINK_DATA/src/app.py"
+verifier "GF-5 : <link href> dans une fixture XML Python → pas de violation" \
+  0 "OK: no third-party fetch" "$GF5_LINK_DATA"
+
+# (6) Et l'inverse : le motif déclaratif DOIT rester aveugle au .js vendoré.
+# `aiame-miroir` a fait le bon geste (vendoriser MediaPipe plutôt qu'appeler un
+# CDN) ; la colle wasm vendorée contient `fetch(` et des URL de CDN. La scanner
+# produisait 22 violations sur du code tiers — punir le dépôt exemplaire.
+GF5_VENDOR_JS="$(arbre gf5_vendor_js)"
+mkdir -p "$GF5_VENDOR_JS/src/public/wasm"
+printf 'var u="https://cdn.jsdelivr.net/npm/pkg/";fetch(u+"m.wasm");\n' \
+  > "$GF5_VENDOR_JS/src/public/wasm/glue.js"
+verifier "GF-5 : colle .js tierce vendorée → pas de violation (portée assumée)" \
+  0 "OK: no third-party fetch" "$GF5_VENDOR_JS"
+
 # --- exclusion des répertoires de dépendances (18/08) ------------------------
 # Régression réelle, mordue deux fois le 18/08 dans deux dépôts différents :
 # l'intégration OpenAI/Anthropic de sentry_sdk (dépendance TRANSITIVE, jamais

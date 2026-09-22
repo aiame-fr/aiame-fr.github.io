@@ -15,5 +15,13 @@
 # Ce qu'elle NE prouve PAS : qu'elle est à jour vis-à-vis du canonique — c'est
 # une dérive amont, invisible d'ici. Elle se détecte depuis aiame-doctrine :
 #     ./garde-fous/verifier-copies.sh
-c6f9eafe41bdbd1157798356fff40522a19d6026f5af68fd5a3b925c69a9c1c9  scripts/garde_fous.sh
-1ddaef244554fedcc48130c74a45a24d306303f56c373c984b0ff8e6449144b8  scripts/test_garde_fous.sh
+#
+# Resynchronisé le 2026-09-22 (aiame-doctrine#52) : GF-5 ouvre désormais *.css
+# et *.html, et couvre les formes DÉCLARATIVES (@import, <link href>,
+# <script src>, url()) — chacune exigeant https:// À L'INTÉRIEUR de la
+# construction, pour qu'un url(/local.svg) ne déclenche rien. Jusque-là GF-5 ne
+# lisait que *.py/*.ts/*.tsx : un .css n'était JAMAIS ouvert, quoi qu'il
+# contînt. Origine : un @import Google Fonts servi EN PRODUCTION par
+# aiame-services, invisible au garde-fou.
+6558a1be1400cb8f00a8e97580f87f10714402e4f34224b75c74b23fbb784c52  scripts/garde_fous.sh
+a0b6000bc797922e8c082f9556bbb0b52afbc64eaadce07415316a0fe8f38c14  scripts/test_garde_fous.sh
