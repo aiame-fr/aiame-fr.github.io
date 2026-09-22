@@ -34,6 +34,9 @@ run_check() {
     echo "✓ $label vert"
   fi
 }
+echo "== la copie du script est intacte =="
+run_check "CANONICAL.sha256" sha256sum -c scripts/CANONICAL.sha256
+
 echo "== preuve que le garde sait echouer =="
 run_check "test_garde_fous" bash scripts/test_garde_fous.sh
 
