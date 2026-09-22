@@ -23,8 +23,12 @@ FAIL=0
 EXCLURE_DEPS=(
   --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.venv
   --exclude-dir=__pycache__ --exclude-dir=dist --exclude-dir=build
-  --exclude-dir=.next --exclude-dir=target
+  --exclude-dir=.next --exclude-dir=target --exclude-dir=out
 )
+# `out/` ajouté le 2026-09-21 : c'est le répertoire d'export statique de Next
+# (`aiame-eu/services/apod/frontend/out/`, `aiame-miroir/frontend/out/`), aussi
+# généré que `dist/` ou `.next/`. Son absence ici ne se voyait pas tant que
+# GF-5 ne lisait ni .css ni .html — élargir la portée l'a rendue visible.
 
 echo "== GF-1 frontier-in-execution (blocking) =="
 if grep -rn -iE 'from openai|import openai|import anthropic|from anthropic|api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis' \
@@ -98,8 +102,54 @@ echo "== GF-5 third-party-scrape-boundary (blocking) =="
 #     exigences-là ; la déclaration SOURCES.md, elle, reste due dans tous les
 #     cas — la transparence sur qui on appelle n'est jamais négociable, seule
 #     l'étiquette "scraping" l'est.
-GF5_FETCH=$(grep -rlE 'requests\.(get|post)\(|httpx\.(get|post|AsyncClient)\(|urlopen\(|fetch\(' \
-    "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' "${EXCLURE_DEPS[@]}" 2>/dev/null || true)
+#
+# Troisième trou, trouvé le 2026-09-21 : `aiame-services` servait en PRODUCTION
+# un `@import url("https://fonts.googleapis.com/...")` en première ligne de son
+# bundle CSS — chaque rendu de page envoyait l'IP et le User-Agent du visiteur
+# chez Google LLC. GF-5 ne pouvait pas le voir, et la cause première n'était PAS
+# le motif : c'était le FILTRE DE TYPE. Seuls *.py/*.ts/*.tsx étaient ouverts,
+# donc un .css n'était jamais lu, quoi qu'il contînt. Durcir le motif seul
+# n'aurait rien changé. D'où deux corrections, dans cet ordre :
+#   (1) *.css et *.html entrent dans la portée ;
+#   (2) sur CES DEUX types uniquement, le motif couvre les formes DÉCLARATIVES,
+#       celles que le navigateur exécute sans qu'aucun code ne les appelle
+#       (@import, <link href>, <script src>, url()). Ces motifs exigent
+#       `https?://` À L'INTÉRIEUR de la construction : un `url(/logo.svg)`
+#       local ne déclenche donc rien.
+#
+# Les deux bornes ci-dessous ne sont pas de la prudence, elles sont MESURÉES
+# sur la flotte réelle (ancien script contre nouveau, 12 dépôts) :
+#   - Le motif déclaratif ne tourne PAS sur .py/.ts : un `<link href="http://
+#     arxiv.org/...">` dans une fixture Atom XML d'`aiame-rag` est de la
+#     DONNÉE, pas un document rendu. Le passer au même filtre produisait un
+#     faux positif immédiat.
+#   - `.js`/`.jsx` restent HORS portée, et c'est un choix documenté, pas un
+#     oubli : la flotte n'a AUCUN .js runtime écrit à la main (vérifié sur tous
+#     les `frontend/src/`) — uniquement du vendoré ou du généré
+#     (`public/mediapipe/wasm/*.js` de miroir, `src/vendor/wasm_*.js` de sov,
+#     colle wasm-bindgen). Les y inclure produisait 22 violations dans le seul
+#     miroir, toutes sur du code tiers jamais écrit par nous — et PUNISSAIT le
+#     dépôt qui a justement fait le bon geste en vendorisant au lieu d'appeler
+#     un CDN. Un garde-fou qui refuse la forme légitime n'est pas plus sûr,
+#     il devient impossible à garder vert. Gap assumé : un .js écrit à la main
+#     n'est pas couvert ; le jour où il en existe un, ce commentaire est la
+#     trace de la décision à rouvrir.
+#
+# Une référence déclarative n'est PAS de la collecte : exiger d'une feuille de
+# style qu'elle « mentionne robots.txt » ou déclare une « limite de débit »
+# serait un non-sens, exactement celui que le marqueur api-tierce-sous-contrat
+# existe pour éviter. Un fichier dont le SEUL déclencheur est déclaratif est
+# donc dispensé de ces deux exigences — et de celles-là uniquement. Le
+# SOURCES.md reste dû : c'est la règle qui ne plie jamais.
+GF5_MOTIF_APPEL='requests\.(get|post)\(|httpx\.(get|post|AsyncClient)\(|urlopen\(|fetch\('
+GF5_MOTIF_DECLARATIF='@import[[:space:]]+[^;]*https?://|<link[^>]+href=[^>]*https?://|<script[^>]+src=[^>]*https?://|url\([^)]*https?://'
+GF5_APPELANTS=$(grep -rlE "$GF5_MOTIF_APPEL" \
+    "$SRC" --include='*.py' --include='*.ts' --include='*.tsx' \
+    "${EXCLURE_DEPS[@]}" 2>/dev/null || true)
+GF5_DECLARANTS=$(grep -rlE "$GF5_MOTIF_DECLARATIF" \
+    "$SRC" --include='*.css' --include='*.html' \
+    "${EXCLURE_DEPS[@]}" 2>/dev/null || true)
+GF5_FETCH=$(printf '%s\n%s\n' "$GF5_APPELANTS" "$GF5_DECLARANTS" | grep -v '^$' | sort -u || true)
 GF5_MANIFESTE=$(find . -maxdepth 2 \( -iname .git -o -iname node_modules -o -iname .venv \) -prune -o -type f -iname 'SOURCES.md' -print 2>/dev/null | head -1 || true)
 GF5_OK=1
 for f in $GF5_FETCH; do
@@ -111,6 +161,11 @@ for f in $GF5_FETCH; do
   if grep -qi 'GF-5: api-tierce-sous-contrat' "$f"; then
     : # API authentifiée sous contrat (PSP, etc.) — pas du scraping ; le
       # domaine reste dû en SOURCES.md, jamais dispensé plus bas.
+  elif ! grep -qE "$GF5_MOTIF_APPEL" "$f"; then
+    : # Référence déclarative d'asset uniquement (@import, <link>, <script>,
+      # url()) : aucun code n'appelle, c'est le navigateur qui charge. Ni
+      # robots.txt ni limite de débit n'ont de sens ici. Le domaine reste dû
+      # en SOURCES.md — même règle que ci-dessus, et pour la même raison.
   else
     grep -qi 'robots' "$f" \
       || { echo "VIOLATION: $f appelle un domaine externe ($GF5_DOMAINES) sans mention de robots.txt"; GF5_OK=0; }
