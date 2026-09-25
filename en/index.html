@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIAME — Repository portfolio</title>
+<!-- noindex conservatoire levé le 2026-08-15, même condition que index.html :
+     identité légale désormais publiable (legal.json complet). -->
+<meta name="description" content="Measured state of the 37 repositories in the aiame-fr organization: what runs, what is tested, what isn't — without rounding.">
+<link rel="alternate" hreflang="fr" href="https://aiame.fr/">
+<link rel="alternate" hreflang="en" href="https://aiame.fr/en/">
+<style>
+  /* Palette Fermob, variante portfolio : Acapulco en tête (registre recherche/mesure,
+     pas commercial — cohérent avec dev/index.html plutôt qu'avec index.html). */
+  :root{
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
+    --capucine:#D14E0F; --capucine-soft:#F9E3D4;
+    --miel:#EFB63F; --miel-soft:#FBEDD1;
+    --verveine:#B7BE35; --verveine-soft:#EEF1D3;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
+      --capucine:#F0703A; --capucine-soft:#3A2A20;
+      --miel:#E8B24C; --miel-soft:#3A2E14;
+      --verveine:#C4CC55; --verveine-soft:#2A2E12;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
+  main{max-width:58rem; margin:0 auto}
+  a{color:var(--acapulco); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible{outline:3px solid var(--capucine); outline-offset:3px; border-radius:4px}
+
+  header.hero{padding:4.5rem 0 3.25rem}
+  .brand{display:flex; align-items:center; gap:.6rem;
+    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
+  .lang{float:right;font-weight:700}
+  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
+    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; margin:1rem 0 1.1rem; max-width:46rem}
+  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
+  .en{color:var(--argile); font-size:.95rem; max-width:42rem}
+
+  section{padding:3rem 0; border-top:1px solid var(--line)}
+  h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.25rem}
+  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
+    border-radius:999px; margin-bottom:.9rem; background:var(--acapulco)}
+  #certif h2::before{background:var(--capucine)}
+  #methode h2::before{background:var(--miel)}
+  #prod h2::before{background:var(--verveine)}
+  #pre h2::before{background:var(--miel)}
+  #dev h2::before{background:var(--argile)}
+  #trous h2::before{background:var(--capucine)}
+  #ci-status h2::before{background:var(--capucine)}
+  p{margin:0 0 1rem}
+  ul{padding-left:1.2rem; margin:0 0 1rem}
+  li{margin:.45rem 0}
+  li::marker{color:var(--acapulco)}
+  .note{color:var(--argile); font-size:.87rem}
+
+  /* Bandeau de certification — le fait le plus important de la page */
+  #certif{background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:2.25rem 1.75rem; margin:0 0 .5rem; box-shadow:var(--shadow);
+    border-left:.45rem solid var(--capucine)}
+  #certif h2::before{display:none}
+  #certif .verdict{font-size:1.2rem; font-weight:800; letter-spacing:-.01em; margin:0 0 .9rem}
+  #certif .verdict b{color:var(--capucine)}
+  .certif-sub{font-size:1.05rem; font-weight:800; letter-spacing:-.01em;
+    margin:1.9rem 0 .6rem; padding-top:1.5rem; border-top:1px solid var(--line)}
+
+  /* Tableau des quatre propriétés — scroll horizontal propre, jamais le body */
+  .proptable-wrap{overflow-x:auto; margin:1.2rem 0; border-radius:12px;
+    border:1px solid var(--line)}
+  table.proptable{border-collapse:collapse; width:100%; min-width:38rem; font-size:.85rem}
+  .proptable th, .proptable td{padding:.65rem .8rem; text-align:left;
+    border-bottom:1px solid var(--line); vertical-align:top}
+  .proptable thead th{background:var(--acapulco-soft); color:var(--carbone);
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700}
+  .proptable tbody tr:last-child td{border-bottom:0}
+  .proptable td:first-child{font-weight:700; white-space:nowrap}
+  .proptable td.yes{color:var(--verveine); font-weight:700}
+  .proptable td.no{color:var(--capucine)}
+  .proptable td.partial{color:var(--miel)}
+
+  /* Bandeau de stats */
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
+    gap:.9rem; margin:1.4rem 0}
+  .stat{border:1px solid var(--line); border-radius:12px; padding:1rem 1.1rem;
+    background:var(--card)}
+  .stat .n{font-size:2rem; font-weight:800; letter-spacing:-.02em}
+  .stat .lbl{font-size:.85rem; color:var(--argile)}
+  .stat.prod .n{color:var(--verveine)}
+  .stat.pre .n{color:var(--miel)}
+  .stat.dev .n{color:var(--argile)}
+
+  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+    gap:.9rem; margin:1.2rem 0 .4rem}
+  .pillar{border:1px solid var(--line); border-radius:12px; padding:.9rem 1rem;
+    background:var(--card)}
+  .pillar b{display:block; margin-bottom:.25rem}
+  .pillar:nth-child(1) b{color:var(--verveine)}
+  .pillar:nth-child(2) b{color:var(--miel)}
+  .pillar:nth-child(3) b{color:var(--argile)}
+  .pillar span{font-size:.9rem; color:var(--argile)}
+
+  /* Grille de dépôts */
+  .repos{display:grid; grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));
+    gap:1.1rem; margin:1.4rem 0}
+  .repo{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.25rem 1.2rem; box-shadow:var(--shadow); border-top:.35rem solid var(--argile);
+    transition:transform .15s ease}
+  .repo:hover{transform:translateY(-3px)}
+  #prod .repo{border-top-color:var(--verveine)}
+  #pre .repo{border-top-color:var(--miel)}
+  #dev .repo{border-top-color:var(--argile)}
+  .repo h3{font-size:1.02rem; font-weight:800; margin:0 0 .3rem}
+  .repo .purpose{font-size:.88rem; color:var(--argile); margin:0 0 .7rem}
+  .repo .evid{list-style:none; padding:0; margin:0; font-size:.85rem}
+  .repo .evid li{margin:.4rem 0; padding-left:1.1rem; position:relative}
+  .repo .evid li::before{content:"—"; position:absolute; left:0; color:var(--argile)}
+  .repo .evid li.warn{color:var(--capucine); font-weight:600}
+  .repo .evid li.warn::before{content:"⚠"; color:var(--capucine)}
+  .badge{display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.04em;
+    text-transform:uppercase; padding:.2rem .55rem; border-radius:999px; margin-left:.4rem;
+    vertical-align:middle}
+  .badge.cert-absent{background:var(--capucine-soft); color:var(--capucine)}
+
+  #trous{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.5rem 1.5rem; box-shadow:var(--shadow)}
+  #ci-status{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.5rem 1.5rem; box-shadow:var(--shadow); border-left:.35rem solid var(--capucine)}
+
+  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
+    color:var(--argile); font-size:.9rem}
+  footer p{margin:0 0 .55rem}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="brand"><span class="dot"></span>AIAME · PORTFOLIO<a class="lang" href="/" lang="fr" hreflang="fr">FR</a></div>
+  <span class="eyebrow">37 repositories — thorough audit on 2026-08-26, in-depth re-verification on 2026-09-08, targeted update on 2026-09-24 — measured state, not declared</span>
+  <h1>What runs, what is tested, what isn't — without rounding.</h1>
+  <p class="lead">Every repository in the <strong>aiame-fr</strong> organization is classed as <strong>prod</strong>, <strong>pre-prod</strong> or <strong>dev</strong> from verifiable evidence — CI status (<code>gh api</code>), live domain checks, code reading — never from a README taken at face value.</p>
+</header>
+
+<section id="certif">
+  <h2>E2E sandbox certification</h2>
+  <p class="verdict">Verdict: <b>ABSENT</b> — across all 37 repositories.</p>
+  <p>None of the 37 repositories has an end-to-end certification harness. Almost all CI measures <strong>doctrine</strong> (<code>garde-fous.yml</code> script: no frontier provider at runtime, no secret tracked by git, no Elzéard credential) — not the product. A green garde-fous badge says nothing about whether the code compiles, runs, or serves real traffic — and a <strong>red</strong> badge today doesn't say more either (see "CI status" below, reviewed in depth on 2026-09-08: the 08/26 billing cause is resolved, but per-repository reactivation isn't).</p>
+  <div class="stats">
+    <div class="stat prod"><div class="n">11</div><div class="lbl">prod</div></div>
+    <div class="stat pre"><div class="n">17</div><div class="lbl">pre-prod</div></div>
+    <div class="stat dev"><div class="n">9</div><div class="lbl">dev</div></div>
+    <div class="stat"><div class="n">37</div><div class="lbl">audited</div></div>
+  </div>
+
+  <h3 class="certif-sub">What an e2e certification would actually require</h3>
+  <p>"ABSENT" isn't a checkbox — it's the absence of a mechanism that would combine four properties at once:</p>
+  <div class="pillars">
+    <div class="pillar"><b>Automatic</b><span>Triggered without a human remembering to run a command — CI, cron, or deployment lock.</span></div>
+    <div class="pillar"><b>Real path</b><span>Exercises the actually deployed instance — the running container, not an in-memory <code>TestClient</code> or a mock.</span></div>
+    <div class="pillar"><b>Full journey</b><span>Covers the end-to-end user journey (click → payment → webhook → confirmed order), not an isolated function.</span></div>
+    <div class="pillar"><b>Has authority</b><span>A failure blocks or alerts — otherwise it's a one-off measurement, not a certification.</span></div>
+  </div>
+  <p class="note">The closest thing to an e2e certification (aiame-fin, aiame-red) remains fragmented across these four properties — see this page's history for the detail, mechanism by mechanism. What has changed since the last audit (2026-08-13/17): CI itself is no longer a reliable signal today, org-wide — see below.</p>
+</section>
+
+<section id="ci-status">
+  <h2>CI status — billing is resolved, reactivation isn't</h2>
+  <p><strong>Regression found on 2026-09-24: the only complete reactivation this page has ever documented has since been re-disabled.</strong> The billing block observed on 2026-08-26 remains resolved at the org level (<code>gh api orgs/aiame-fr/actions/permissions</code> still confirms <code>enabled_repositories: all</code> today) — but <code>aiame-miroir</code>, reactivated and green on 2026-09-02 (PR#16, 4 jobs on real runners), shows <strong><code>enabled: false</code></strong> live today, despite a real, green run as recent as 2026-09-22 (<code>run 35692425622</code>). Someone or something switched off Actions for this repository between the 22nd and the 24th — not a new billing outage (the org remains open), a repo-local regression, cause unidentified. <strong>There is therefore no longer any verified example of a complete reactivation that held over time in this org.</strong></p>
+  <p><strong>The rest of the fleet never caught up either.</strong> Re-verified repository by repository on 2026-09-24 (<code>gh api repos/aiame-fr/&lt;repo&gt;/actions/permissions</code>, org grown from 36 to 40 repositories since the last pass): <strong>37 of the 38 non-archived, non-fork repositories in the org have Actions disabled at the repository level</strong> (36 confirmed on 09-08, the proportion hasn't moved) — a switch left OFF since 08/27 for most, not a new outage. The only verified exception today is <code>aiame-knowledge</code>, whose scheduled workflow (<code>knowledge-refresh.yml</code>) justifies Actions deliberately staying active there. No run (not even <code>workflow_dispatch</code>) has been able to execute on the disabled repositories since 08/26 or 27, regardless of how many commits/PRs have merged since. Enforcement shifted, repository by repository, to a local git hook (<code>.githooks/pre-push</code>) introduced the same week — but that hook is <strong>not versioned as active</strong>: every clone/worktree must run <code>git config core.hooksPath .githooks</code> itself, without which no check exists at all (the hook's own comment on <code>aiame-store</code> says it in black and white: "NOT ACTIVE on a fresh clone/worktree").</p>
+  <p>Edge case found on 09-08, not re-verified since: <code>aiame-ledger</code> did retry two runs on 06-09 (<code>workflow_dispatch</code>, not the silence the previous version of this page claimed) — but both remain stuck in <code>queued</code>, never assigned to a runner, more than 2 days later. A distinct problem from the org-wide billing issue (see "CI status"), never resolved or even retried.</p>
+  <p class="note">Each relevant card below reports its own live-verified state — some date from 09-08, others from 09-24 (see each card). <code>aiame-graine</code> was never affected (Actions triggers on push/PR, checks green on HEAD). This section is dated today; like the rest of the page, it goes stale.</p>
+</section>
+
+<section id="methode">
+  <h2>Method</h2>
+  <p>Three classes, defined by evidence, never by the ambition declared in a repository's own README:</p>
+  <div class="pillars">
+    <div class="pillar"><b>Prod</b><span>Alive and live-verified (a real HTTP request on the day of the audit), or a canonical text other repositories depend on that is corrected by a new version, never by editing in place.</span></div>
+    <div class="pillar"><b>Pre-prod</b><span>Built, with real tests that pass in CI (not only doctrine) — but with no proof of serving in production from this repository, or deployed but with an unresolved doubt about what is actually served.</span></div>
+    <div class="pillar"><b>Dev</b><span>Work in progress, broken build, tests written but never called by CI, or no proof of deployment.</span></div>
+  </div>
+  <p class="note">Fully redone on 2026-08-26: the 30 repositories declared in <code>repos.json</code> were re-read one by one — CI (<code>gh api</code>, job logs, not just the badge), real code, a live HTTP request on every plausible URL. 11 repositories had never appeared on this page before (see "Inventory gaps" below); 7 changed tier since the last audit (2026-08-13/17) in light of new evidence, not a new scoring policy.</p>
+</section>
+
+<section id="prod">
+  <h2>Prod — 11 repositories</h2>
+  <div class="repos">
+    <div class="repo">
+      <h3>aiame-angel <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">"Aiame Angel" — nurse scheduling (CP-SAT roster + deterministic VRPTW round, offline), public on angel.services.aiame.fr behind aiame-auth; split from aiame-optaplanner on 08/27, which remains the solver engine consumed as a library (see its pre-prod card).</p>
+      <ul class="evid">
+        <li>angel.services.aiame.fr → 200 (real Next.js app) and <code>/api/v1/health</code> → 200; <code>/api/v1/nurses</code> → 401 <code>MISSING_TOKEN</code> — the aiame-auth lock is actually active in prod, not just the code's default (whose default value is <code>auth_required=False</code>)</li>
+        <li>Real persistence (Postgres + Alembic migrations on storage-01); zero business commits since the split — but the deployment still runs under the old <code>aiame-optaplanner-backend/-frontend</code> containers, the deployment path switchover itself remains an open task (documented in this repository and in repos.json)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-auth <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Cross-cutting AIAME authentication service — short-lived EdDSA tokens, rotating refresh, multi-tenant product+org.</p>
+      <ul class="evid">
+        <li><code>/v1/auth/public-key</code> responds live with a real Ed25519 PEM key (not a static stub); <code>aiame-angel</code> (storage-01) is configured in prod with <code>AUTH_REQUIRED=true</code> and actually verifies against this key — corrected on 09-08: it is <code>aiame-angel</code> that carries this consumer since the 08/27 split, not <code>aiame-optaplanner</code> (now a library, see its pre-prod card)</li>
+        <li>66 tests pass locally, replayed live — GitHub CI disabled for this repository since 08/27 (billing, reactivation not done), enforcement shifted to a local pre-push hook</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-doctrine <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Canonical ethical texts (Constitution, charters, axioms, White Paper) + generators for the legal pages.</p>
+      <ul class="evid">
+        <li><code>sov.services.aiame.fr/mentions-legales.html</code> live contains the comment "GÉNÉRÉ par aiame-doctrine/legal/build_legal_sov.py" — this repository's generator is indeed what serves the real page, not a claim</li>
+        <li class="warn"><code>verifier-copies.sh</code> replayed live on 09-08: <strong>1/25</strong> vendored copy up to date (aiame-fin only), not 2/25 as this page claimed two days ago — the canonical has moved twice more since (09-06), drift is worsening faster than it resolves</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-eu <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">eu.aiame.fr — open services for European citizens (APOD).</p>
+      <ul class="evid">
+        <li>Live-re-verified on 09-08: <code>/api/apod</code> still responds, 66/66 tests replayed locally (identical to the 793-line last CI run)</li>
+        <li>GitHub CI disabled since 08/27 (billing, not reactivated) — last real run on 08-19, 2 PRs merged since with no GitHub check at all</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-fin <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Cross-cutting AIAME checkout/entitlements/delivery (catalog, Stripe/SumUp/SEPA PSP) — billing itself remains "planned".</p>
+      <ul class="evid">
+        <li><code>/health</code> live returns the real state of the adapters (all in <code>mode:mock</code>, no real payment goes through) — cross-checked against the code, not quoted from the README</li>
+        <li class="warn">GitHub CI disabled since 08/27 (billing, not reactivated here): 9 commits merged since with no check at all, including a real P0 fix (SEPA was wrongly reporting "sandbox"). Suite replayed locally on 09-08: 108 passed (up from 87 as of the same drift date)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-fr.github.io <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Static public showcase — GitHub Pages mirror; real source of www.aiame.fr.</p>
+      <ul class="evid">
+        <li>GitHub Pages active and actually serving (<code>status: built</code>), <code>aiame.fr</code>/<code>www.aiame.fr</code> verified 200 live — the Pages pipeline is independent of the Actions billing issue below, it never stopped deploying</li>
+        <li class="warn">GitHub CI (garde-fous) disabled since 08/27 for this repository (not reactivated): 9 commits with no GitHub check, including the ones that wrote these very lines; enforcement local only since then</li>
+        <li>What www.aiame.fr actually serves after a human operator runs <code>make play-vitrine</code> from aiame-infra — no automatic sync between the two</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-infra <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Terraform (Hetzner) + Ansible + Traefik v3 — infrastructure pillar; deploys everything else.</p>
+      <ul class="evid">
+        <li>Actually applies aiame.fr, eu.aiame.fr and the <code>*.services.aiame.fr</code>/<code>*.dev.aiame.fr</code> family (sov, svcmgr, fin, angel, auth, price, miroir) — active Let's Encrypt certificate, live-verified</li>
+        <li>Its own CI proves only doctrine (garde-fous) — the prod verdict comes exclusively from live HTTP checks on the services it deploys, not from its own badge</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-sov <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">France Sov — sovereign assistant for the SME/SMB manager (FastAPI + SQLModel, RAG, territorial monitoring).</p>
+      <ul class="evid">
+        <li><code>sov.services.aiame.fr</code> responds live, <code>/api/v1/version</code> confirms <code>environment:"production"</code>; the <code>sov.dev.aiame.fr</code> replica is also live (<code>"staging"</code>)</li>
+        <li>Corrected on 09-08: the README still claims an open authorization flaw on the Territoire module, but issue #73 documenting it was closed on 09-01 — the real hole (routes without <code>require_role</code>) was already fixed the very day it was found (6/6 dedicated tests pass, 401 live-verified on <code>/api/v1/regional/entities</code>); the lack of multi-tenant isolation remains true but is reclassed as a deliberate architecture decision (single-tenant per instance until 2028), not a bug</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-services <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">SVCMGR — service activation console and license tiers, real-time WebSocket. Repository renamed <code>services-manager</code> → <code>aiame-services</code> on 09/17; this card still carried the old name since then, corrected on 09/24.</p>
+      <ul class="evid">
+        <li><code>svcmgr.services.aiame.fr</code> live; auth migrated on 08/21 to aiame-auth token verification (ADR-AA-001)</li>
+        <li class="warn">GitHub CI disabled since 08/27 (billing, not reactivated): 16 real backend tests (up from 12) still never replayed by CI, only locally; frontend has no tests at all</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-rag-core <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Canonical AIAME RAG engine (pipeline stages, retrieval scorers, security guardrail registry, opt-in research mode) — not a service on its own, vendored with checksum in aiame-rag/aiame-sov/aiame-one, replaces aiame-sov-kernel.</p>
+      <ul class="evid">
+        <li>Found missing from this page on 09/24 (created on 09/13) — <strong>this is the "canonical text other repositories depend on, corrected by a new version, never in place" pattern</strong> applied to code: vendoring live-verified (<code>sha256sum -c app/vendored/aiame_rag_core/CANONICAL.sha256</code> passes in all three consuming repositories), and actually imported/executed — <code>aiame-sov/backend/app/services/{rag_service,learning_service,eip_service}.py</code> import its modules directly — not dead code, in a repository that is itself verified prod (<code>sov.services.aiame.fr</code>)</li>
+        <li class="warn">98 local tests pass (09/24) — but the repository's README (09/13, never updated since) still claims "not yet functional — initial scaffold", although two features (research mode, claim verification) were merged after that date</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-voice <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Voice → UI action routing (embeddings, closed action registry, zero LLM) — cross-cutting AIAME service, first intended consumer: Elzéard cockpit.</p>
+      <ul class="evid">
+        <li>Found missing from this page on 09/24 (created on 09/17) — <code>curl http://100.88.45.73:8003/healthz</code> responds live <code>200 {"status":"ok"}</code> today, deployed on storage-01 (tailnet) since 09/17 (PR#2), 18 local tests pass</li>
+        <li class="warn">Alive doesn't mean used: no product has yet synchronized an action registry — <code>/route</code> returns 404 for every <code>product_id</code> tested, integration on the Elzéard side hasn't started</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="pre">
+  <h2>Pre-prod — 17 repositories</h2>
+  <div class="repos">
+    <div class="repo">
+      <h3>aiame-core <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Rust — asymmetry mathematics (Kabsch, Laplacian, spectral), aimed at WASM for a frontend.</p>
+      <ul class="evid">
+        <li>22/22 real tests replayed locally on 09-08, unchanged — GitHub CI disabled since 08/27 (billing, not reactivated), last real run on 08-19; the local pre-push hook that took over doesn't cover <code>cargo test</code>, only garde-fous doctrine</li>
+        <li class="warn">CI never builds the real WASM target (only native); dead code exists in the tree (<code>src/analysis/</code>, never wired up)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-graine <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">"Aiame Graine" POC — coreless engine + "You are owed" card scored by TinyML (payment drift), Rust→WASM inference identical in browser/server.</p>
+      <ul class="evid">
+        <li>38/38 tests replayed live, including a mutation-tested kill-test (TinyML AUC gain vs. naive rule: 19.7 points, kill threshold at 10); <code>cargo test</code> 5/5 (Python↔Rust numeric parity &lt; 1e-4)</li>
+        <li>One of the few repositories <strong>not</strong> hit by the Actions block: CI triggers on push/PR (not <code>dispatch</code>-only), 3 green checks on HEAD including a dedicated job that actually compiles the wasm32 target (84 KB, &lt; 2 MB)</li>
+        <li>No deployment surface (the README itself lists 13 ABSENT lines: frontend, persistence, LLM) — hence pre-prod, not prod</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-knowledge <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Document extraction and synthesis for the aiame-fr org.</p>
+      <ul class="evid">
+        <li class="warn">CI passed today itself under <code>workflow_dispatch</code> alone (PR#9) following the Actions billing block — no more automatic push/PR trigger; the README still claims the opposite</li>
+        <li>A real pytest suite exists and was passing before the trigger change</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-ledger <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Manual CLI that builds the cost/revenue ledger for the 5 E3 services with mandatory traceability ("Law of Evidence").</p>
+      <ul class="evid">
+        <li class="warn">Corrected on 09-08: it isn't "nothing since 08/22" — two new <code>workflow_dispatch</code> runs were indeed retried on 06-09, but both remain stuck in <code>queued</code>, never assigned to a runner, more than 2 days later. A distinct problem from the org-wide Actions billing issue (see "CI status"), never resolved or retried since</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-mcp <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Stdio-only MCP server exposing 6 AIAME services (auth, RAG, embeddings/blob, knowledge, angel, one) as 9 tools — a subprocess, not a hosted network service.</p>
+      <ul class="evid">
+        <li>91 real tests replayed live on 09-08 (up from 89), ruff clean — no possible URL by design (stdio), so no "live" proof applies</li>
+        <li class="warn">GitHub CI disabled since 08/27 (billing, not reactivated): the last 4 commits, including the one that grew the suite to 91, never ran on GitHub — only replayed locally</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-miroir <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">B2H instrument: face + hand in a single geometric frame, 100% local (browser WASM).</p>
+      <ul class="evid">
+        <li><code>dev.aiame.fr/miroir/</code> live, live-verified — four distinct CI jobs (cargo-test 72 tests, frontend, zero-leak egress)</li>
+        <li class="warn">Regression found on 09-24: Actions was reactivated and green since 09-02 (PR#16, 4 jobs on real runners, last green run on 09-22) — but shows <code>enabled: false</code> today, disabled again between 09-22 and 09-24 with no visible commit or PR to explain it. See "CI status": so this was not a reactivation that held over time</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-one <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Multi-format/voice ingestion → RAG → ERP draft (single-operator spike).</p>
+      <ul class="evid">
+        <li>74 backend tests replayed live on 09-08 (up from 70 on 08-26; README still at 66/66, gap now 8) — GitHub CI disabled since 08/27 (billing, not reactivated), the last 2 merged PRs (including the one that produced this HEAD) had no GitHub check at all</li>
+        <li class="warn">The frontend (TypeScript, vitest) is never exercised by CI, only the backend is — a gap acknowledged in the <code>ci.yml</code> comment itself</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-optaplanner <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Cross-cutting AIAME solver engine — CP-SAT (roster) and heuristic VRPTW (round); a pure library with no business domain or API, consumed in-process by aiame-angel since their 08/27 split.</p>
+      <ul class="evid">
+        <li><code>git ls-files backend/app</code> empty (verified 09-08): no more API route or business domain versioned here — only <code>backend/aiame_optaplanner/{rostering,routing}</code> remains, the README says so explicitly</li>
+        <li>30/30 tests green + ruff clean, replayed live on 09-08; honest-by-construction design: a dishonest OPTIMAL/FEASIBLE result is a <code>ValueError</code> at construction, not just a convention. Only CI = garde-fous doctrine (disabled since 08/27, not reactivated); only consumer found org-wide = aiame-angel (local path import, no proper deployment)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-pouls <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">"Le Pouls" POC — C1 "You are owed" / C3 "It's coming" cards, provenance registry.</p>
+      <ul class="evid">
+        <li>Suite replayed live: green, 80 tests — corrected on 09-08: the README still cited 65/65 two days ago, but PR#10 (06-09) resynced all 3 mentions to 80/80, no gap left today. Note for next time: the local clone used for this review was itself 2 commits behind (<code>git fetch</code> alone isn't enough), corrected before verifying</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-price <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Third-party price monitoring (backend + dashboard), BTP/construction scope via a Würth adapter.</p>
+      <ul class="evid">
+        <li><code>price.dev.aiame.fr</code> responds 200 today (<code>/api/v1/health</code> ok) — explicitly a pre-production host, not prod, by the org's own DNS convention</li>
+        <li class="warn">Switched to <code>workflow_dispatch</code> the same day (08/26 commit), same cause as aiame-knowledge — identical code tree to an earlier green run, verified by hash</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-rag <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Full-stack arXiv RAG (Qdrant, Celery/Redis, LangGraph agent) — active work on auto-calibration.</p>
+      <ul class="evid">
+        <li>A real test Qdrant container (not a mock) and a real pytest job, replayed live on 09-08: 14/14 green — GitHub CI disabled since 08/27 (billing, not reactivated), 27 commits merged since with no GitHub check at all, only local</li>
+        <li class="warn">No live route found (rag.aiame.fr/rag.services.aiame.fr/rag.dev.aiame.fr: all three NXDOMAIN, verified 09-08); <code>repos.json</code> describes it as "functional" with no caveat — the infra itself documents this route as "not yet wired"</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-red <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Deterministic AI-drift red-team audit engine, sold as an offer (aiame.fr) and self-applied in CI against 5 other repositories.</p>
+      <ul class="evid">
+        <li>28/28 tests replayed live on 09-08, engine re-run against <code>specs/BASELINE.json</code>: zero drift — the <code>red-selfaudit.yml</code> logic (<code>--baseline</code>) holds, but this workflow hasn't actually run on GitHub since 08/22 (CI disabled since 08/27, billing, not reactivated): 9 commits/PRs merged since with no check at all, despite the repository's own "self-applied in CI" pitch</li>
+        <li>No proper deployment surface (CLI/library) — no direct HTTP verification possible</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-scheduler <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Vendored micro-library (a single file) providing an APScheduler wrapper wired to the FastAPI lifespan — fixes a bug class (scheduler dying silently).</p>
+      <ul class="evid">
+        <li>CI genuinely green at creation (08/24, 3 runs), but disabled since 08/27 (billing, not reactivated): 2 PRs merged since (08/27, 08/29) had no GitHub check at all, only the local hook. No deployment surface by design (vendored library, never served)</li>
+        <li class="warn">The bug it fixes hasn't yet been retrofitted into aiame-agri-gers, the repository that motivated it</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-sov-kernel <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Vendored Python kernel (2 files, checksum) — deterministic provenance scoring + FD-01 mitigations, vendored in aiame-sov and aiame-one.</p>
+      <ul class="evid">
+        <li>The kernel itself (<code>safety.py</code>/<code>critique_service.py</code>) is identical to PR#2, green before the block — but 4 more PRs have merged since (garde-fous, hooks), so the whole tree is no longer an empty diff as this page claimed</li>
+        <li class="warn">Actions remains disabled at the repository level, no run retried since 08-26 — and the comparison to <code>aiame-miroir</code> this card claimed no longer makes sense: miroir was itself disabled again as of 09-24 (see its card and "CI status"), so there is no longer a "one-click fix already applied elsewhere" to point to as an example</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-store <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Three vendorable storage mechanisms (S3/Garage blob, Postgres provisioning) plus one real microservice, <code>embedding-compute</code>.</p>
+      <ul class="evid">
+        <li>13 tests replayed live on 09-08, all green — GitHub CI disabled since 08/27 (billing, not reactivated), 3 PRs merged since with no GitHub check at all, only a local hook itself "NOT ACTIVE on a fresh clone/worktree" by its own comment</li>
+        <li>No live route found for <code>embedding-compute</code> to date despite its status as a deployable service</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-racines <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Technical provenance spike — SIRET/SIRENE lookup + BAN geocoding + distance, ahead of any product decision (arising from a regional prospecting study), extends the aiame-pouls engine.</p>
+      <ul class="evid">
+        <li>Found missing from this page on 09/24 (created on 09/10) — 45/45 real tests replayed locally today, identical to the figure the README states; no GitHub CI (disabled org-wide), enforcement by a local <code>pre-push</code> hook not active by default</li>
+        <li class="warn">A deliberate, pre-decision spike by construction: the README itself says "deployment, public exposure: ABSENT" — name, sector, department remain open questions, this is not a product</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-guard <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Verifies that aiame-red stays consistent (TRACEABILITY.yml vs rules.py drift, tests, redaction invariant) — doctrine → red → guard triad.</p>
+      <ul class="evid">
+        <li>Found missing from this page on 09/24 (created on 09/18) — 29 local tests pass (2 skipped, requiring <code>AIAME_RED_RACINE</code>), actually deployed via a dedicated Ansible role (<code>aiame-infra/ansible/roles/guard-watch</code>, weekly systemd timer), consistent with a real failure/alert/recovery cycle dated 09/19</li>
+        <li class="warn">CLI/cron with no HTTP surface at all — no "real HTTP request" is possible by construction (same situation as aiame-mcp, stdio-only), so not prod despite an unusually solid proof of deployment for this type of repository; at-rest encryption of the deployed SMTP secret doesn't exist yet ("named, not built" by the README itself)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="dev">
+  <h2>Dev — 9 repositories</h2>
+  <div class="repos">
+    <div class="repo">
+      <h3>aiame-agri-gers <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Coordination POC for seasonal farm workers in the Gers (housing, mobility, job offers) — public interest, not a marketplace.</p>
+      <ul class="evid">
+        <li class="warn">The pytest suite (23 tests) and frontend build actually work locally — replayed this session — but CI never calls them, only garde-fous doctrine</li>
+        <li>No proof of deployment (no infra route, DNS resolves nowhere)</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-compliance <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Cross-cutting EU AI Act logging/risk-signal substrate (art. 12/13/50) for aiame-rag/aiame-sov/aiame-one — vendored (checksum-pinned) in aiame-rag since 09-01.</p>
+      <ul class="evid">
+        <li>14/14 tests replayed live, ruff clean — no CI workflow in this repository (only Dependabot exists), the suite is never called automatically</li>
+        <li>Vendoring verified byte for byte (sha256) in aiame-rag, imported at 3 real entry points of the pipeline (not dead code) — but aiame-rag itself has no live route at all (NXDOMAIN on all 3 plausible domains), and its own README still says "not wired into any consumer", stale since the very day of vendoring</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-creator <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Founder's technical summary, iVision prior-art context.</p>
+      <ul class="evid">
+        <li>Static document — nothing to build or deploy, by design</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-dream <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Deterministic (zero LLM) CLI that mines the AIAME ecosystem's governed documents (ADR, VISION.md) with mandatory file:line provenance on every fact.</p>
+      <ul class="evid">
+        <li>A real e2e suite (9 tests) replayed locally, green — GitHub CI disabled since 08/27 (billing, not reactivated), not merely "never wired up for these tests"</li>
+        <li>CLI-only by design (README) — no deployment surface intended at this stage</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-ivx <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Private, docs-only research space: studies a legacy "IVX" system archive and produces syntheses that feed ADRs elsewhere.</p>
+      <ul class="evid">
+        <li>No application code at all — CI = doctrine only when it runs, but disabled since 08/27 (billing, not reactivated): doctrine itself is no longer verified on GitHub, only locally. No deployment proof sought by design</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-memory <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Persistent Claude Code session memory — context syntheses, no real secrets.</p>
+      <ul class="evid">
+        <li>A notes repository, now 183 <code>.md</code> files (up from ~120), no code to build or deploy</li>
+        <li class="warn">Corrected on 09-08: its own copy of the garde-fous script has drifted (hash different from the aiame-doctrine canonical, old GF-5 regex) — and above all, this repository isn't even declared in <code>verifier-copies.sh</code>, the org's own drift-detection tool: its drift is invisible to its own tooling, exactly the failure mode this tool claims to catch</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-motion <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Two unrelated things under the same name: a product concept never built (shared perceptual referent) and the only real code present, an EU-APOD crawler.</p>
+      <ul class="evid">
+        <li class="warn">Major doc/reality gap: the README describes a biometric-analysis product, the real code is an unrelated image scraper — neither has a test or a proof of deployment</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-prd <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">Product spec corpus (PRD Aiame v1.3, PRD Elzéard v2 carried over for IP prior art, PRD Le Pouls, MISSION 2027) — not a code repository.</p>
+      <ul class="evid">
+        <li>No application code, nothing to deploy — classed dev in the sense of "no service", not in the sense of "under construction"</li>
+      </ul>
+    </div>
+    <div class="repo">
+      <h3>aiame-wrapped <span class="badge cert-absent">e2e certif. absent</span></h3>
+      <p class="purpose">"Aiame Wrapped" — visual project retrospective (matplotlib mock-up).</p>
+      <ul class="evid">
+        <li>Self-declared "mock-up, not a tool" in its own README</li>
+        <li>Qualitative weights hard-coded, nothing computed</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="trous">
+  <h2>Inventory gaps — resolved 2026-08-26, reopened 2026-09-08, reopened again 2026-09-24</h2>
+  <p><strong>11 of 30 repositories</strong> existed in <code>repos.json</code> without ever having appeared on this page: <code>aiame-agri-gers</code>, <code>aiame-auth</code>, <code>aiame-dream</code>, <code>aiame-ivx</code>, <code>aiame-ledger</code>, <code>aiame-mcp</code>, <code>aiame-optaplanner</code>, <code>aiame-price</code>, <code>aiame-scheduler</code>, <code>aiame-sov-kernel</code>, <code>aiame-store</code>. Two of them (<code>aiame-auth</code>, <code>aiame-optaplanner</code>/Angel) are public services that had already been in production for several days — the omission wasn't neutral, it left two entire prod repositories outside the audit. The 19 other classifications from the previous audit (2026-08-13/17) were fully re-read rather than carried over as-is; <strong>7</strong> changed tier in light of new evidence (detail in each card above), not 5 as this page once claimed — two changes (<code>aiame-one</code>, <code>aiame-prd</code>) had been applied to the cards without being counted in that sentence, found by re-reading this page afterward, corrected here rather than left as is: <code>aiame-sov</code> and <code>services-manager</code> (dev → prod), <code>aiame-fin</code> (pre-prod → prod), <code>aiame-core</code>, <code>aiame-rag</code> and <code>aiame-one</code> (dev → pre-prod), <code>aiame-prd</code> (pre-prod → dev). <code>aiame-miroir</code>, which only had a provisional "post-audit" section while awaiting proof of deployment, is now a normal pre-prod card.</p>
+  <p><strong>Reopened on 2026-09-08</strong>: the same class of gap reproduced 13 days later. The org has 36 repositories, not 30 — 3 truly deserved a card (<code>aiame-angel</code>, <code>aiame-compliance</code>, <code>aiame-graine</code>, all audited above), bringing the total to 33. Two other names found (<code>aiame-tf</code>, <code>changedetection.io</code>) turned out to be false leads already settled elsewhere — <code>aiame-tf</code> is archived, its content merged into <code>aiame-infra/terraform/dns/</code>; <code>changedetection.io</code> is a public fork of a third-party tool, never deployed by AIAME — both are correctly declared in <code>excluded[]</code> of <code>repos.json</code> on <code>main</code>, only the working copy used for this review was temporarily missing it. <code>repos.json</code> itself therefore needs no correction.</p>
+  <p><strong>Reopened on 2026-09-24</strong>: the same class of gap, a third time in a month. The org has <strong>40 repositories</strong>, not 36 — 4 new repositories created since the last pass (<code>aiame-racines</code>, <code>aiame-rag-core</code>, <code>aiame-voice</code>, <code>aiame-guard</code>, all created between 09/10 and 09/18) truly deserved a card, all audited above, bringing the total to 37.</p>
+  <p>A fifth name found, <code>aiame-workspace</code> (created 08/07 — not new, simply never audited), turned out to be a false lead of the same kind as <code>aiame-tf</code>/<code>changedetection.io</code>: its own README says so explicitly, versioned root tooling, no product code. Excluded from this page for that reason, not a separate omission. <code>aiame-tf</code> and <code>changedetection.io</code> themselves remain correctly excluded, nothing to fix there.</p>
+  <p>Side effect found during this review, unrelated to the inventory itself: <code>aiame-miroir</code>'s CI reactivation documented on 09-08 has since regressed — see "CI status" and its card.</p>
+  <p class="note">This is exactly the kind of drift <code>./bootstrap.sh --check</code> exists to catch — this portfolio doesn't replace that verification, it gives a snapshot dated 2026-09-24. Third reopening in a month (08-26, 09-08, 09-24): this portfolio is itself exactly the example it denounces at the top of the page — a snapshot that goes stale, never a continuous mechanism.</p>
+</section>
+
+<footer>
+  <p><strong>Dated methodology, not continuous.</strong> Thorough audit fully redone on 2026-08-26; in-depth re-verification on 2026-09-08 (133 independent live checks, each adversarially challenged before being kept — 32 of the 34 gaps found survived that challenge); targeted update on 2026-09-24 (4 missing repositories added, CI status redone live, 1 regression found — not a full re-read of the 33 cards already in place, which remain dated 09-08 unless stated otherwise). It goes stale like any snapshot — re-verify before acting on it.</p>
+  <p>Visual cue borrowed from an internal personal-portfolio style guide — content and measurement markers are AIAME's own, no personal content reused here.</p>
+  <p>See also the <a href="/en/vitrine/">commercial showcase</a> · Founding research: <a href="https://dev.aiame.fr">dev.aiame.fr</a> · Source: <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
+</footer>
+
+</main>
+</body>
+</html>
