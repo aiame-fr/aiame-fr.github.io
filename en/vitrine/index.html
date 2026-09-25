@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIAME — Red Team Audit &amp; AI Drift</title>
+<!-- noindex conservatoire (2026-08-07) levé le 2026-08-15 : mentions-legales.html
+     est désormais publiable — legal.json complet (nom, adresse, SIREN, téléphone),
+     build_legal.py confirme « publiable », les trois pages légales sont en ligne
+     sur www.aiame.fr sans bandeau brouillon. Condition écrite ci-dessus remplie. -->
+<meta name="description" content="Aiame Red: Red Team audit, misuse simulation and AI Act / GDPR evidence pack for European AI publishers and deployers. EU hosting (Hetzner, Germany), no tracker.">
+<link rel="alternate" hreflang="fr" href="https://aiame.fr/vitrine/">
+<link rel="alternate" hreflang="en" href="https://aiame.fr/en/vitrine/">
+<style>
+  /* Palette inspirée Fermob : Capucine, Miel, Verveine, Acapulco, Carbone, Coton */
+  :root{
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --capucine:#D14E0F; --capucine-soft:#F9E3D4;
+    --miel:#EFB63F; --acapulco:#008EA3; --verveine:#B7BE35;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --capucine:#F0703A; --capucine-soft:#3A2A20;
+      --miel:#E8B24C; --acapulco:#3FB4C6; --verveine:#C4CC55;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
+  main{max-width:52rem; margin:0 auto}
+  a{color:var(--capucine); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible,.cta:focus-visible{outline:3px solid var(--acapulco); outline-offset:3px; border-radius:4px}
+
+  header.hero{padding:4.5rem 0 3.25rem}
+  .brand{display:flex; align-items:center; gap:.6rem;
+    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--capucine)}
+  .lang{float:right;font-weight:700}
+  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
+    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--capucine); background:var(--capucine-soft); border-radius:999px}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; margin:1rem 0 1.1rem; max-width:46rem}
+  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
+  .en{color:var(--argile); font-size:.95rem; max-width:42rem; margin:0 0 1.5rem}
+  .cta{display:inline-block; font-weight:700; font-size:1rem;
+    background:var(--capucine); color:#fff; text-decoration:none;
+    padding:.9rem 1.5rem; border-radius:999px; box-shadow:var(--shadow);
+    transition:transform .15s ease}
+  .cta:hover{transform:translateY(-2px)}
+
+  section{padding:3rem 0; border-top:1px solid var(--line)}
+  h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.25rem}
+  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
+    border-radius:999px; margin-bottom:.9rem; background:var(--capucine)}
+  #livrables h2::before{background:var(--acapulco)}
+  #formules h2::before{background:var(--miel)}
+  #engagements h2::before{background:var(--verveine)}
+  #moteur h2::before{background:var(--capucine)}
+
+  /* B2H — la distinction essentielle */
+  #b2h{background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:2.25rem 1.75rem; margin:0 0 .5rem; box-shadow:var(--shadow);
+    border-left:.45rem solid var(--capucine)}
+  #b2h h2::before{display:none}
+  #b2h .versus{font-size:1.2rem; font-weight:800; letter-spacing:-.01em; margin:0 0 .9rem}
+  #b2h .versus s{color:var(--argile); font-weight:600}
+  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
+    gap:.9rem; margin:1.2rem 0 .4rem}
+  .pillar{border:1px solid var(--line); border-radius:12px; padding:.9rem 1rem}
+  .pillar b{display:block; margin-bottom:.25rem}
+  .pillar:nth-child(1) b{color:var(--capucine)}
+  .pillar:nth-child(2) b{color:var(--acapulco)}
+  .pillar:nth-child(3) b{color:var(--verveine)}
+  .pillar span{font-size:.9rem; color:var(--argile)}
+  h3{font-size:1.05rem; font-weight:700; margin:0 0 .35rem}
+  p{margin:0 0 1rem}
+  ul{padding-left:1.2rem; margin:0 0 1rem}
+  li{margin:.45rem 0}
+  li::marker{color:var(--capucine)}
+
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+    gap:1.1rem; margin:1.4rem 0}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.25rem 1.2rem; box-shadow:var(--shadow);
+    border-top:.35rem solid var(--miel); transition:transform .15s ease}
+  .card:hover{transform:translateY(-3px)}
+  .card:nth-child(1){border-top-color:var(--verveine)}
+  .card:nth-child(3){border-top-color:var(--acapulco)}
+  .card .price{font-size:1.35rem; font-weight:800; margin:.55rem 0 .2rem}
+  .card .scope{color:var(--argile); font-size:.9rem}
+  .note{color:var(--argile); font-size:.87rem}
+
+  .decl{display:flex; gap:.5rem; align-items:flex-start; font-size:.85rem;
+    color:var(--argile); margin:.7rem 0 .2rem; cursor:pointer; line-height:1.4}
+  .decl input{margin-top:.2rem; accent-color:var(--capucine); flex:none}
+  .buy{margin:.9rem 0 0}
+  .buy button{font:inherit; font-weight:700; cursor:pointer; width:100%;
+    background:var(--capucine); color:#fff; border:0; border-radius:999px;
+    padding:.7rem 1rem; transition:transform .15s ease}
+  .buy button:hover{transform:translateY(-2px)}
+  button.cta{border:0; cursor:pointer; font:inherit; font-weight:700}
+  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
+    color:var(--argile); font-size:.9rem}
+  footer p{margin:0 0 .55rem}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="brand"><span class="dot"></span>AIAME<a class="lang" href="/vitrine/" lang="fr" hreflang="fr">FR</a></div>
+  <span class="eyebrow">Aiame Red · Red Team Audit &amp; AI Drift · Offer reserved for professionals</span>
+  <h1>We show you how your AI can be misused — before the market, the CNIL, or your users find out.</h1>
+  <p class="lead">Red Team audit for European publishers, integrators and deployers. The AI Act applies: you must <em>demonstrate</em> risk management, human oversight and robustness — not just claim it.</p>
+  <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan">
+        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> I declare that I am acting in a professional capacity.</label><button class="cta" type="submit">Request a scan — delivered within 24 h</button></form>
+</header>
+
+<section id="b2h">
+  <h2>B2H — Business to Human</h2>
+  <p class="versus"><s>B2C</s> dopamine-oriented. <s>B2B</s> cold-performance-oriented. <strong>B2H: the human as ultimate beneficiary</strong> — the institution as a support, never as the goal.</p>
+  <p>A reciprocal, win-win relationship of trust between a product and its user: <strong>the product never tries to change the user.</strong> This is AIAME's formalized framework — coded as a structural constraint, not marketing talk — and it is <strong>the benchmark of every Aiame Red audit</strong>: we measure your product against it.</p>
+  <div class="pillars">
+    <div class="pillar"><b>Reversed dependency</b><span>The user can leave at no cost. No streaks, no addictive notifications, no artificial retention.</span></div>
+    <div class="pillar"><b>Silent by default</b><span>The product speaks only on request. No judgment, no prescription, no interpretation of the person.</span></div>
+    <div class="pillar"><b>Value without extraction</b><span>No data monetization. Anonymous aggregates, explicit opt-in, never correlatable to the individual.</span></div>
+  </div>
+  <p class="note">If the user <em>feels</em> they must progress, compare, perform — B2H is dead. It's a test, not a slogan.</p>
+</section>
+
+<section id="livrables">
+  <h2>What we deliver</h2>
+  <ul>
+    <li><strong>Drift sheets</strong> per capability: plausible abusive readings, realistic malicious actor, semantic-drift test, GDPR &amp; dignity test.</li>
+    <li><strong>Misuse simulation</strong> played against the real product — reproducible evidence, not slides.</li>
+    <li><strong>AI Act evidence pack</strong> (art. 9, 10, 13, 14, 15, 26, 50) and GDPR (art. 5, 22, 25, 35) — what your auditor, your DPO or your enterprise client needs to be able to show.</li>
+    <li><strong>Kill switches</strong>: stop conditions defined, tested, with real authority and real timelines.</li>
+  </ul>
+  <p>Our method comes from our own internal rule: <strong>every visible capability has its adversarial counter-reading before any public release.</strong> A good Red Team result is: "here is exactly where your system no longer knows what it's doing."</p>
+</section>
+
+<section id="formules">
+  <h2>On demand, automated</h2>
+  <p class="note"><strong>Offer reserved for professionals</strong> — publishers, integrators, DPOs, public or private organizations acting within the scope of their activity. It is not offered to consumers.</p>
+  <p>The audit is an <strong>engine</strong>, not a consulting firm. You describe your product, the engine runs the adversarial battery — abusive readings, semantic drift, dignity, AI&nbsp;Act mapping — and produces an actionable drift sheet. No quote, no sales cycle, no billed person-days for what a machine does better.</p>
+  <div class="cards">
+    <div class="card">
+      <h3>Scan</h3>
+      <div class="scope">1 capability · delivered &lt; 24 h after scoping</div>
+      <div class="price">On request</div>
+      <form class="buy" method="post" action="/api/v1/checkout/form">
+        <input type="hidden" name="formula" value="scan">
+        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> I declare that I am acting in a professional capacity.</label>
+        <button type="submit">Request a scan</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Product</h3>
+      <div class="scope">All capabilities · AI Act / GDPR evidence pack</div>
+      <div class="price">On request</div>
+      <form class="buy" method="post" action="/api/v1/checkout/form">
+        <input type="hidden" name="formula" value="produit">
+        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> I declare that I am acting in a professional capacity.</label>
+        <button type="submit">Request a product audit</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Continuous monitoring</h3>
+      <div class="scope">Re-scan on every release · drift alert · history</div>
+      <div class="price">Not sellable yet</div>
+      <p class="note">Pulled from sale on 2026-08-19: no infrastructure for scheduled re-scans, alerting or history exists yet (see <a href="https://github.com/aiame-fr/aiame-doctrine/blob/main/DECISION-2026-08-19-no-sale-before-e2e-clean.md">the decision</a>). Put back on sale when — and only when — the infrastructure exists and an e2e proof is written.</p>
+    </div>
+  </div>
+  <p>A <strong>human review</strong> remains possible as an option when the stakes justify it (heavy regulatory context, product arbitration) — it builds on the engine's output instead of replacing it. On request, case by case.</p>
+  <p class="note"><strong>Pricing communicated during scoping</strong>, before any order and with no commitment — net prices, VAT not applicable (article 293 B of the French CGI). Our rule stays the same: a price set from real costs, never from what the client can pay. The 24 h Scan turnaround starts from scoping: the engine that produces the drift sheet is genuinely automated, but pricing scoping is a human conversation, not a checkbox.</p>
+</section>
+
+<section id="moteur">
+  <h2>The engine runs on us first</h2>
+  <p>Our internal rule requires that <strong>every visible capability have its adversarial counter-reading before any public release</strong>. We couldn't hold ourselves to it by hand: so the engine was built for our own needs, and it audits our products on every deployment — versioned drift sheets, tested stop conditions, including for this very site.</p>
+  <p>What you buy isn't a service improvised for you: it's <strong>the tool we hold ourselves to</strong>, opened up to others. Our own sheets are public.</p>
+</section>
+
+<section id="engagements">
+  <h2>What we will never do</h2>
+  <ul>
+    <li>Audit <strong>people</strong> (employees, candidates, customers) — we audit <strong>systems</strong>.</li>
+    <li>Produce a scoring of individuals, even "for guidance", even "to help".</li>
+    <li>Sell, retain or reuse your data or your users' data.</li>
+    <li>A complacent report. House rule: if we don't know, we write "we don't know".</li>
+  </ul>
+  <p class="note"><strong>The audit is a technical service, not legal advice.</strong> The AI Act / GDPR mapping documents evidence usable by your DPO, your counsel or your auditor; it is neither legal advice nor a certification of compliance.</p>
+  <p>These commitments follow AIAME's <strong>B2H (Business to Human)</strong> framework: a relationship where the product never tries to change the user, published and dated in our doctrine. <strong>aiame.fr</strong> practices it: European Union hosting administered directly, controlled certificate, zero tracker, zero third party. (A deliberate exception to this "zero third party", disclosed rather than hidden: a copy of this page is also published on <a href="https://aiame-fr.github.io/vitrine/">aiame-fr.github.io</a> for public versioning purposes — hosted by GitHub, not by our own infrastructure.)</p>
+  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20scoping">Request a scan</a>
+</section>
+
+<footer>
+  <p><strong>No tracker, no cookie, no third-party script.</strong> This page is a publicly versioned static document.</p>
+  <p>AIAME's founding research (asymmetry, B2H) lives separately: <a href="https://dev.aiame.fr">dev.aiame.fr</a>. It sells nothing.</p>
+  <p>Measured state, repository by repository, without rounding: <a href="/en/">repository portfolio</a>. Cost/revenue, service by service, honest gray rather than fabricated zero: <a href="/en/transparence.html">financial transparency</a>.</p>
+  <p>Publisher: French sole trader, VAT not applicable (art. 293 B of the
+  CGI); hosting Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen,
+  Germany. Full identity (SIREN), terms of sale and privacy policy:
+  <a href="/mentions-legales.html">legal notice</a> ·
+  <a href="/cgv.html">terms of sale</a> · <a href="/confidentialite.html">privacy</a>.</p>
+  <p>Contact: <a href="mailto:tech@aiame.fr">tech@aiame.fr</a> · Source: <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
+</footer>
+
+</main>
+</body>
+</html>

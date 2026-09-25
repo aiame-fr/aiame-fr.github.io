@@ -7,6 +7,8 @@
 <!-- noindex conservatoire levé le 2026-08-15, même condition que index.html :
      identité légale désormais publiable (legal.json complet). -->
 <meta name="description" content="État mesuré des 37 dépôts de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
+<link rel="alternate" hreflang="fr" href="https://aiame.fr/">
+<link rel="alternate" hreflang="en" href="https://aiame.fr/en/">
 <style>
   /* Palette Fermob, variante portfolio : Acapulco en tête (registre recherche/mesure,
      pas commercial — cohérent avec dev/index.html plutôt qu'avec index.html). */
@@ -41,6 +43,7 @@
   .brand{display:flex; align-items:center; gap:.6rem;
     font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
   .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
+  .lang{float:right;font-weight:700}
   .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
     font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
     color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
@@ -147,7 +150,7 @@
 <main>
 
 <header class="hero">
-  <div class="brand"><span class="dot"></span>AIAME · PORTFOLIO</div>
+  <div class="brand"><span class="dot"></span>AIAME · PORTFOLIO<a class="lang" href="/en/" lang="en" hreflang="en">EN</a></div>
   <span class="eyebrow">37 dépôts — audit de fond le 2026-08-26, revérification en profondeur le 2026-09-08, mise à jour ciblée le 2026-09-24 — état mesuré, pas déclaré</span>
   <h1>Ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.</h1>
   <p class="lead">Chaque dépôt de l'organisation <strong>aiame-fr</strong> est classé <strong>prod</strong>, <strong>pré-prod</strong> ou <strong>dev</strong> à partir de preuves vérifiables — état des CI (<code>gh api</code>), vérification en direct des domaines, lecture du code — jamais à partir d'un README pris pour argent comptant.</p>
