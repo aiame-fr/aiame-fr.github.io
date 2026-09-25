@@ -10,3 +10,8 @@ cgv.html
 confidentialite.html
 build_legal.py
 legal.json
+# Miroir anglais (2026-09-25) — même raison, même mécanisme : régénéré par
+# build_legal.py, jamais commité, déployé par Ansible avec le français.
+en/mentions-legales.html
+en/cgv.html
+en/confidentialite.html
