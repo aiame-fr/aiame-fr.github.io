@@ -117,7 +117,7 @@
   <div class="brand"><span class="dot"></span>AIAME<a class="lang" href="/vitrine/" lang="fr" hreflang="fr">FR</a></div>
   <span class="eyebrow">Aiame Red · Red Team Audit &amp; AI Drift · Offer reserved for professionals</span>
   <h1>We show you how your AI can be misused — before the market, the CNIL, or your users find out.</h1>
-  <p class="lead">Red Team audit for European publishers, integrators and deployers. The AI Act applies: you must <em>demonstrate</em> risk management, human oversight and robustness — not just claim it.</p>
+  <p class="lead">Red Team audit for European publishers, integrators and deployers. The AI Act applies in stages: for high-risk systems, the rules on risk management, human oversight and robustness will apply from 2 December 2027 (Annex III areas) and 2 August 2028 (Annex I products), according to the timeline published by the European Commission. From then on, you will have to <em>demonstrate</em> them — not just claim them.</p>
   <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan">
         <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> I declare that I am acting in a professional capacity.</label><button class="cta" type="submit">Request a scan — delivered within 24 h</button></form>
 </header>
@@ -138,7 +138,7 @@
   <h2>What we deliver</h2>
   <ul>
     <li><strong>Drift sheets</strong> per capability: plausible abusive readings, realistic malicious actor, semantic-drift test, GDPR &amp; dignity test.</li>
-    <li><strong>Misuse simulation</strong> played against the real product — reproducible evidence, not slides.</li>
+    <li><strong>Misuse simulation</strong> played against the <em>description</em> of your product — intent, exposed labels, data, outputs, autonomy — not against the running product: every finding is deterministic, reproducible and traced to the exact field that produced it. No slides.</li>
     <li><strong>AI Act evidence pack</strong> (art. 9, 10, 13, 14, 15, 26, 50) and GDPR (art. 5, 22, 25, 35) — what your auditor, your DPO or your enterprise client needs to be able to show.</li>
     <li><strong>Kill switches</strong>: stop conditions defined, tested, with real authority and real timelines.</li>
   </ul>
@@ -183,8 +183,8 @@
 
 <section id="moteur">
   <h2>The engine runs on us first</h2>
-  <p>Our internal rule requires that <strong>every visible capability have its adversarial counter-reading before any public release</strong>. We couldn't hold ourselves to it by hand: so the engine was built for our own needs, and it audits our products on every deployment — versioned drift sheets, tested stop conditions, including for this very site.</p>
-  <p>What you buy isn't a service improvised for you: it's <strong>the tool we hold ourselves to</strong>, opened up to others. Our own sheets are public.</p>
+  <p>Our internal rule requires that <strong>every visible capability have its adversarial counter-reading before any public release</strong>. We couldn't hold ourselves to it by hand: so the engine was built for our own needs, and it runs on us <strong>once a week</strong> (Mondays, 06:17 UTC) — a scheduled pass, not a trigger on every deployment. It re-reads the description of each of our tracked products and flags any drift from a versioned reference state (for instance a missing stop condition). It also checks, read-only, that two live services respond as expected: the copy of this site published on aiame-fr.github.io (HTTP status codes only, not content) and our sov.services.aiame.fr service.</p>
+  <p>What you buy isn't a service improvised for you: it's <strong>the tool we hold ourselves to</strong>, opened up to others. Our own sheets are not published at this time.</p>
 </section>
 
 <section id="engagements">

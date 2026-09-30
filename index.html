@@ -6,7 +6,7 @@
 <title>AIAME — Portfolio des dépôts</title>
 <!-- noindex conservatoire levé le 2026-08-15, même condition que index.html :
      identité légale désormais publiable (legal.json complet). -->
-<meta name="description" content="État mesuré des 37 dépôts de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
+<meta name="description" content="État mesuré, dépôt par dépôt, de l'organisation aiame-fr : ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.">
 <link rel="alternate" hreflang="fr" href="https://aiame.fr/">
 <link rel="alternate" hreflang="en" href="https://aiame.fr/en/">
 <style>
@@ -151,16 +151,16 @@
 
 <header class="hero">
   <div class="brand"><span class="dot"></span>AIAME · PORTFOLIO<a class="lang" href="/en/" lang="en" hreflang="en">EN</a></div>
-  <span class="eyebrow">37 dépôts — audit de fond le 2026-08-26, revérification en profondeur le 2026-09-08, mise à jour ciblée le 2026-09-24 — état mesuré, pas déclaré</span>
+  <span class="eyebrow">Audit de fond le 2026-08-26, revérification en profondeur le 2026-09-08, mise à jour ciblée le 2026-09-24 — état mesuré, pas déclaré ; un dépôt créé depuis n'y figure qu'une fois audité</span>
   <h1>Ce qui tourne, ce qui est testé, ce qui ne l'est pas — sans arrondir.</h1>
-  <p class="lead">Chaque dépôt de l'organisation <strong>aiame-fr</strong> est classé <strong>prod</strong>, <strong>pré-prod</strong> ou <strong>dev</strong> à partir de preuves vérifiables — état des CI (<code>gh api</code>), vérification en direct des domaines, lecture du code — jamais à partir d'un README pris pour argent comptant.</p>
+  <p class="lead">Chaque dépôt audité ici, de l'organisation <strong>aiame-fr</strong>, est classé <strong>prod</strong>, <strong>pré-prod</strong> ou <strong>dev</strong> à partir de preuves vérifiables — état des CI (<code>gh api</code>), vérification en direct des domaines, lecture du code — jamais à partir d'un README pris pour argent comptant.</p>
   <p class="en">A measured, not declared, staging of every repository in the aiame-fr organization — dev/pre/prod assigned from verifiable evidence, not from what each repo's own docs claim.</p>
 </header>
 
 <section id="certif">
   <h2>Certification e2e sandbox</h2>
-  <p class="verdict">Verdict : <b>ABSENTE</b> — sur les 37 dépôts.</p>
-  <p>Aucun des 37 dépôts n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel — et un badge <strong>rouge</strong> aujourd'hui n'en dit pas plus non plus (voir « État de la CI » ci-dessous, revu en profondeur le 2026-09-08 : la cause de facturation du 26/08 est résolue, mais la réactivation dépôt par dépôt ne l'est pas).</p>
+  <p class="verdict">Verdict : <b>ABSENTE</b> — sur tous les dépôts audités ici.</p>
+  <p>Aucun des dépôts audités ici n'a de harnais de certification de bout en bout. La quasi-totalité de la CI mesure la <strong>doctrine</strong> (script <code>garde-fous.yml</code> : pas de fournisseur frontière en exécution, pas de secret suivi par git, pas de credential Elzéard) — pas le produit. Un badge vert garde-fous ne dit rien sur le fait que le code compile, tourne, ou sert du trafic réel — et un badge <strong>rouge</strong> aujourd'hui n'en dit pas plus non plus (voir « État de la CI » ci-dessous, revu en profondeur le 2026-09-08 : la cause de facturation du 26/08 est résolue, mais la réactivation dépôt par dépôt ne l'est pas).</p>
   <div class="stats">
     <div class="stat prod"><div class="n">11</div><div class="lbl">prod</div></div>
     <div class="stat pre"><div class="n">17</div><div class="lbl">pré-prod</div></div>
@@ -227,7 +227,7 @@
     </div>
     <div class="repo">
       <h3>aiame-eu <span class="badge cert-absent">certif. e2e absente</span></h3>
-      <p class="purpose">eu.aiame.fr — services ouverts pour les citoyens européens (APOD).</p>
+      <p class="purpose">apod.services.aiame.fr — services ouverts pour les citoyens européens (APOD). L'ancien nom eu.aiame.fr ne résout plus depuis le 2026-09-13.</p>
       <ul class="evid">
         <li>Revérifié en direct le 09-08 : <code>/api/apod</code> répond toujours, 66/66 tests rejoués localement (identique au 793 lignes du dernier run CI)</li>
         <li>CI GitHub désactivée depuis le 27/08 (facturation, non réactivée) — dernier run réel le 08-19, 2 PR mergées depuis sans aucun check GitHub</li>
@@ -254,7 +254,7 @@
       <h3>aiame-infra <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Terraform (Hetzner) + Ansible + Traefik v3 — pilier d'infrastructure ; déploie tout le reste.</p>
       <ul class="evid">
-        <li>Applique réellement aiame.fr, eu.aiame.fr et la famille <code>*.services.aiame.fr</code>/<code>*.dev.aiame.fr</code> (sov, svcmgr, fin, angel, auth, price, miroir) — certificat Let's Encrypt actif, vérifié en direct</li>
+        <li>Applique réellement aiame.fr et la famille <code>*.services.aiame.fr</code>/<code>*.dev.aiame.fr</code> (sov, svcmgr, fin, angel, auth, price, miroir, apod) — certificat Let's Encrypt actif, vérifié en direct</li>
         <li>Sa propre CI ne prouve que la doctrine (garde-fous) — le verdict prod vient exclusivement des vérifications HTTP en direct sur les services qu'il déploie, pas de son propre badge</li>
       </ul>
     </div>

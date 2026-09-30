@@ -117,7 +117,7 @@
   <div class="brand"><span class="dot"></span>AIAME<a class="lang" href="/en/vitrine/" lang="en" hreflang="en">EN</a></div>
   <span class="eyebrow">Aiame Red · Audit Red Team &amp; Dérive IA · Offre réservée aux professionnels</span>
   <h1>On vous montre comment votre IA peut être détournée — avant que le marché, la CNIL ou vos utilisateurs ne le découvrent.</h1>
-  <p class="lead">Audit Red Team pour éditeurs, intégrateurs et déployeurs européens. Le AI Act s'applique : il faut <em>démontrer</em> gestion des risques, supervision humaine et robustesse — pas l'affirmer.</p>
+  <p class="lead">Audit Red Team pour éditeurs, intégrateurs et déployeurs européens. Le AI Act s'applique par étapes : pour les systèmes à haut risque, les règles de gestion des risques, de supervision humaine et de robustesse s'appliqueront à partir du 2 décembre 2027 (domaines de l'annexe III) et du 2 août 2028 (produits de l'annexe I), selon le calendrier publié par la Commission européenne. Ce jour-là, il faudra les <em>démontrer</em> — pas les affirmer.</p>
   <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan">
         <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label><button class="cta" type="submit">Demander un scan — rendu sous 24 h</button></form>
 </header>
@@ -138,7 +138,7 @@
   <h2>Ce que nous livrons</h2>
   <ul>
     <li><strong>Fiches de dérive</strong> par capacité : lectures abusives plausibles, acteur malveillant réaliste, test de glissement sémantique, test RGPD &amp; dignité.</li>
-    <li><strong>Simulation de mésusage</strong> jouée contre le produit réel — preuves reproductibles, pas de slides.</li>
+    <li><strong>Simulation de mésusage</strong> jouée contre la <em>description</em> de votre produit — intention, libellés exposés, données, sorties, autonomie — et non contre le produit en service : chaque constat est déterministe, reproductible et rattaché au champ exact qui l'a produit. Pas de slides.</li>
     <li><strong>Pack de preuves</strong> AI Act (art. 9, 10, 13, 14, 15, 26, 50) et RGPD (art. 5, 22, 25, 35) — ce que votre auditeur, votre DPO ou votre client grand compte doit pouvoir montrer.</li>
     <li><strong>Coupe-circuits</strong> : conditions d'arrêt définies, testées, avec autorité et délai réels.</li>
   </ul>
@@ -183,8 +183,8 @@
 
 <section id="moteur">
   <h2>Le moteur tourne d'abord sur nous</h2>
-  <p>Notre règle interne veut que <strong>chaque capacité visible ait sa contre-lecture adversariale avant toute mise en public</strong>. Nous ne pouvions pas la tenir à la main : le moteur a donc été construit pour nos propres besoins, et il audite nos produits à chaque déploiement — fiches de dérive versionnées, conditions d'arrêt testées, y compris pour ce site.</p>
-  <p>Ce que vous achetez n'est pas une prestation improvisée pour vous : c'est <strong>l'outil que nous nous imposons</strong>, ouvert aux autres. Nos propres fiches sont publiques.</p>
+  <p>Notre règle interne veut que <strong>chaque capacité visible ait sa contre-lecture adversariale avant toute mise en public</strong>. Nous ne pouvions pas la tenir à la main : le moteur a donc été construit pour nos propres besoins, et il tourne sur nous <strong>une fois par semaine</strong> (le lundi, 6 h 17 UTC) — un passage planifié, pas un déclenchement à chaque déploiement. Il relit la description de chacun de nos produits suivis et signale tout écart par rapport à un état de référence versionné (par exemple une condition d'arrêt absente). Il vérifie aussi, en lecture seule, que deux services en ligne répondent comme attendu : la copie de ce site publiée sur aiame-fr.github.io (codes HTTP uniquement, pas le contenu) et notre service sov.services.aiame.fr.</p>
+  <p>Ce que vous achetez n'est pas une prestation improvisée pour vous : c'est <strong>l'outil que nous nous imposons</strong>, ouvert aux autres. Nos propres fiches ne sont pas publiées à ce jour.</p>
 </section>
 
 <section id="engagements">
