@@ -285,7 +285,7 @@
       <h3>aiame-voice <span class="badge cert-absent">e2e certif. absent</span></h3>
       <p class="purpose">Voice → UI action routing (embeddings, closed action registry, zero LLM) — cross-cutting AIAME service, first intended consumer: Elzéard cockpit.</p>
       <ul class="evid">
-        <li>Found missing from this page on 09/24 (created on 09/17) — <code>curl http://100.88.45.73:8003/healthz</code> responds live <code>200 {"status":"ok"}</code> today, deployed on storage-01 (tailnet) since 09/17 (PR#2), 18 local tests pass</li>
+        <li>Found missing from this page on 09/24 (created on 09/17) — its health probe answered <code>200 {"status":"ok"}</code> on 09/24, on the organisation's private network (not reachable from the internet) since 09/17 (PR#2), 18 local tests pass</li>
         <li class="warn">Alive doesn't mean used: no product has yet synchronized an action registry — <code>/route</code> returns 404 for every <code>product_id</code> tested, integration on the Elzéard side hasn't started</li>
       </ul>
     </div>

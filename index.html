@@ -286,7 +286,7 @@
       <h3>aiame-voice <span class="badge cert-absent">certif. e2e absente</span></h3>
       <p class="purpose">Routage voix → action UI (embeddings, registre d'actions fermé, zéro LLM) — service transversal AIAME, premier consommateur prévu : Elzéard cockpit.</p>
       <ul class="evid">
-        <li>Trouvé absent de cette page le 24/09 (créé le 17/09) — <code>curl http://100.88.45.73:8003/healthz</code> répond en direct <code>200 {"status":"ok"}</code> aujourd'hui, déployé sur storage-01 (tailnet) depuis le 17/09 (PR#2), 18 tests locaux passent</li>
+        <li>Trouvé absent de cette page le 24/09 (créé le 17/09) — sa sonde de santé répondait <code>200 {"status":"ok"}</code> le 24/09, sur le réseau privé de l'organisation (non joignable depuis internet) depuis le 17/09 (PR#2), 18 tests locaux passent</li>
         <li class="warn">Vivant ne veut pas dire utilisé : aucun produit n'a encore synchronisé de registre d'actions — <code>/route</code> renvoie 404 pour tout <code>product_id</code> testé, l'intégration côté Elzéard n'a pas démarré</li>
       </ul>
     </div>
