@@ -260,7 +260,7 @@
     </div>
     <div class="repo">
       <h3>aiame-sov <span class="badge cert-absent">certif. e2e absente</span></h3>
-      <p class="purpose">France Sov — assistant souverain du dirigeant de TPE/PME (FastAPI + SQLModel, RAG, veille territoriale).</p>
+      <p class="purpose">France Sov — assistant de décision du dirigeant de TPE/PME (FastAPI + SQLModel, RAG, veille territoriale).</p>
       <ul class="evid">
         <li><code>sov.services.aiame.fr</code> répond en direct, <code>/api/v1/version</code> confirme <code>environment:"production"</code> ; réplique <code>sov.dev.aiame.fr</code> également live (<code>"staging"</code>)</li>
         <li>Corrigé le 09-08 : le README affirme encore une faille d'autorisation ouverte sur le module Territoire, mais l'issue #73 qui la documentait a été fermée le 01-09 — le vrai trou (routes sans <code>require_role</code>) était déjà corrigé le jour même de sa découverte (6/6 tests dédiés passent, 401 vérifié en direct sur <code>/api/v1/regional/entities</code>) ; l'absence de cloisonnement multi-tenant reste vraie mais reclassée décision d'architecture assumée (mono-tenant par instance jusqu'en 2028), pas un bug</li>

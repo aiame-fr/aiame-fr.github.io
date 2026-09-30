@@ -259,7 +259,7 @@
     </div>
     <div class="repo">
       <h3>aiame-sov <span class="badge cert-absent">e2e certif. absent</span></h3>
-      <p class="purpose">France Sov — sovereign assistant for the SME/SMB manager (FastAPI + SQLModel, RAG, territorial monitoring).</p>
+      <p class="purpose">France Sov — decision assistant for the SME/SMB manager (FastAPI + SQLModel, RAG, territorial monitoring).</p>
       <ul class="evid">
         <li><code>sov.services.aiame.fr</code> responds live, <code>/api/v1/version</code> confirms <code>environment:"production"</code>; the <code>sov.dev.aiame.fr</code> replica is also live (<code>"staging"</code>)</li>
         <li>Corrected on 09-08: the README still claims an open authorization flaw on the Territoire module, but issue #73 documenting it was closed on 09-01 — the real hole (routes without <code>require_role</code>) was already fixed the very day it was found (6/6 dedicated tests pass, 401 live-verified on <code>/api/v1/regional/entities</code>); the lack of multi-tenant isolation remains true but is reclassed as a deliberate architecture decision (single-tenant per instance until 2028), not a bug</li>
