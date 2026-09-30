@@ -37,6 +37,15 @@ run_check() {
 echo "== la copie du script est intacte =="
 run_check "CANONICAL.sha256" sha256sum -c scripts/CANONICAL.sha256
 
+echo "== la galaxie publiee est extraite, pas retouchee =="
+# galaxie/index.html est genere dans aiame-workspace (galaxie.py --publier) ; sa somme vit
+# dans galaxie/PROVENANCE.json. Retouche a la main -> rouge. Peremption : --verifier-publie cote workspace.
+galaxie_intacte() {
+  attendu="$(python3 -c 'import json;print(json.load(open("galaxie/PROVENANCE.json"))["sha256_index_html"])')" || return 1
+  echo "$attendu  galaxie/index.html" | sha256sum -c -
+}
+run_check "galaxie PROVENANCE sha256" galaxie_intacte
+
 echo "== preuve que le garde sait echouer =="
 run_check "test_garde_fous" bash scripts/test_garde_fous.sh
 
