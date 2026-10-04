@@ -1,6 +1,6 @@
 {
  "source": "aiame-fr/aiame-workspace tools/galaxie/galaxie.py",
- "commit_source": "836534fd68c14059fa9092e624a0ee3040ca7f37",
- "sha256_index_html": "0bf1bb20cca5d2d92bf69fa0360a31a42b887f3e71ed2e263846d25225d0a560",
+ "commit_source": "0d2eb296735a82831f7cf44665350dfd084dab4e",
+ "sha256_index_html": "b0f5d4b51a978c73eb8802389da302ba3d6a49fe4abafe308a02458e88cd3113",
  "note": "Extrait, jamais écrit. Ne pas éditer index.html ici : régénérer depuis aiame-workspace (--publier), sinon la somme échoue."
 }
