@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>AIAME — choisir son monde</title>
+<meta name="description" content="Page d'aiguillage de démonstration : un monde par métier, une adresse chacun. Données de démonstration.">
+<style>
+  /* Même palette que dev/index.html (Fermob, variante recherche). */
+  :root{
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
+    --capucine:#D14E0F; --capucine-soft:#FBE6DB;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
+      --capucine:#F0703A; --capucine-soft:#3A2218;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box; margin:0}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem 3rem; -webkit-font-smoothing:antialiased}
+  main{max-width:60rem; margin:0 auto}
+  header{padding:3.5rem 0 2rem}
+  .brand{display:flex; align-items:center; gap:.6rem; font-weight:800; font-size:.8rem;
+    letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
+  h1{font-size:clamp(1.8rem,4.5vw,2.6rem); font-weight:800; letter-spacing:-.02em; line-height:1.15; margin:1.2rem 0 .8rem}
+  .lead{font-size:1.1rem; max-width:40rem; color:var(--carbone)}
+
+  /* Tuiles : même disposition que le poste de pilotage d'Aiame Sov — une colonne au téléphone,
+     deux dès 640 px ; icône, titre, mission, puis la liste des entrées en bas de tuile. */
+  .tuiles{display:grid; grid-template-columns:1fr; gap:1rem}
+  @media (min-width:640px){.tuiles{grid-template-columns:1fr 1fr}}
+  .tuile{display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line);
+    border-radius:12px; padding:1.25rem; box-shadow:var(--shadow)}
+  .icone{display:inline-flex; align-items:center; justify-content:center; width:2.4rem; height:2.4rem;
+    border-radius:8px; font-size:1.25rem}
+  .tuile.soins .icone{background:var(--capucine-soft)}
+  .tuile.btp .icone{background:var(--acapulco-soft)}
+  .tuile h2{font-size:1.05rem; font-weight:700; margin:.8rem 0 .3rem}
+  .mission{font-size:.9rem; color:var(--argile); line-height:1.55}
+  ul{list-style:none; padding:0; margin:1.1rem 0 0; flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:.15rem}
+  a.entree{display:flex; align-items:center; gap:.6rem; padding:.7rem .6rem; border-radius:8px;
+    font-weight:600; color:var(--carbone); text-decoration:none; min-height:2.75rem}
+  a.entree:hover{background:var(--coton)}
+  a.entree:focus-visible{outline:3px solid var(--capucine); outline-offset:2px}
+  a.entree .nom{flex:1}
+  a.entree .adresse{font-size:.78rem; font-weight:500; color:var(--argile)}
+  .fleche{color:var(--argile); transition:transform .15s}
+  a.entree:hover .fleche{transform:translateX(3px)}
+  .note{margin-top:1.5rem; font-size:.87rem; color:var(--argile); max-width:42rem}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="brand"><span class="dot"></span>AIAME</div>
+    <h1>Un métier, une adresse.</h1>
+    <p class="lead">Choisissez le monde à découvrir. Chacun s'ouvre dans son propre onglet : celui-ci reste là pour passer de l'un à l'autre.</p>
+  </header>
+
+  <div class="tuiles" data-testid="demo-tuiles">
+    <section class="tuile soins" aria-labelledby="t-soins">
+      <span class="icone" aria-hidden="true">🩺</span>
+      <h2 id="t-soins">Soins infirmiers</h2>
+      <p class="mission">Aiame Angel : la tournée d'une équipe d'infirmiers et la planification de l'équipe, calculées de façon déterministe.</p>
+      <ul>
+        <li><a class="entree" data-monde="soins" href="https://angel.dev.aiame.fr/" target="_blank" rel="noopener">
+          <span class="nom">Ouvrir le monde Soins<br><span class="adresse">angel.dev.aiame.fr</span></span><span class="fleche" aria-hidden="true">→</span></a></li>
+      </ul>
+    </section>
+
+    <section class="tuile btp" aria-labelledby="t-btp">
+      <span class="icone" aria-hidden="true">🏗️</span>
+      <h2 id="t-btp">BTP et dirigeants de TPE / PME</h2>
+      <p class="mission">Aiame Sov : l'assistant de décision du dirigeant de TPE/PME — ses chiffres, ses factures, les obligations qui s'appliquent à lui et la preuve de ce que le système a fait.</p>
+      <ul>
+        <li><a class="entree" data-monde="btp" href="https://sov.dev.aiame.fr/" target="_blank" rel="noopener">
+          <span class="nom">Ouvrir le monde BTP<br><span class="adresse">sov.dev.aiame.fr</span></span><span class="fleche" aria-hidden="true">→</span></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="note">Ce sont des mondes de démonstration, avec des données de démonstration. Le compte de démonstration se demande à la personne qui anime la séance ; il n'est écrit nulle part ici.</p>
+</main>
+</body>
+</html>
