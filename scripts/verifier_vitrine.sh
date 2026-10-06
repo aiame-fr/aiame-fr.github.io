@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# verifier_vitrine.sh [RACINE] — la page Aiame Red (/vitrine/ et /en/vitrine/) n'est PAS une offre.
+# verifier_vitrine.sh [RACINE] — la page Aiame Red (/vitrine/ et /en/vitrine/) et ses pages de parcours (merci,
+# paiement-indisponible) ne présentent PAS Aiame Red comme une offre.
 #
 # Pourquoi ce garde existe : le 2026-10-05 le propriétaire a corrigé le fait que la page présentait Aiame Red comme une
 # offre (formulaire d'achat, « rendu sous 24 h », cartes de prix) alors que le moteur n'a jamais tourné que sur nos
@@ -91,5 +92,41 @@ for f in "$R/index.html" "$R/en/index.html"; do
   fi
 done
 
-if [ "$FAIL" -eq 0 ]; then echo "OK : la page Aiame Red n'est pas présentée comme une offre (FR, EN, portfolio)"; fi
+# V9 — les pages de parcours (retour de commande, paiement indisponible) ne confirment aucune commande et ne promettent rien :
+# elles n'ont de sens que si l'offre existe ; elle n'existe pas (rien vendu, jamais lancé chez un tiers).
+for page in merci paiement-indisponible; do
+  for langue in fr en; do
+    if [ "$langue" = fr ]; then f="$R/$page.html"; retour='href="/vitrine/"'; else f="$R/en/$page.html"; retour='href="/en/vitrine/"'; fi
+    if [ ! -f "$f" ]; then bad "$langue/$page : $f absent"; continue; fi
+    if grep -n -i -E 'commande reçue|order received|en file|queued|24 ?h|facture conforme|compliant invoice|cochez la case|check the box|lançons le scan|launch the scan|facturons ensuite|invoice afterwards|l.offre aiame red|aiame red offer|en cours d.activation|being activated|bientôt disponible|coming soon|donnée de carte|card data|demande de scan|scan request' "$f"; then
+      bad "$langue/$page : la page confirme une commande, promet un délai ou décrit encore l'offre"
+    fi
+    if ! grep -q 'data-statut="aucune-commande"' "$f"; then bad "$langue/$page : marqueur data-statut=\"aucune-commande\" absent"; fi
+    if ! grep -q -i -E 'pas une offre|not an offer' "$f"; then bad "$langue/$page : la page ne dit pas « pas une offre » / « not an offer »"; fi
+    if ! grep -q "$retour" "$f"; then bad "$langue/$page : le lien de retour ne pointe pas vers la vitrine de la bonne langue ($retour)"; fi
+    if ! grep -q 'mailto:tech@aiame.fr' "$f"; then bad "$langue/$page : plus aucun lien de contact tech@aiame.fr"; fi
+  done
+done
+# parité FR/EN des pages de parcours : mêmes liens (hors interrupteur de langue et objet du mail)
+for page in merci paiement-indisponible; do
+  if [ -f "$R/$page.html" ] && [ -f "$R/en/$page.html" ]; then
+    python3 - "$R/$page.html" "$R/en/$page.html" <<'PY' || FAIL=1
+import re, sys
+def hrefs(p):
+    t = open(p, encoding="utf-8").read()
+    out = []
+    for m in re.finditer(r'<a ([^>]*)href="([^"]+)"([^>]*)>', t):
+        if 'class="lang"' in m.group(0):
+            continue
+        h = re.sub(r'^/en(?=/)', '', m.group(2))
+        out.append(re.sub(r'^mailto:([^?]+)\?.*$', r'mailto:\1', h))
+    return sorted(set(out))
+a, b = hrefs(sys.argv[1]), hrefs(sys.argv[2])
+if a != b:
+    print(f"VIOLATION: parité FR/EN — liens différents ({sys.argv[1].split('/')[-1]}) : {sorted(set(a) ^ set(b))}"); sys.exit(1)
+PY
+  fi
+done
+
+if [ "$FAIL" -eq 0 ]; then echo "OK : la page Aiame Red n'est pas présentée comme une offre (FR, EN, portfolio, pages de parcours)"; fi
 exit "$FAIL"

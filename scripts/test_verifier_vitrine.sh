@@ -23,6 +23,8 @@ arbre() { # copie jetable des seuls fichiers que le garde lit
   local d="$1"; rm -rf "$d"; mkdir -p "$d/vitrine" "$d/en/vitrine"
   cp "$RACINE/vitrine/index.html" "$d/vitrine/"; cp "$RACINE/en/vitrine/index.html" "$d/en/vitrine/"
   cp "$RACINE/index.html" "$d/"; cp "$RACINE/en/index.html" "$d/en/"
+  cp "$RACINE/merci.html" "$RACINE/paiement-indisponible.html" "$d/"
+  cp "$RACINE/en/merci.html" "$RACINE/en/paiement-indisponible.html" "$d/en/"
 }
 
 doit_passer() {
@@ -101,6 +103,28 @@ doit_echouer "FR accueil : « vendu comme offre »"     index.html            "$
 doit_echouer "FR accueil : « vitrine commerciale »"   index.html            "$(inj '<p>vitrine commerciale</p>')" "présenté comme offre"
 doit_echouer "EN accueil : « sold as an offer »"      en/index.html         "$(inj '<p>sold as an offer</p>')" "présenté comme offre"
 doit_echouer "EN accueil : « commercial showcase »"   en/index.html         "$(inj '<p>commercial showcase</p>')" "présenté comme offre"
+
+echo "== V9 pages de parcours (merci, paiement-indisponible) =="
+doit_echouer "FR merci : « Commande reçue »"            merci.html                       "$(inj '<h1>Commande reçue.</h1>')" "fr/merci"
+doit_echouer "EN merci : « Order received »"            en/merci.html                    "$(inj '<h1>Order received.</h1>')" "en/merci"
+doit_echouer "FR merci : « Votre scan est en file »"    merci.html                       "$(inj '<p>Votre scan est en file.</p>')" "fr/merci"
+doit_echouer "EN merci : « Your scan is queued »"       en/merci.html                    "$(inj '<p>Your scan is queued.</p>')" "en/merci"
+doit_echouer "FR merci : délai « 24 h »"                merci.html                       "$(inj '<p>fiche sous 24 h</p>')" "fr/merci"
+doit_echouer "EN paiement : délai « 24 h »"             en/paiement-indisponible.html    "$(inj '<p>within 24 h</p>')" "en/paiement-indisponible"
+doit_echouer "FR paiement : « cochez la case »"         paiement-indisponible.html       "$(inj '<p>cochez la case</p>')" "fr/paiement-indisponible"
+doit_echouer "EN paiement : « check the box »"          en/paiement-indisponible.html    "$(inj '<p>check the box</p>')" "en/paiement-indisponible"
+doit_echouer "FR paiement : « facturons ensuite »"      paiement-indisponible.html       "$(inj '<p>nous facturons ensuite</p>')" "fr/paiement-indisponible"
+doit_echouer "EN paiement : « coming soon »"            en/paiement-indisponible.html    "$(inj '<p>Payment coming soon</p>')" "en/paiement-indisponible"
+doit_echouer "FR merci : facture « conforme »"          merci.html                       "$(inj '<p>La facture conforme suit.</p>')" "fr/merci"
+doit_echouer "FR merci : marqueur data-statut retiré"   merci.html                       't = t.replace(" data-statut=\"aucune-commande\"", "")' "marqueur"
+doit_echouer "EN paiement : marqueur data-statut retiré" en/paiement-indisponible.html   't = t.replace(" data-statut=\"aucune-commande\"", "")' "marqueur"
+doit_echouer "FR paiement : « pas une offre » retiré"   paiement-indisponible.html       't = t.replace("pas une offre", "une offre")' "pas une offre"
+doit_echouer "EN merci : « not an offer » retiré"       en/merci.html                    't = t.replace("not an offer", "an offer")' "not an offer"
+doit_echouer "EN merci : retour vers la vitrine FR"     en/merci.html                    't = t.replace("href=\"/en/vitrine/\"", "href=\"/vitrine/\"")' "bonne langue"
+doit_echouer "EN paiement : retour vers la vitrine FR"  en/paiement-indisponible.html    't = t.replace("href=\"/en/vitrine/\"", "href=\"/vitrine/\"")' "bonne langue"
+doit_echouer "FR paiement : plus de contact"            paiement-indisponible.html       't = t.replace("mailto:tech@aiame.fr", "#")' "contact"
+doit_echouer "FR merci : un lien en plus (parité)"      merci.html                       "$(inj '<a href="https://example.org/x">x</a>')" "liens différents"
+doit_echouer "EN paiement : un lien en moins (parité)"  en/paiement-indisponible.html    'import re; t = re.sub(r"<p><a href=\"/en/vitrine/\">Back</a></p>", "", t, count=1); t = t + "<a href=\"/en/vitrine/\" class=\"lang\">x</a>"' "liens différents"
 
 echo
 if [ "$ECHECS" -eq 0 ]; then echo "✅ verifier_vitrine.sh est prouvé : chaque contrôle voit sa violation."; exit 0; fi
