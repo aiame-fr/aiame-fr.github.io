@@ -384,7 +384,7 @@
     </div>
     <div class="repo">
       <h3>aiame-red <span class="badge cert-absent">e2e certif. absent</span></h3>
-      <p class="purpose">Deterministic AI-drift red-team audit engine, sold as an offer (aiame.fr) and self-applied in CI against 5 other repositories.</p>
+      <p class="purpose">Deterministic AI-drift audit engine, so far run only on our own repositories — nothing is sold (see the Aiame Red page).</p>
       <ul class="evid">
         <li>28/28 tests replayed live on 09-08, engine re-run against <code>specs/BASELINE.json</code>: zero drift — the <code>red-selfaudit.yml</code> logic (<code>--baseline</code>) holds, but this workflow hasn't actually run on GitHub since 08/22 (CI disabled since 08/27, billing, not reactivated): 9 commits/PRs merged since with no check at all, despite the repository's own "self-applied in CI" pitch</li>
         <li>No proper deployment surface (CLI/library) — no direct HTTP verification possible</li>
@@ -520,7 +520,7 @@
 <footer>
   <p><strong>Dated methodology, not continuous.</strong> Thorough audit fully redone on 2026-08-26; in-depth re-verification on 2026-09-08 (133 independent live checks, each adversarially challenged before being kept — 32 of the 34 gaps found survived that challenge); targeted update on 2026-09-24 (4 missing repositories added, CI status redone live, 1 regression found — not a full re-read of the 33 cards already in place, which remain dated 09-08 unless stated otherwise). It goes stale like any snapshot — re-verify before acting on it.</p>
   <p>Visual cue borrowed from an internal personal-portfolio style guide — content and measurement markers are AIAME's own, no personal content reused here.</p>
-  <p>See also the <a href="/en/vitrine/">commercial showcase</a> · Founding research: <a href="https://dev.aiame.fr">dev.aiame.fr</a> · Source: <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
+  <p>See also the <a href="/en/vitrine/">Aiame Red page</a> · Founding research: <a href="https://dev.aiame.fr">dev.aiame.fr</a> · Source: <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
 </footer>
 
 </main>

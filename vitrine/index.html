@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIAME — Audit Red Team & Dérive IA</title>
+<title>AIAME — Aiame Red, vérification de la dérive IA</title>
 <!-- noindex conservatoire (2026-08-07) levé le 2026-08-15 : mentions-legales.html
      est désormais publiable — legal.json complet (nom, adresse, SIREN, téléphone),
      build_legal.py confirme « publiable », les trois pages légales sont en ligne
      sur www.aiame.fr sans bandeau brouillon. Condition écrite ci-dessus remplie. -->
-<meta name="description" content="Aiame Red : audit Red Team, simulation de mésusage et pack de preuves AI Act / RGPD pour éditeurs et déployeurs d'IA européens. Hébergement dans l’UE (Hetzner, Finlande), sans traqueur.">
+<meta name="description" content="Aiame Red : un moteur qui vérifie la dérive des capacités d'IA décrites, lancé à ce jour uniquement sur nos propres produits — pas une offre. Hébergement dans l’UE (Hetzner, Finlande), sans traqueur.">
 <link rel="alternate" hreflang="fr" href="https://aiame.fr/vitrine/">
 <link rel="alternate" hreflang="en" href="https://aiame.fr/en/vitrine/">
 <style>
@@ -59,9 +59,15 @@
   h2::before{content:""; display:block; width:2.5rem; height:.35rem;
     border-radius:999px; margin-bottom:.9rem; background:var(--capucine)}
   #livrables h2::before{background:var(--acapulco)}
-  #formules h2::before{background:var(--miel)}
+  #statut h2::before{display:none}
+  #suite h2::before{background:var(--miel)}
   #engagements h2::before{background:var(--verveine)}
   #moteur h2::before{background:var(--capucine)}
+
+  /* Statut : la phrase qui compte avant toutes les autres */
+  #statut{background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:2.25rem 1.75rem; margin:0 0 1.5rem; box-shadow:var(--shadow);
+    border-left:.45rem solid var(--miel)}
 
   /* B2H — la distinction essentielle */
   #b2h{background:var(--card); border:1px solid var(--line); border-radius:20px;
@@ -84,27 +90,8 @@
   li{margin:.45rem 0}
   li::marker{color:var(--capucine)}
 
-  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
-    gap:1.1rem; margin:1.4rem 0}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:16px;
-    padding:1.25rem 1.2rem; box-shadow:var(--shadow);
-    border-top:.35rem solid var(--miel); transition:transform .15s ease}
-  .card:hover{transform:translateY(-3px)}
-  .card:nth-child(1){border-top-color:var(--verveine)}
-  .card:nth-child(3){border-top-color:var(--acapulco)}
-  .card .price{font-size:1.35rem; font-weight:800; margin:.55rem 0 .2rem}
-  .card .scope{color:var(--argile); font-size:.9rem}
   .note{color:var(--argile); font-size:.87rem}
 
-  .decl{display:flex; gap:.5rem; align-items:flex-start; font-size:.85rem;
-    color:var(--argile); margin:.7rem 0 .2rem; cursor:pointer; line-height:1.4}
-  .decl input{margin-top:.2rem; accent-color:var(--capucine); flex:none}
-  .buy{margin:.9rem 0 0}
-  .buy button{font:inherit; font-weight:700; cursor:pointer; width:100%;
-    background:var(--capucine); color:#fff; border:0; border-radius:999px;
-    padding:.7rem 1rem; transition:transform .15s ease}
-  .buy button:hover{transform:translateY(-2px)}
-  button.cta{border:0; cursor:pointer; font:inherit; font-weight:700}
   footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
     color:var(--argile); font-size:.9rem}
   footer p{margin:0 0 .55rem}
@@ -115,17 +102,27 @@
 
 <header class="hero">
   <div class="brand"><span class="dot"></span>AIAME<a class="lang" href="/en/vitrine/" lang="en" hreflang="en">EN</a></div>
-  <span class="eyebrow">Aiame Red · Audit Red Team &amp; Dérive IA · Offre réservée aux professionnels</span>
-  <h1>On vous montre comment votre IA peut être détournée — avant que le marché, la CNIL ou vos utilisateurs ne le découvrent.</h1>
-  <p class="lead">Audit Red Team pour éditeurs, intégrateurs et déployeurs européens. Le AI Act s'applique par étapes : pour les systèmes à haut risque, les règles de gestion des risques, de supervision humaine et de robustesse s'appliqueront à partir du 2 décembre 2027 (domaines de l'annexe III) et du 2 août 2028 (produits de l'annexe I), selon le calendrier publié par la Commission européenne. Ce jour-là, il faudra les <em>démontrer</em> — pas les affirmer.</p>
-  <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label><button class="cta" type="submit">Demander un scan — rendu sous 24 h</button></form>
+  <span class="eyebrow">Aiame Red · Vérification de la dérive IA · Un instrument, pas une offre</span>
+  <h1>Un moteur qui cherche où une IA pourrait être détournée — avant que le marché, la CNIL ou ses utilisateurs ne le découvrent.</h1>
+  <p class="lead">Une simulation de mésusage déterministe, jouée contre la description d'une capacité d'IA. Le AI Act s'applique par étapes : pour les systèmes à haut risque, les règles de gestion des risques, de supervision humaine et de robustesse s'appliqueront à partir du 2 décembre 2027 (domaines de l'annexe III) et du 2 août 2028 (produits de l'annexe I), selon le calendrier publié par la Commission européenne. Ce jour-là, il faudra les <em>démontrer</em> — pas les affirmer.</p>
+  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20question">Écrire à tech@aiame.fr</a>
 </header>
+
+<section id="statut" data-statut="instrument-pas-une-offre">
+  <h2>Où en est Aiame Red</h2>
+  <p><strong>Aiame Red est un instrument, pas une offre.</strong> Il n'a tourné, à ce jour, que sur nos propres produits et documents. Il n'a jamais été lancé sur le produit d'un tiers : aucune preuve extérieure n'existe encore.</p>
+  <ul>
+    <li>Rien n'a été vendu. Cette page ne propose ni commande, ni paiement, ni tarif, ni délai de livraison.</li>
+    <li>Le registre public classe le service « <code>offered_sandbox_only</code> », revenu affiché en gris : voir la <a href="/transparence.html">transparence financière</a>.</li>
+    <li>Limite connue : le moteur vérifie la <em>présence</em> de ce qu'une description déclare — une condition d'arrêt, une rétention, un consentement — pas la <em>qualité</em> de ce qui est déclaré.</li>
+  </ul>
+  <p class="note">Une offre ne se justifierait qu'après un passage sur la capacité décrite d'un tiers, avec son accord. Ce passage n'a pas eu lieu.</p>
+</section>
 
 <section id="b2h">
   <h2>B2H — Business to Human</h2>
   <p class="versus"><s>B2C</s> orienté dopamine. <s>B2B</s> orienté performance froide. <strong>B2H : l'humain comme bénéficiaire final</strong> — l'institution comme support, jamais comme finalité.</p>
-  <p>Une relation de confiance réciproque et gagnant-gagnant entre un produit et son utilisateur : <strong>le produit ne cherche jamais à modifier l'utilisateur.</strong> C'est le cadre formalisé d'AIAME — codé comme contrainte structurelle, pas comme discours marketing — et c'est <strong>l'étalon de chaque audit Aiame Red</strong> : nous mesurons votre produit contre lui.</p>
+  <p>Une relation de confiance réciproque et gagnant-gagnant entre un produit et son utilisateur : <strong>le produit ne cherche jamais à modifier l'utilisateur.</strong> C'est le cadre formalisé d'AIAME — codé comme contrainte structurelle, pas comme discours marketing — et c'est <strong>l'étalon de chaque audit Aiame Red</strong> : le moteur mesure la description d'un produit contre lui.</p>
   <div class="pillars">
     <div class="pillar"><b>Dépendance inversée</b><span>L'utilisateur peut partir sans coût. Pas de streaks, pas de notifications addictives, pas de rétention artificielle.</span></div>
     <div class="pillar"><b>Silence par défaut</b><span>Le produit ne parle que sur demande. Aucun jugement, aucune prescription, aucune interprétation de la personne.</span></div>
@@ -135,56 +132,26 @@
 </section>
 
 <section id="livrables">
-  <h2>Ce que nous livrons</h2>
+  <h2>Ce que le moteur est conçu pour produire</h2>
+  <p class="note">Rien de ce qui suit n'a été remis à un tiers.</p>
   <ul>
     <li><strong>Fiches de dérive</strong> par capacité : lectures abusives plausibles, acteur malveillant réaliste, test de glissement sémantique, test RGPD &amp; dignité.</li>
-    <li><strong>Simulation de mésusage</strong> jouée contre la <em>description</em> de votre produit — intention, libellés exposés, données, sorties, autonomie — et non contre le produit en service : chaque constat est déterministe, reproductible et rattaché au champ exact qui l'a produit. Pas de slides.</li>
-    <li><strong>Pack de preuves</strong> AI Act (art. 9, 10, 13, 14, 15, 26, 50) et RGPD (art. 5, 22, 25, 35) — ce que votre auditeur, votre DPO ou votre client grand compte doit pouvoir montrer.</li>
-    <li><strong>Coupe-circuits</strong> : conditions d'arrêt définies, testées, avec autorité et délai réels.</li>
+    <li><strong>Simulation de mésusage</strong> jouée contre la <em>description</em> d'un produit — intention, libellés exposés, données, sorties, autonomie — et non contre le produit en service : chaque constat est déterministe, reproductible et rattaché au champ exact qui l'a produit. Pas de slides.</li>
+    <li><strong>Cartographie AI Act</strong> (art. 9, 10, 13, 14, 15, 26, 50) et RGPD (art. 5, 22, 25, 35) : des éléments de preuve exploitables par un DPO, un conseil ou un auditeur.</li>
+    <li><strong>Conditions d'arrêt</strong> : le moteur vérifie qu'elles existent — qui décide, dans quel délai, avec quel test.</li>
   </ul>
-  <p>Notre méthode vient de notre propre règle interne : <strong>chaque capacité visible a sa contre-lecture adversariale avant toute mise en public.</strong> Un bon résultat Red Team = « voilà exactement où votre système ne sait plus. »</p>
+  <p>Notre méthode vient de notre propre règle interne : <strong>chaque capacité visible a sa contre-lecture adversariale avant toute mise en public.</strong> Un bon résultat Red Team = « voilà exactement où ce système ne sait plus. »</p>
 </section>
 
-<section id="formules">
-  <h2>À la demande, automatisé</h2>
-  <p class="note"><strong>Offre réservée aux professionnels</strong> — éditeurs, intégrateurs, DPO, organisations publiques ou privées agissant dans le cadre de leur activité. Elle n'est pas proposée aux consommateurs.</p>
-  <p>L'audit est un <strong>moteur</strong>, pas un cabinet. Vous décrivez votre produit, le moteur joue la batterie adversariale — lectures abusives, glissement sémantique, dignité, cartographie AI&nbsp;Act — et rend une fiche de dérive exploitable. Pas de devis, pas de cycle de vente, pas de jours-homme facturés pour ce qu'une machine fait mieux.</p>
-  <div class="cards">
-    <div class="card">
-      <h3>Scan</h3>
-      <div class="scope">1 capacité · rendu &lt; 24 h après cadrage</div>
-      <div class="price">Sur demande</div>
-      <form class="buy" method="post" action="/api/v1/checkout/form">
-        <input type="hidden" name="formula" value="scan">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
-        <button type="submit">Demander un scan</button>
-      </form>
-    </div>
-    <div class="card">
-      <h3>Produit</h3>
-      <div class="scope">Toutes les capacités · pack de preuves AI Act / RGPD</div>
-      <div class="price">Sur demande</div>
-      <form class="buy" method="post" action="/api/v1/checkout/form">
-        <input type="hidden" name="formula" value="produit">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> Je déclare agir à titre professionnel.</label>
-        <button type="submit">Demander un audit produit</button>
-      </form>
-    </div>
-    <div class="card">
-      <h3>Veille continue</h3>
-      <div class="scope">Re-scan à chaque release · alerte de dérive · historique</div>
-      <div class="price">Pas encore vendable</div>
-      <p class="note">Retirée de la vente le 2026-08-19 : aucune infrastructure de re-scan planifié, d'alerte ou d'historique n'existe encore (décision interne du 2026-08-19, non publiée). Remise en vente quand — et seulement quand — l'infrastructure existe et une preuve e2e est écrite.</p>
-    </div>
-  </div>
-  <p>Une <strong>revue humaine</strong> reste possible en option quand l'enjeu le justifie (contexte réglementaire lourd, arbitrage produit) — elle se greffe sur la sortie du moteur au lieu de la remplacer. Sur demande, au cas par cas.</p>
-  <p class="note"><strong>Tarifs communiqués lors du cadrage</strong>, avant toute commande et sans engagement — prix nets, TVA non applicable (article 293 B du CGI). Notre règle reste la même : un tarif fixé au vu des coûts réels, jamais au vu de ce que le client peut payer. Le délai de 24 h du Scan court à partir du cadrage : le moteur qui produit la fiche de dérive est réellement automatisé, mais le cadrage tarifaire est une conversation humaine, pas une case à cocher.</p>
+<section id="suite">
+  <h2>Et ensuite</h2>
+  <p>Curieux, chercheur, mainteneur d'un système d'IA : savoir où une description d'IA dérive vous concerne peut-être. Questions, critiques et regards extérieurs sont les bienvenus : <a href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20question">tech@aiame.fr</a>. Aucun délai ni tarif n'est promis ; il n'y a rien à acheter ici.</p>
 </section>
 
 <section id="moteur">
   <h2>Le moteur tourne d'abord sur nous</h2>
   <p>Notre règle interne veut que <strong>chaque capacité visible ait sa contre-lecture adversariale avant toute mise en public</strong>. Nous ne pouvions pas la tenir à la main : le moteur a donc été construit pour nos propres besoins, et il tourne sur nous <strong>une fois par semaine</strong> (le lundi, 6 h 17 UTC) — un passage planifié, pas un déclenchement à chaque déploiement. Il relit la description de chacun de nos produits suivis et signale tout écart par rapport à un état de référence versionné (par exemple une condition d'arrêt absente). Il vérifie aussi, en lecture seule, que deux services en ligne répondent comme attendu : la copie de ce site publiée sur aiame-fr.github.io (codes HTTP uniquement, pas le contenu) et notre service sov.services.aiame.fr.</p>
-  <p>Ce que vous achetez n'est pas une prestation improvisée pour vous : c'est <strong>l'outil que nous nous imposons</strong>, ouvert aux autres. Nos propres fiches ne sont pas publiées à ce jour.</p>
+  <p>C'est <strong>l'outil que nous nous imposons</strong>. Nos propres fiches ne sont pas publiées à ce jour.</p>
 </section>
 
 <section id="engagements">
@@ -195,9 +162,9 @@
     <li>Vendre, conserver ou réutiliser vos données ou celles de vos utilisateurs.</li>
     <li>Un rapport complaisant. Règle maison : si nous ne savons pas, nous écrivons « nous ne savons pas ».</li>
   </ul>
-  <p class="note"><strong>L'audit est une prestation technique, pas un conseil juridique.</strong> La cartographie AI Act / RGPD documente des éléments de preuve exploitables par votre DPO, votre conseil ou votre auditeur ; elle ne constitue ni un avis juridique, ni une certification de conformité.</p>
+  <p class="note"><strong>Le moteur produit des constats techniques, pas un conseil juridique.</strong> La cartographie AI Act / RGPD documente des éléments de preuve exploitables par un DPO, un conseil ou un auditeur ; elle ne constitue ni un avis juridique, ni une certification de conformité.</p>
   <p>Ces engagements suivent le cadre <strong>B2H (Business to Human)</strong> d'AIAME : une relation où le produit ne cherche jamais à modifier l'utilisateur, datée dans notre doctrine interne (non publiée à ce jour). <strong>aiame.fr</strong> la pratique : hébergement en Union européenne administré directement, certificat maîtrisé, zéro traqueur, zéro tiers. (Exception délibérée à ce « zéro tiers », assumée plutôt que tue : une copie de cette page est aussi publiée sur <a href="https://aiame-fr.github.io/vitrine/">aiame-fr.github.io</a> à des fins de versionnement public — hébergée par GitHub, pas par notre infrastructure.)</p>
-  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20cadrage">Demander un scan</a>
+  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20question">Écrire à tech@aiame.fr</a>
 </section>
 
 <footer>

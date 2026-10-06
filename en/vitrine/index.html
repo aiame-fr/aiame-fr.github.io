@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIAME — Red Team Audit &amp; AI Drift</title>
+<title>AIAME — Aiame Red, AI drift verification</title>
 <!-- noindex conservatoire (2026-08-07) levé le 2026-08-15 : mentions-legales.html
      est désormais publiable — legal.json complet (nom, adresse, SIREN, téléphone),
      build_legal.py confirme « publiable », les trois pages légales sont en ligne
      sur www.aiame.fr sans bandeau brouillon. Condition écrite ci-dessus remplie. -->
-<meta name="description" content="Aiame Red: Red Team audit, misuse simulation and AI Act / GDPR evidence pack for European AI publishers and deployers. EU hosting (Hetzner, Finland), no tracker.">
+<meta name="description" content="Aiame Red: an engine that checks described AI capabilities for drift, so far run only on our own products — not an offer. EU hosting (Hetzner, Finland), no tracker.">
 <link rel="alternate" hreflang="fr" href="https://aiame.fr/vitrine/">
 <link rel="alternate" hreflang="en" href="https://aiame.fr/en/vitrine/">
 <style>
@@ -59,9 +59,15 @@
   h2::before{content:""; display:block; width:2.5rem; height:.35rem;
     border-radius:999px; margin-bottom:.9rem; background:var(--capucine)}
   #livrables h2::before{background:var(--acapulco)}
-  #formules h2::before{background:var(--miel)}
+  #statut h2::before{display:none}
+  #suite h2::before{background:var(--miel)}
   #engagements h2::before{background:var(--verveine)}
   #moteur h2::before{background:var(--capucine)}
+
+  /* Statut : la phrase qui compte avant toutes les autres */
+  #statut{background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:2.25rem 1.75rem; margin:0 0 1.5rem; box-shadow:var(--shadow);
+    border-left:.45rem solid var(--miel)}
 
   /* B2H — la distinction essentielle */
   #b2h{background:var(--card); border:1px solid var(--line); border-radius:20px;
@@ -84,27 +90,8 @@
   li{margin:.45rem 0}
   li::marker{color:var(--capucine)}
 
-  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
-    gap:1.1rem; margin:1.4rem 0}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:16px;
-    padding:1.25rem 1.2rem; box-shadow:var(--shadow);
-    border-top:.35rem solid var(--miel); transition:transform .15s ease}
-  .card:hover{transform:translateY(-3px)}
-  .card:nth-child(1){border-top-color:var(--verveine)}
-  .card:nth-child(3){border-top-color:var(--acapulco)}
-  .card .price{font-size:1.35rem; font-weight:800; margin:.55rem 0 .2rem}
-  .card .scope{color:var(--argile); font-size:.9rem}
   .note{color:var(--argile); font-size:.87rem}
 
-  .decl{display:flex; gap:.5rem; align-items:flex-start; font-size:.85rem;
-    color:var(--argile); margin:.7rem 0 .2rem; cursor:pointer; line-height:1.4}
-  .decl input{margin-top:.2rem; accent-color:var(--capucine); flex:none}
-  .buy{margin:.9rem 0 0}
-  .buy button{font:inherit; font-weight:700; cursor:pointer; width:100%;
-    background:var(--capucine); color:#fff; border:0; border-radius:999px;
-    padding:.7rem 1rem; transition:transform .15s ease}
-  .buy button:hover{transform:translateY(-2px)}
-  button.cta{border:0; cursor:pointer; font:inherit; font-weight:700}
   footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
     color:var(--argile); font-size:.9rem}
   footer p{margin:0 0 .55rem}
@@ -115,17 +102,27 @@
 
 <header class="hero">
   <div class="brand"><span class="dot"></span>AIAME<a class="lang" href="/vitrine/" lang="fr" hreflang="fr">FR</a></div>
-  <span class="eyebrow">Aiame Red · Red Team Audit &amp; AI Drift · Offer reserved for professionals</span>
-  <h1>We show you how your AI can be misused — before the market, the CNIL, or your users find out.</h1>
-  <p class="lead">Red Team audit for European publishers, integrators and deployers. The AI Act applies in stages: for high-risk systems, the rules on risk management, human oversight and robustness will apply from 2 December 2027 (Annex III areas) and 2 August 2028 (Annex I products), according to the timeline published by the European Commission. From then on, you will have to <em>demonstrate</em> them — not just claim them.</p>
-  <form method="post" action="/api/v1/checkout/form"><input type="hidden" name="formula" value="scan">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> I declare that I am acting in a professional capacity.</label><button class="cta" type="submit">Request a scan — delivered within 24 h</button></form>
+  <span class="eyebrow">Aiame Red · AI drift verification · An instrument, not an offer</span>
+  <h1>An engine that looks for where an AI could be misused — before the market, the CNIL, or its users find out.</h1>
+  <p class="lead">A deterministic misuse simulation, played against the description of an AI capability. The AI Act applies in stages: for high-risk systems, the rules on risk management, human oversight and robustness will apply from 2 December 2027 (Annex III areas) and 2 August 2028 (Annex I products), according to the timeline published by the European Commission. From then on, you will have to <em>demonstrate</em> them — not just claim them.</p>
+  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20question">Write to tech@aiame.fr</a>
 </header>
+
+<section id="statut" data-statut="instrument-pas-une-offre">
+  <h2>Where Aiame Red stands</h2>
+  <p><strong>Aiame Red is an instrument, not an offer.</strong> So far it has run only on our own products and documents. It has never been run on a third party's product: no outside proof exists yet.</p>
+  <ul>
+    <li>Nothing has been sold. This page offers no order, no payment, no price and no delivery time.</li>
+    <li>The public ledger classes the service as "<code>offered_sandbox_only</code>", revenue shown in grey: see the <a href="/en/transparence.html">financial transparency</a> page.</li>
+    <li>Known limit: the engine checks the <em>presence</em> of what a description declares — a stop condition, retention, consent — not the <em>quality</em> of what is declared.</li>
+  </ul>
+  <p class="note">An offer would only be justified after a run on a third party's described capability, with their agreement. That run has not happened.</p>
+</section>
 
 <section id="b2h">
   <h2>B2H — Business to Human</h2>
   <p class="versus"><s>B2C</s> dopamine-oriented. <s>B2B</s> cold-performance-oriented. <strong>B2H: the human as ultimate beneficiary</strong> — the institution as a support, never as the goal.</p>
-  <p>A reciprocal, win-win relationship of trust between a product and its user: <strong>the product never tries to change the user.</strong> This is AIAME's formalized framework — coded as a structural constraint, not marketing talk — and it is <strong>the benchmark of every Aiame Red audit</strong>: we measure your product against it.</p>
+  <p>A reciprocal, win-win relationship of trust between a product and its user: <strong>the product never tries to change the user.</strong> This is AIAME's formalized framework — coded as a structural constraint, not marketing talk — and it is <strong>the benchmark of every Aiame Red audit</strong>: the engine measures a product's description against it.</p>
   <div class="pillars">
     <div class="pillar"><b>Reversed dependency</b><span>The user can leave at no cost. No streaks, no addictive notifications, no artificial retention.</span></div>
     <div class="pillar"><b>Silent by default</b><span>The product speaks only on request. No judgment, no prescription, no interpretation of the person.</span></div>
@@ -135,56 +132,26 @@
 </section>
 
 <section id="livrables">
-  <h2>What we deliver</h2>
+  <h2>What the engine is designed to produce</h2>
+  <p class="note">None of the following has been handed to a third party.</p>
   <ul>
     <li><strong>Drift sheets</strong> per capability: plausible abusive readings, realistic malicious actor, semantic-drift test, GDPR &amp; dignity test.</li>
-    <li><strong>Misuse simulation</strong> played against the <em>description</em> of your product — intent, exposed labels, data, outputs, autonomy — not against the running product: every finding is deterministic, reproducible and traced to the exact field that produced it. No slides.</li>
-    <li><strong>AI Act evidence pack</strong> (art. 9, 10, 13, 14, 15, 26, 50) and GDPR (art. 5, 22, 25, 35) — what your auditor, your DPO or your enterprise client needs to be able to show.</li>
-    <li><strong>Kill switches</strong>: stop conditions defined, tested, with real authority and real timelines.</li>
+    <li><strong>Misuse simulation</strong> played against the <em>description</em> of a product — intent, exposed labels, data, outputs, autonomy — not against the running product: every finding is deterministic, reproducible and traced to the exact field that produced it. No slides.</li>
+    <li><strong>AI Act mapping</strong> (art. 9, 10, 13, 14, 15, 26, 50) and GDPR (art. 5, 22, 25, 35): evidence usable by a DPO, counsel or an auditor.</li>
+    <li><strong>Stop conditions</strong>: the engine checks that they exist — who decides, within what time, with what test.</li>
   </ul>
-  <p>Our method comes from our own internal rule: <strong>every visible capability has its adversarial counter-reading before any public release.</strong> A good Red Team result is: "here is exactly where your system no longer knows what it's doing."</p>
+  <p>Our method comes from our own internal rule: <strong>every visible capability has its adversarial counter-reading before any public release.</strong> A good Red Team result is: "here is exactly where this system no longer knows what it's doing."</p>
 </section>
 
-<section id="formules">
-  <h2>On demand, automated</h2>
-  <p class="note"><strong>Offer reserved for professionals</strong> — publishers, integrators, DPOs, public or private organizations acting within the scope of their activity. It is not offered to consumers.</p>
-  <p>The audit is an <strong>engine</strong>, not a consulting firm. You describe your product, the engine runs the adversarial battery — abusive readings, semantic drift, dignity, AI&nbsp;Act mapping — and produces an actionable drift sheet. No quote, no sales cycle, no billed person-days for what a machine does better.</p>
-  <div class="cards">
-    <div class="card">
-      <h3>Scan</h3>
-      <div class="scope">1 capability · delivered &lt; 24 h after scoping</div>
-      <div class="price">On request</div>
-      <form class="buy" method="post" action="/api/v1/checkout/form">
-        <input type="hidden" name="formula" value="scan">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> I declare that I am acting in a professional capacity.</label>
-        <button type="submit">Request a scan</button>
-      </form>
-    </div>
-    <div class="card">
-      <h3>Product</h3>
-      <div class="scope">All capabilities · AI Act / GDPR evidence pack</div>
-      <div class="price">On request</div>
-      <form class="buy" method="post" action="/api/v1/checkout/form">
-        <input type="hidden" name="formula" value="produit">
-        <label class="decl"><input type="checkbox" name="pro_declaration" value="true" required> I declare that I am acting in a professional capacity.</label>
-        <button type="submit">Request a product audit</button>
-      </form>
-    </div>
-    <div class="card">
-      <h3>Continuous monitoring</h3>
-      <div class="scope">Re-scan on every release · drift alert · history</div>
-      <div class="price">Not sellable yet</div>
-      <p class="note">Pulled from sale on 2026-08-19: no infrastructure for scheduled re-scans, alerting or history exists yet (internal decision of 2026-08-19, not published). Put back on sale when — and only when — the infrastructure exists and an e2e proof is written.</p>
-    </div>
-  </div>
-  <p>A <strong>human review</strong> remains possible as an option when the stakes justify it (heavy regulatory context, product arbitration) — it builds on the engine's output instead of replacing it. On request, case by case.</p>
-  <p class="note"><strong>Pricing communicated during scoping</strong>, before any order and with no commitment — net prices, VAT not applicable (article 293 B of the French CGI). Our rule stays the same: a price set from real costs, never from what the client can pay. The 24 h Scan turnaround starts from scoping: the engine that produces the drift sheet is genuinely automated, but pricing scoping is a human conversation, not a checkbox.</p>
+<section id="suite">
+  <h2>What next</h2>
+  <p>Curious, a researcher, a maintainer of an AI system: where a description of an AI drifts may concern you. Questions, criticism and outside eyes are welcome: <a href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20question">tech@aiame.fr</a>. No delivery time or price is promised; there is nothing to buy here.</p>
 </section>
 
 <section id="moteur">
   <h2>The engine runs on us first</h2>
   <p>Our internal rule requires that <strong>every visible capability have its adversarial counter-reading before any public release</strong>. We couldn't hold ourselves to it by hand: so the engine was built for our own needs, and it runs on us <strong>once a week</strong> (Mondays, 06:17 UTC) — a scheduled pass, not a trigger on every deployment. It re-reads the description of each of our tracked products and flags any drift from a versioned reference state (for instance a missing stop condition). It also checks, read-only, that two live services respond as expected: the copy of this site published on aiame-fr.github.io (HTTP status codes only, not content) and our sov.services.aiame.fr service.</p>
-  <p>What you buy isn't a service improvised for you: it's <strong>the tool we hold ourselves to</strong>, opened up to others. Our own sheets are not published at this time.</p>
+  <p>It is <strong>the tool we hold ourselves to</strong>. Our own sheets are not published at this time.</p>
 </section>
 
 <section id="engagements">
@@ -195,9 +162,9 @@
     <li>Sell, retain or reuse your data or your users' data.</li>
     <li>A complacent report. House rule: if we don't know, we write "we don't know".</li>
   </ul>
-  <p class="note"><strong>The audit is a technical service, not legal advice.</strong> The AI Act / GDPR mapping documents evidence usable by your DPO, your counsel or your auditor; it is neither legal advice nor a certification of compliance.</p>
+  <p class="note"><strong>The engine produces technical findings, not legal advice.</strong> The AI Act / GDPR mapping documents evidence usable by a DPO, counsel or an auditor; it is neither legal advice nor a certification of compliance.</p>
   <p>These commitments follow AIAME's <strong>B2H (Business to Human)</strong> framework: a relationship where the product never tries to change the user, dated in our internal doctrine (not published to date). <strong>aiame.fr</strong> practices it: European Union hosting administered directly, controlled certificate, zero tracker, zero third party. (A deliberate exception to this "zero third party", disclosed rather than hidden: a copy of this page is also published on <a href="https://aiame-fr.github.io/vitrine/">aiame-fr.github.io</a> for public versioning purposes — hosted by GitHub, not by our own infrastructure.)</p>
-  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20scoping">Request a scan</a>
+  <a class="cta" href="mailto:tech@aiame.fr?subject=Aiame%20Red%20—%20question">Write to tech@aiame.fr</a>
 </section>
 
 <footer>
