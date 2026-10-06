@@ -46,6 +46,12 @@ galaxie_intacte() {
 }
 run_check "galaxie PROVENANCE sha256" galaxie_intacte
 
+echo "== la page Aiame Red n'est pas presentee comme une offre (FR, EN, portfolio) =="
+# Aiame Red n'a tourne que sur nos propres produits, rien n'a ete vendu : la page ne doit proposer ni commande ni delai.
+# Le garde est prouve par test_verifier_vitrine.sh (il fabrique chaque violation et exige que le garde la voie).
+run_check "verifier_vitrine" bash scripts/verifier_vitrine.sh .
+run_check "test_verifier_vitrine" bash scripts/test_verifier_vitrine.sh
+
 echo "== preuve que le garde sait echouer =="
 run_check "test_garde_fous" bash scripts/test_garde_fous.sh
 
