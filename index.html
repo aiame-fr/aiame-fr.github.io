@@ -10,6 +10,10 @@
 <link rel="alternate" hreflang="fr" href="https://aiame.fr/">
 <link rel="alternate" hreflang="en" href="https://aiame.fr/en/">
 <style>
+  /* Une adresse, un chemin ou un extrait de commande ne doit jamais élargir la page : il se coupe là où il ne tient pas
+     (mesuré le 2026-10-08 : « (rag.aiame.fr/rag.services.aiame.fr/…) » faisait 459 px dans une fenêtre de 390). */
+  main{overflow-wrap:break-word}
+  code{overflow-wrap:anywhere}
   /* Palette Fermob, variante portfolio : Acapulco en tête (registre recherche/mesure,
      pas commercial — cohérent avec dev/index.html plutôt qu'avec index.html). */
   :root{
