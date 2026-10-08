@@ -52,6 +52,19 @@ echo "== la page Aiame Red n'est pas presentee comme une offre (FR, EN, portfoli
 run_check "verifier_vitrine" bash scripts/verifier_vitrine.sh .
 run_check "test_verifier_vitrine" bash scripts/test_verifier_vitrine.sh
 
+echo "== aucune page ne defile a l'horizontale sur telephone, aucun mot ne sort de sa carte =="
+# Mesure dans un vrai Chromium (360/390/768/1280 px) ; Playwright ou Chromium absent => code 2 = ABSTENTION (signalee, jamais un vert).
+# Prouve par test_debordement.sh : il retire chaque correctif sur une copie et exige que le garde nomme la page.
+for cmd in "python3 scripts/debordement.py" "bash scripts/test_debordement.sh"; do
+  OUT="$($cmd 2>&1)"; rc=$?
+  echo "$OUT" | tail -3
+  case "$rc" in
+    0) echo "✓ $cmd vert" ;;
+    2) echo "⚠ $cmd ABSTENTION -- navigateur absent sur cette machine" ;;
+    *) echo "✗ $cmd ECHEC"; fail=1 ;;
+  esac
+done
+
 echo "== preuve que le garde sait echouer =="
 run_check "test_garde_fous" bash scripts/test_garde_fous.sh
 
