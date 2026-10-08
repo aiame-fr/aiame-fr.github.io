@@ -44,6 +44,9 @@
   *{box-sizing:border-box; margin:0}
   [hidden]{display:none !important}
   html{scroll-behavior:smooth}
+  /* un chemin, une adresse ou une preuve trop long se coupe là où il ne tient pas : il ne sort ni de sa carte ni de la page (mesuré à 360/390 px, 2026-10-08) */
+  body{overflow-wrap:break-word}
+  code{overflow-wrap:anywhere}
   @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none !important} }
   body{background:var(--coton); color:var(--carbone); padding-inline:max(16px, 1.25rem); padding-block:0;
     font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif; -webkit-font-smoothing:antialiased}
@@ -1390,6 +1393,7 @@
 </section>
 
 <footer>
+  <span class="legal"><a href="/mentions-legales.html"><span class="t" data-en="Legal notice">Mentions légales</span></a> · <a href="/confidentialite.html"><span class="t" data-en="Privacy">Confidentialité</span></a> · <a href="/cgv.html"><span class="t" data-en="Terms of sale">CGV</span></a> · <a href="/transparence.html"><span class="t" data-en="Cost and revenue transparency">Transparence coût/revenu</span></a> · <a href="/divulgation/"><span class="t" data-en="Disclosure rule: what is shown, what is withheld">Règle de divulgation : ce qui est montré, ce qui est retenu</span></a></span>
   <span><span class="t" data-en="No tracker, no cookie, no third-party script, no web font.">Aucun traqueur, aucun cookie, aucun script tiers, aucune police web.</span> <a href="https://github.com/aiame-fr" rel="noopener">github.com/aiame-fr</a> · tech@aiame.fr</span>
   <span class="num">tools/galaxie/galaxie.py · 2026-10-08 · <span class="t" data-en="spiral: aiame-atlas component">spirale : composant aiame-atlas</span></span>
 </footer>
@@ -1889,7 +1893,8 @@
         this._vb = [x0, y0, x1 - x0, y1 - y0];
       }
       this._svg.classList.toggle('cadre', !!(ids && ids.length));
-      this._etiquettes(ids && ids.length ? this._vb[0] + this._vb[2] / 2 : null);
+      this._milieu = ids && ids.length ? this._vb[0] + this._vb[2] / 2 : null;
+      this._etiquettes(this._milieu);
       this._svg.setAttribute('viewBox', this._vb.map(f1).join(' '));
       this._echelle();
     }
@@ -1914,22 +1919,42 @@
       this._svg.classList.toggle('etroit', k < 0.62 && !this._cadre);
       this._eclaircir();
     }
-    // Ciel dense (enfant) : deux noms qui se recouvrent ne se lisent ni l'un ni l'autre. Par priorité (l'étoile choisie, le centre, la plus
-    // grande, puis l'ordre), un nom qui en recouvre un déjà posé se tait ; il reparaît au survol, au focus et à la sélection, et reste
-    // dans la bulle et pour les lecteurs d'écran. La racine n'est jamais éclaircie : chaque dépôt garde son nom.
+    // Un nom ne se lit ni sous une étoile, ni sur un autre nom. Chaque nom, par priorité (l'étoile choisie, le centre, la plus grande,
+    // puis l'ordre), est posé de son côté d'origine ; s'il recouvre une étoile ou un nom déjà posé, on essaie de l'AUTRE côté de son
+    // étoile ; si les deux côtés sont pris : dans un ciel ENFANT dense il se tait (il reparaît au survol, au focus et à la sélection, et
+    // reste dans la bulle et pour les lecteurs d'écran) ; dans la RACINE il garde son côté d'origine — chaque étoile y garde son nom,
+    // jamais masqué. Un nom qui ne gêne personne n'est jamais déplacé.
     _eclaircir() {
+      this._etiquettes(this._milieu === undefined ? null : this._milieu);   // retour aux côtés d'origine avant de réessayer
+      Object.keys(this._disp ? this._disp.pos : {}).forEach(id => { const g = this._svg.querySelector(`.n[data-id="${CSS.escape(id)}"]`), t = g && g.querySelector('.lbl'), p = this._disp.pos[id]; if (t && id !== this._data.centre) t.setAttribute('y', f1(p.y + 4)); });
       const gs = Array.from(this._svg.querySelectorAll('.n'));
-      gs.forEach(g => g.classList.remove('sans-lbl'));
-      if (!this._pile.length) return;
+      gs.forEach(g => g.classList.remove('sans-lbl', 'retourne'));
+      const enfant = this._pile.length > 0, pos = this._disp ? this._disp.pos : {};
       const prio = (g) => { const n = this._index[g.dataset.id] || {}; return (n.id === this._sel ? -2 : n.id === this._data.centre ? -1 : 0) - (n.taille || 6) / 100; };
       const visibles = gs.filter(g => !g.hasAttribute('hidden'));
-      const pris = [];   // les étoiles d'abord (un nom ne passe pas SOUS une étoile), puis les noms déjà posés
+      const pris = [];   // les étoiles d'abord, puis les noms déjà posés
       visibles.forEach(g => { const c = g.querySelector('.coeur'); if (c) { const b = c.getBBox(); pris.push({ x0: b.x, x1: b.x + b.width, y0: b.y, y1: b.y + b.height, de: g }); } });
+      const gene = (r, g) => pris.some(q => q.de !== g && r.x0 < q.x1 && q.x0 < r.x1 && r.y0 < q.y1 && q.y0 < r.y1);
       visibles.sort((a, b) => prio(a) - prio(b)).forEach(g => {
         const t = g.querySelector('.lbl'); if (!t) return;
         let b; try { b = t.getBBox(); } catch (e) { return; }
+        if (!b.width) return;   // nom non affiché (ciel étroit) : rien à placer
         const r = { x0: b.x - 3, x1: b.x + b.width + 3, y0: b.y - 1, y1: b.y + b.height + 1, de: g };
-        if (pris.some(q => q.de !== g && r.x0 < q.x1 && q.x0 < r.x1 && r.y0 < q.y1 && q.y0 < r.y1)) g.classList.add('sans-lbl'); else pris.push(r);
+        if (!gene(r, g)) { pris.push(r); return; }
+        const id = g.dataset.id, p = pos[id], n = this._index[id];
+        if (p && n && id !== this._data.centre) {
+          // d'autres places, de la plus proche de l'origine à la plus éloignée : l'autre côté de l'étoile, puis une ligne plus haut ou plus bas
+          const droite = Number(t.getAttribute('x')) > p.x, dec = (n.taille || 6) + 6, h = b.height * 0.9;
+          const places = [];
+          [0, -h, h].forEach(dy => [droite, !droite].forEach(d => { if (dy || d !== droite) places.push({ dy, d }); }));
+          for (const { dy, d } of places) {
+            const x0 = d ? p.x + dec : p.x - dec - b.width, r2 = { x0: x0 - 3, x1: x0 + b.width + 3, y0: r.y0 + dy, y1: r.y1 + dy, de: g };
+            if (gene(r2, g)) continue;
+            t.setAttribute('x', f1(d ? p.x + dec : p.x - dec)); t.setAttribute('text-anchor', d ? 'start' : 'end'); t.setAttribute('y', f1(p.y + 4 + dy));
+            g.classList.add('retourne'); pris.push(r2); return;
+          }
+        }
+        if (enfant) g.classList.add('sans-lbl'); else pris.push(r);
       });
     }
     _choisir(id) {

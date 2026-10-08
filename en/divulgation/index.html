@@ -75,6 +75,9 @@
   footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
     color:var(--argile); font-size:.9rem}
   footer p{margin:0 0 .55rem}
+  /* Une somme, une adresse ou une commande ne doit jamais élargir la page : elle se coupe là où elle ne tient pas. */
+  main{overflow-wrap:break-word}
+  code{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
