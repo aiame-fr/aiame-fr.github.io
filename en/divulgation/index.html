@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIAME — Disclosure rule</title>
+<meta name="description" content="What the AIAME showcase shows and what it withholds: a finding is published once fixed, with its date and proof; while open it is only counted; internal topology is never published.">
+<link rel="alternate" hreflang="fr" href="https://aiame.fr/divulgation/">
+<link rel="alternate" hreflang="en" href="https://aiame.fr/en/divulgation/">
+<link rel="canonical" href="https://aiame.fr/en/divulgation/">
+<style>
+  /* Palette Fermob, variante mesure — même registre que /portfolio/ (Acapulco en
+     tête, pas Capucine : ceci est un constat, pas une offre commerciale). */
+  :root{
+    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
+    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
+    --verveine:#B7BE35; --verveine-soft:#EEF1D3;
+    --capucine:#D14E0F; --capucine-soft:#F9E3D4;
+    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
+      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
+      --verveine:#C4CC55; --verveine-soft:#2A2E12;
+      --capucine:#F0703A; --capucine-soft:#3A2A20;
+      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box; margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--coton); color:var(--carbone);
+    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
+  main{max-width:52rem; margin:0 auto}
+  a{color:var(--acapulco); text-decoration-thickness:1px; text-underline-offset:3px}
+  a:focus-visible{outline:3px solid var(--capucine); outline-offset:3px; border-radius:4px}
+
+  header.hero{padding:4.5rem 0 3.25rem}
+  .brand{display:flex; align-items:center; gap:.6rem;
+    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
+  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
+  .lang{float:right;font-weight:700}
+  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
+    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
+  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; margin:1rem 0 1.1rem; max-width:44rem}
+  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
+  .en{color:var(--argile); font-size:.95rem; max-width:42rem}
+
+  section{padding:2.5rem 0; border-top:1px solid var(--line)}
+  h2{font-size:1.35rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.1rem}
+  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
+    border-radius:999px; margin-bottom:.9rem; background:var(--acapulco)}
+
+  table{border-collapse:collapse; width:100%; min-width:32rem; font-size:.9rem}
+  th, td{padding:.65rem .8rem; text-align:left; border-bottom:1px solid var(--line);
+    vertical-align:top}
+  thead th{background:var(--acapulco-soft); color:var(--carbone);
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; font-weight:700}
+  tbody tr:last-child td{border-bottom:0}
+  .table-scroll{overflow-x:auto}
+
+  .etat{display:inline-block; padding:.15rem .55rem; border-radius:999px;
+    font-size:.78rem; font-weight:700}
+  .etat.gris{background:var(--line); color:var(--argile)}
+  .etat.not-wired{background:var(--line); color:var(--argile)}
+  .etat.mesure{background:var(--verveine-soft); color:var(--carbone)}
+
+  .box{background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:1.2rem 1.4rem; box-shadow:var(--shadow)}
+  .box p{margin:0 0 .6rem} .box p:last-child{margin-bottom:0}
+
+  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
+    color:var(--argile); font-size:.9rem}
+  footer p{margin:0 0 .55rem}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="brand"><span class="dot"></span>AIAME<a class="lang" href="/divulgation/" lang="fr" hreflang="fr">FR</a></div>
+  <span class="eyebrow">Disclosure rule · 2026-10-08</span>
+  <h1>What this showcase shows, and what it withholds.</h1>
+  <p class="lead">We hold to proof and honesty. We do not hold to handing anyone who might take advantage the list of what is not yet fixed. This page writes down where the line runs, so that the restraint itself stays verifiable.</p>
+</header>
+
+<section id="regle">
+  <h2>The rule</h2>
+  <div class="box">
+    <p><strong>1. A finding is published once fixed</strong> — with its date and its evidence, so that anyone can re-check it.</p>
+    <p><strong>2. While it is open, it appears only as a number.</strong> The count is the detail’s count: the text is removed, never the figure. A page showing “0 absent” because it hid the absent ones would be lying.</p>
+    <p><strong>3. Internal topology is never published.</strong> Machine names, private network, administration paths: replaced by generic names, and publication fails if one survives.</p>
+    <p><strong>4. What is stale is removed.</strong> A snapshot that goes stale is not left in place “for transparency”: it misleads.</p>
+  </div>
+</section>
+
+<section id="ou">
+  <h2>Where it shows</h2>
+  <div class="box">
+    <p>On the <a href="/">galaxy</a>, each repository shows what is <strong>proven</strong>, <strong>declared</strong> and <strong>written ABSENT</strong>, with the counts. The name and evidence of an absent capability, and the list of what remains open, are not published while open: they are counted.</p>
+    <p>The public page is <strong>generated</strong>, never written by hand. Its digest is in <a href="/galaxie/PROVENANCE.json">galaxie/PROVENANCE.json</a>. The full detail lives in a private repository; each guard of the public projection was seen to fail on a mutation before being trusted.</p>
+  </div>
+</section>
+
+<section id="retrait">
+  <h2>The portfolio left the showcase</h2>
+  <div class="box">
+    <p>Until 2026-10-08, the home page was a “portfolio”: a dated audit of 37 repositories that wrote down their open defects. The owner took it off: it duplicated the galaxy and named findings that were still open. The galaxy is now the home page.</p>
+    <p><strong>Evidence.</strong> The former home page is archived, byte for byte, in a private repository. Its sum can be recomputed by anyone from the site repository’s public history: <code>git show 34940c5:index.html | sha256sum</code> → <code>e5702cf482098b610897f0cfbbf484f45517ba05e52539b96dd83ff3e338b785</code> (English version : <code>git show 34940c5:en/index.html | sha256sum</code> → <code>b3599189a79d4715983e46d5200b8dafa5b8276261a8545e06a2b358822f28b1</code>).</p>
+    <p><strong>What this does not prove.</strong> That these pages were never read: they were served publicly, and the site repository is public with its whole history. <strong>Removing recalls nothing.</strong> We do not rewrite that history without a dated owner decision, and we do not claim that third-party copies or archives do not exist.</p>
+    <p>The old addresses now only redirect to the home page (<code>/portfolio/</code>, <code>/en/</code>, the August snapshot).</p>
+  </div>
+</section>
+
+<section id="journal">
+  <h2>Published corrections log</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Date</th><th>Finding fixed</th><th>Evidence and re-check</th></tr></thead>
+    <tbody>
+      <tr><td class="num">2026-10-05</td><td>The <a href="/en/vitrine/">Aiame Red</a> page presented a product as an offer (purchase form, delivery time, price cards) when nothing had ever been sold.</td><td>Fixed on 2026-10-05. <code>bash scripts/verifier_vitrine.sh .</code> in <a href="https://github.com/aiame-fr/aiame-fr.github.io">the site repository</a> fails if any of these comes back; <code>scripts/test_verifier_vitrine.sh</code> builds each violation and requires the guard to see it.</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="box" style="margin-top:1rem">
+    <p>A row enters here only if a reader can re-check it: otherwise it stays in the private detail, counted. This log is short because the rule dates from today; it grows only with real corrections.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Rule set on 2026-10-08 by the owner. It applies to the public copy of the galaxy; it says nothing about the past already exposed (see above).</p>
+  <p>Back to <a href="/">the galaxy</a> · <a href="/en/vitrine/">the Aiame Red page</a> · <a href="/en/transparence.html">financial transparency</a> · <a href="/mentions-legales.html">legal notice</a> · Source: <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
+</footer>
+
+</main>
+</body>
+</html>
