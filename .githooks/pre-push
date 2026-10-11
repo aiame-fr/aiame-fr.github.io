@@ -46,6 +46,12 @@ galaxie_intacte() {
 }
 run_check "galaxie PROVENANCE sha256" galaxie_intacte
 
+echo "== l'accueil, quand il est la galaxie, est declare dans PROVENANCE et a sa somme =="
+# 2026-10-10 : #64 a republie /galaxie/ sans --accueil ; l'accueil servi est reste une version en arriere sans qu'un garde le voie.
+# Prouve par test_verifier_accueil_galaxie.sh (accueil perime, non declare, PROVENANCE absente).
+run_check "verifier_accueil_galaxie" bash scripts/verifier_accueil_galaxie.sh
+run_check "test_verifier_accueil_galaxie" bash scripts/test_verifier_accueil_galaxie.sh
+
 echo "== la page Aiame Red n'est pas presentee comme une offre (FR, EN, portfolio) =="
 # Aiame Red n'a tourne que sur nos propres produits, rien n'a ete vendu : la page ne doit proposer ni commande ni delai.
 # Le garde est prouve par test_verifier_vitrine.sh (il fabrique chaque violation et exige que le garde la voie).
