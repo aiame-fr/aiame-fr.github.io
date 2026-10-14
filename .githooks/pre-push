@@ -46,6 +46,11 @@ galaxie_intacte() {
 }
 run_check "galaxie PROVENANCE sha256" galaxie_intacte
 
+echo "== la page Equilibre est extraite, pas retouchee =="
+# equilibre/index.html est generee dans aiame-workspace (tools/equilibre/equilibre.py --publier) ; meme regle que la galaxie.
+run_check "verifier_equilibre" bash scripts/verifier_equilibre.sh .
+run_check "test_verifier_equilibre" bash scripts/test_verifier_equilibre.sh
+
 echo "== l'accueil, quand il est la galaxie, est declare dans PROVENANCE et a sa somme =="
 # 2026-10-10 : #64 a republie /galaxie/ sans --accueil ; l'accueil servi est reste une version en arriere sans qu'un garde le voie.
 # Prouve par test_verifier_accueil_galaxie.sh (accueil perime, non declare, PROVENANCE absente).

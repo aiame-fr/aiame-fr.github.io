@@ -1,0 +1,11 @@
+{
+ "source": "aiame-fr/aiame-workspace tools/equilibre/equilibre.py",
+ "commit_source": "06c352699e2cc9018ffb936bf14b7178ec42d54f",
+ "sha256_index_html": "dc528676e0eb8b0f11734c48941e8de03624c78ae183be2615b115d6e5b9d028",
+ "sha256_sources": "14fde2e1b8b52ccb97bae8b9e3a5c88cd5082554361dde8ae430062b5dd7eeb6",
+ "sha256_scenarios": "2ebc268e0098d3313669274c97c6b0f6f1949081e239d0e3735089c9d322093d",
+ "copies": [
+  "equilibre/index.html"
+ ],
+ "note": "Extrait, jamais écrit. Ne pas éditer ce index.html ici : régénérer depuis aiame-workspace (--publier), sinon la somme échoue."
+}
