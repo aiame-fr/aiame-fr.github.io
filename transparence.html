@@ -83,7 +83,7 @@
   <div class="brand"><span class="dot"></span>AIAME · TRANSPARENCE<a class="lang" href="/en/transparence.html" lang="en" hreflang="en">EN</a></div>
   <span class="eyebrow">Grand livre vérifié le 2026-09-06 — 0 incohérence</span>
   <h1>Le coût et le revenu de chaque service, mesurés — jamais arrondis.</h1>
-  <p class="lead">Engagement pris le 2026-08-22 (<a href="https://github.com/aiame-fr/aiame-doctrine/blob/main/DECISION-2026-08-22-cost-revenue-transparency-commitment.md">décision</a>) : publier un ratio coût/revenu <strong>cumulé sur la vie</strong> de chaque service E3 vendu, gagé sur la vérifiabilité du grand livre seule — jamais sur l'allure du chiffre. Un service sans donnée s'affiche <strong>gris honnête</strong>, jamais à zéro ; un service non câblé pour la vente s'affiche comme tel, pas comme « 0&nbsp;€ ».</p>
+  <p class="lead">Engagement pris le 2026-08-22 (décision consignée, dépôt non public) : publier un ratio coût/revenu <strong>cumulé sur la vie</strong> de chaque service E3 vendu, gagé sur la vérifiabilité du grand livre seule — jamais sur l'allure du chiffre. Un service sans donnée s'affiche <strong>gris honnête</strong>, jamais à zéro ; un service non câblé pour la vente s'affiche comme tel, pas comme « 0&nbsp;€ ».</p>
   <p class="en">A lifetime cost/revenue ratio per sold service, gated on the ledger's own verifiability — never on how the number looks. A service with no data renders gray-honest, never zero; a service not yet wired for sale is shown as such, not as "€0".</p>
 </header>
 
@@ -130,13 +130,13 @@
   <div class="box">
     <p><strong>Trois états possibles, jamais un blanc.</strong> <span class="etat not-wired">not_offered</span> : aucune offre n'existe au catalogue — différent de « 0&nbsp;€ », les confondre serait déjà une petite malhonnêteté. <span class="etat gris">gris</span> : mesurable en principe, rien à mesurer aujourd'hui, avec la raison écrite en clair. Un troisième état, <span class="etat mesure">mesuré</span>, apparaît le jour où une commande réelle (pas sandbox) existe pour un service — aucun ne l'est aujourd'hui.</p>
     <p>Le temps du fondateur est exclu de ce calcul, explicitement — aucune source de mesure n'existe encore pour lui, et l'omettre en silence aurait été plus simple mais moins honnête.</p>
-    <p>Le grand livre lui-même (<a href="https://github.com/aiame-fr/aiame-ledger">code source</a>) fait redescendre chaque chiffre jusqu'à une pièce justificative — aucun montant affiché ne peut exister sans un chemin de dérivation vérifiable. Cette page est un instantané régénéré à la main (aucun cron ne la met à jour) ; sa fraîcheur est vérifiée par un garde-fou mutation-testé (<a href="https://github.com/aiame-fr/aiame-ledger/blob/main/docs/ADR-LEDGER-003-freshness-cadence.md">ADR-LEDGER-003</a>) plutôt que simplement promise.</p>
+    <p>Le grand livre lui-même (code non public) fait redescendre chaque chiffre jusqu'à une pièce justificative — aucun montant affiché ne peut exister sans un chemin de dérivation vérifiable. Cette page est un instantané régénéré à la main (aucun cron ne la met à jour) ; sa fraîcheur est vérifiée par un garde-fou mutation-testé (règle de fraîcheur consignée, dépôt non public) plutôt que simplement promise.</p>
     <p>Données machine-lisibles : <a href="/LEDGER-STATUS.json">LEDGER-STATUS.json</a>.</p>
   </div>
 </section>
 
 <footer>
-  <p><strong>Instantané daté, pas continu.</strong> Régénéré à la main le 2026-09-06 depuis <a href="https://github.com/aiame-fr/aiame-ledger">aiame-ledger</a> (<code>cli.py regenerate &amp;&amp; verify &amp;&amp; publier</code>) ; se périme comme tout snapshot, sa politique de rafraîchissement est documentée, pas improvisée.</p>
+  <p><strong>Instantané daté, pas continu.</strong> Régénéré à la main le 2026-09-06 depuis le grand livre (commande interne) ; se périme comme tout snapshot, sa politique de rafraîchissement est documentée, pas improvisée.</p>
   <p>Retour à <a href="/vitrine/">l'accueil</a> · Ce que font les dépôts, avec preuve : <a href="/">la galaxie</a> · <a href="/divulgation/">règle de divulgation</a> · Source : <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
 </footer>
 
