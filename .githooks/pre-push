@@ -52,6 +52,12 @@ echo "== l'accueil, quand il est la galaxie, est declare dans PROVENANCE et a sa
 run_check "verifier_accueil_galaxie" bash scripts/verifier_accueil_galaxie.sh
 run_check "test_verifier_accueil_galaxie" bash scripts/test_verifier_accueil_galaxie.sh
 
+echo "== aucune page publiee ne lie un depot PRIVE de l'organisation =="
+# 2026-10-15 : 10 liens sur 4 pages (404 pour le public, et ils confirment que le depot existe). Prouve par
+# test_verifier_liens_prives.sh (lien prive en FR/EN, www/http, .json, nom voisin d'un depot public).
+run_check "verifier_liens_prives" bash scripts/verifier_liens_prives.sh
+run_check "test_verifier_liens_prives" bash scripts/test_verifier_liens_prives.sh
+
 echo "== la page Aiame Red n'est pas presentee comme une offre (FR, EN, portfolio) =="
 # Aiame Red n'a tourne que sur nos propres produits, rien n'a ete vendu : la page ne doit proposer ni commande ni delai.
 # Le garde est prouve par test_verifier_vitrine.sh (il fabrique chaque violation et exige que le garde la voie).

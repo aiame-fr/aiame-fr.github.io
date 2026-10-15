@@ -83,7 +83,7 @@
   <div class="brand"><span class="dot"></span>AIAME · TRANSPARENCE<a class="lang" href="/transparence.html" lang="fr" hreflang="fr">FR</a></div>
   <span class="eyebrow">Ledger verified on 2026-09-06 — 0 inconsistencies</span>
   <h1>The cost and revenue of each service, measured — never rounded.</h1>
-  <p class="lead">Commitment made on 2026-08-22 (<a href="https://github.com/aiame-fr/aiame-doctrine/blob/main/DECISION-2026-08-22-cost-revenue-transparency-commitment.md">decision</a>): publish a <strong>lifetime-cumulative</strong> cost/revenue ratio for every E3 service sold, gated on the ledger's own verifiability alone — never on how the number looks. A service with no data renders <strong>honest gray</strong>, never zero; a service not yet wired for sale is shown as such, not as "€0".</p>
+  <p class="lead">Commitment made on 2026-08-22 (decision on record, non-public repository): publish a <strong>lifetime-cumulative</strong> cost/revenue ratio for every E3 service sold, gated on the ledger's own verifiability alone — never on how the number looks. A service with no data renders <strong>honest gray</strong>, never zero; a service not yet wired for sale is shown as such, not as "€0".</p>
 </header>
 
 <section id="services">
@@ -129,13 +129,13 @@
   <div class="box">
     <p><strong>Three possible states, never a blank.</strong> <span class="etat not-wired">not_offered</span>: no offer exists in the catalog — different from "€0", confusing the two would already be a small dishonesty. <span class="etat gris">gray</span>: measurable in principle, nothing to measure today, with the reason written out in plain language. A third state, <span class="etat mesure">measured</span>, appears the day a real order (not sandbox) exists for a service — none is today.</p>
     <p>The founder's time is excluded from this calculation, explicitly — no measurement source exists for it yet, and omitting it silently would have been simpler but less honest.</p>
-    <p>The ledger itself (<a href="https://github.com/aiame-fr/aiame-ledger">source code</a>) traces every figure back down to a supporting document — no displayed amount can exist without a verifiable derivation path. This page is a hand-regenerated snapshot (no cron updates it); its freshness is verified by a mutation-tested guardrail (<a href="https://github.com/aiame-fr/aiame-ledger/blob/main/docs/ADR-LEDGER-003-freshness-cadence.md">ADR-LEDGER-003</a>) rather than simply promised.</p>
+    <p>The ledger itself (non-public code) traces every figure back down to a supporting document — no displayed amount can exist without a verifiable derivation path. This page is a hand-regenerated snapshot (no cron updates it); its freshness is verified by a mutation-tested guardrail (freshness rule on record, non-public repository) rather than simply promised.</p>
     <p>Machine-readable data: <a href="/LEDGER-STATUS.json">LEDGER-STATUS.json</a>.</p>
   </div>
 </section>
 
 <footer>
-  <p><strong>Dated snapshot, not continuous.</strong> Hand-regenerated on 2026-09-06 from <a href="https://github.com/aiame-fr/aiame-ledger">aiame-ledger</a> (<code>cli.py regenerate &amp;&amp; verify &amp;&amp; publier</code>); it goes stale like any snapshot, its refresh policy is documented, not improvised.</p>
+  <p><strong>Dated snapshot, not continuous.</strong> Hand-regenerated on 2026-09-06 from the ledger (internal command); it goes stale like any snapshot, its refresh policy is documented, not improvised.</p>
   <p>Back to <a href="/en/vitrine/">the home page</a> · What the repositories do, with evidence: <a href="/">the galaxy</a> · <a href="/en/divulgation/">disclosure rule</a> · Source: <a href="https://github.com/aiame-fr/aiame-fr.github.io">aiame-fr.github.io</a></p>
 </footer>
 
