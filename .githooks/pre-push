@@ -46,6 +46,13 @@ galaxie_intacte() {
 }
 run_check "galaxie PROVENANCE sha256" galaxie_intacte
 
+echo "== la galaxie IA publiee est extraite, pas retouchee =="
+# galaxie-ia/index.html est genere dans aiame-workspace (galaxie_ia.py --publier) ; sa somme, sa source et la date du releve vivent dans
+# galaxie-ia/PROVENANCE.json. Retouche a la main, provenance qui ment, page sans provenance -> rouge. Prouve par test_verifier_galaxie_ia.sh.
+# Peremption (la copie diffère de la page regeneree) : galaxie_ia.py --verifier-publie cote workspace.
+run_check "verifier_galaxie_ia" bash scripts/verifier_galaxie_ia.sh
+run_check "test_verifier_galaxie_ia" bash scripts/test_verifier_galaxie_ia.sh
+
 echo "== l'accueil, quand il est la galaxie, est declare dans PROVENANCE et a sa somme =="
 # 2026-10-10 : #64 a republie /galaxie/ sans --accueil ; l'accueil servi est reste une version en arriere sans qu'un garde le voie.
 # Prouve par test_verifier_accueil_galaxie.sh (accueil perime, non declare, PROVENANCE absente).
