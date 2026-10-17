@@ -1,0 +1,14 @@
+{
+ "source": "aiame-fr/aiame-workspace tools/galaxie/valeurs/publique.py",
+ "commit_source": "3ec3eeb631ca107949bd98854196490da1b8c5ad",
+ "releve": "2026-10-10",
+ "sha256": {
+  "valeurs/index.html": "87bd1d5f1f91f013bda709d953d753a1a4ae597d87080633595c3b66efa0b5c1",
+  "en/valeurs/index.html": "807eaab34bf60597bb8c146e53b0b625dab3b328a4dc30cace4c6ce55fd4d11f"
+ },
+ "copies": [
+  "valeurs/index.html",
+  "en/valeurs/index.html"
+ ],
+ "note": "Extrait, jamais écrit. Ne pas éditer ces pages ici : régénérer depuis aiame-workspace (galaxie.py --publique --publier), sinon la somme échoue."
+}
