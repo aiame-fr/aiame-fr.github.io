@@ -1,0 +1,11 @@
+{
+ "source": "aiame-fr/aiame-workspace tools/galaxie/ia/galaxie_ia.py",
+ "commit_source": "94de2a7454b54ee6b4e0e8d70e1a32794d573989",
+ "sha256_index_html": "42d95fe7b879de4d0ce90d59ab97ece6f0825d34e5a76839e69c3421672c4290",
+ "copies": [
+  "galaxie-ia/index.html"
+ ],
+ "releve": "2026-10-16",
+ "depots_ayant_avance_depuis_le_releve": 17,
+ "note": "Extrait, jamais écrit. Ne pas éditer ce index.html ici : régénérer depuis aiame-workspace (--publier), sinon la somme échoue."
+}
