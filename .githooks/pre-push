@@ -80,7 +80,7 @@ for cmd in "python3 scripts/debordement.py" "bash scripts/test_debordement.sh"; 
   case "$rc" in
     0) echo "✓ $cmd vert" ;;
     2) echo "⚠ $cmd ABSTENTION -- navigateur absent sur cette machine" ;;
-    *) echo "✗ $cmd ECHEC"; fail=1 ;;
+    *) echo "✗ $cmd ECHEC (code $rc)"; fail=1 ;;
   esac
 done
 
