@@ -1,10 +1,10 @@
 {
  "source": "aiame-fr/aiame-workspace tools/galaxie/valeurs/publique.py",
- "commit_source": "d911bfb74e224807dda6dba4e57eef2604b7b05c",
- "releve": "2026-10-18",
+ "commit_source": "8aeea9f8e83db0db989d7f9b562508cf11313d4a",
+ "releve": "2026-10-19",
  "sha256": {
-  "valeurs/index.html": "534af21b8e481a3a3d0bc8dee9c65f92a804ab433cd10cea305661a8f0502cf3",
-  "en/valeurs/index.html": "a55a4e38039bd6db11820a1e05f2262af5f6968ffb041b2eedeb311c3f87dd8d"
+  "valeurs/index.html": "99813c4603698a0ece740547224cc89eeda4883d0850508a42cf288b9039527e",
+  "en/valeurs/index.html": "e2e093db044e22bec110329cb500860fc5b183d4fc76b46912e964c8a930c553"
  },
  "copies": [
   "valeurs/index.html",
