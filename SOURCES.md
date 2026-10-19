@@ -19,7 +19,7 @@ limite de débit) au sens où GF-5 l'entend pour un vrai appel réseau.
 
 | Domaine | Rôle | Où (motif) | Régime |
 |---|---|---|---|
-| `github.com` | Liens vers le code source des dépôts de l'organisation (« Source », décisions, ADR) | `index.html`, `vitrine/index.html`, `dev/index.html`, `dev/miroir-note.html`, `transparence.html`, leurs miroirs `en/`, et d'autres pages du dépôt | Lien de prose cliqué par un humain, jamais appelé par du code |
+| `github.com` | Liens vers le code source des dépôts de l'organisation (« Source », décisions, ADR) | `index.html`, `vitrine/index.html`, `dev/recherche.html`, `dev/miroir-note.html`, `transparence.html`, leurs miroirs `en/`, et d'autres pages du dépôt | Lien de prose cliqué par un humain, jamais appelé par du code |
 | `aiame-fr.github.io` | Référence à cette même URL de miroir GitHub Pages, dans `vitrine/index.html` : une exception délibérée et déjà disclosée au « zéro tiers » de la page (une copie de la vitrine y est aussi publiée, hébergée par GitHub et non notre infra) | `vitrine/index.html`, `en/vitrine/index.html` | Auto-référence disclosée en prose, jamais appelée par du code |
 
 `aiame.fr` et ses sous-domaines (`www.aiame.fr`, `dev.aiame.fr`) apparaissent aussi dans
