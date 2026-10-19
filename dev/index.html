@@ -2,121 +2,1047 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AIAME Dev — L'asymétrie comme système de référence humain</title>
-<meta name="description" content="La recherche fondatrice d'AIAME : l'asymétrie comme référent humain, le cadre B2H, les axiomes et la doctrine. Ce site ne vend rien.">
-<link rel="alternate" hreflang="fr" href="https://aiame.fr/dev/">
-<link rel="alternate" hreflang="en" href="https://aiame.fr/en/dev/">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AIAME — Nos valeurs, et ce qui les tient</title>
+<meta name="description" content="Les valeurs d&#x27;AIAME en une galaxie : chacune avec son statut dérivé — tenue quand un garde-fou ou un test échoue si on la viole, déclarée quand rien ne la vérifie encore. Lecture seule ; ce qui reste ouvert est compté, jamais caché.">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="AIAME — Nos valeurs, et ce qui les tient">
+<meta property="og:description" content="Les valeurs d&#x27;AIAME en une galaxie : chacune avec son statut dérivé — tenue quand un garde-fou ou un test échoue si on la viole, déclarée quand rien ne la vérifie encore. Lecture seule ; ce qui reste ouvert est compté, jamais caché.">
+<meta name="generator" content="aiame-workspace tools/galaxie/valeurs/publique.py — extrait, jamais écrit à la main">
 <style>
-  /* Palette inspirée Fermob — variante recherche : Acapulco en tête */
   :root{
-    --coton:#F7F4EE; --carbone:#26241F; --argile:#8D877C; --line:#E5E0D6;
-    --acapulco:#008EA3; --acapulco-soft:#DDF0F3;
-    --capucine:#D14E0F; --miel:#EFB63F; --verveine:#B7BE35;
-    --card:#FFFFFF; --shadow:0 6px 24px rgba(38,36,31,.08);
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --coton:#1D1B18; --carbone:#F0EDE6; --argile:#9C968A; --line:#35322C;
-      --acapulco:#3FB4C6; --acapulco-soft:#12333A;
-      --capucine:#F0703A; --miel:#E8B24C; --verveine:#C4CC55;
-      --card:#26241F; --shadow:0 6px 24px rgba(0,0,0,.35);
-    }
+    color-scheme: dark;
+    --nuit:#0E1320; --nuit-2:#161D2E; --encre:#E8ECF4; --doux:#A3ADC2; --trait:rgba(232,236,244,.16); --verre:rgba(14,19,32,.78);
+    --papier:#F7F4EE; --carbone:#26241F; --accent:#3FB4C6; --focus:#3FB4C6;
+    --prouve:#7FC08F; --declare:#E2B45A;
+    --f0:#3FB4C6; --f1:#E7A36A; --f2:#BDA6F0; --f3:#7FD1B9; --f4:#F0A3C4; --f5:#D9C27A; --f6:#8FB0EC; --f7:#F08A7A; --f8:#A8D08D;
+    --haut:48px;
   }
   *{box-sizing:border-box; margin:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--coton); color:var(--carbone);
-    font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
-    padding:0 1.25rem; -webkit-font-smoothing:antialiased}
-  main{max-width:52rem; margin:0 auto}
-  a{color:var(--acapulco); text-decoration-thickness:1px; text-underline-offset:3px}
-  a:focus-visible{outline:3px solid var(--capucine); outline-offset:3px; border-radius:4px}
+  [hidden]{display:none !important}
+  html,body{height:100%; overflow:hidden; background:var(--nuit); color:var(--encre)}
+  body{font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif; -webkit-font-smoothing:antialiased;
+    overscroll-behavior:none}
+  a{color:var(--accent); text-underline-offset:3px}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:6px}
+  code{font:600 .8rem/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; overflow-wrap:anywhere}
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important} }
 
-  header.hero{padding:4.5rem 0 3.25rem}
-  .brand{display:flex; align-items:center; gap:.6rem;
-    font-weight:800; font-size:.8rem; letter-spacing:.32em; color:var(--argile)}
-  .brand .dot{width:.65rem; height:.65rem; border-radius:50%; background:var(--acapulco)}
-  .lang{float:right;font-weight:700}
-  .eyebrow{display:inline-block; margin:1.6rem 0 0; padding:.35rem .8rem;
-    font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--acapulco); background:var(--acapulco-soft); border-radius:999px}
-  h1{font-size:clamp(1.9rem,4.5vw,2.7rem); font-weight:800; letter-spacing:-.02em;
-    line-height:1.15; margin:1rem 0 1.1rem; max-width:46rem}
-  .lead{font-size:1.15rem; max-width:42rem; margin:0 0 1rem}
-  .en{color:var(--argile); font-size:.95rem; max-width:42rem}
-  blockquote{border-left:.35rem solid var(--acapulco); border-radius:2px;
-    padding:.4rem 0 .4rem 1.1rem; margin:1.4rem 0; font-size:1.15rem; font-weight:600;
-    font-style:italic}
+  /* un seul écran : barre, ciel, pied — rien ne défile */
+  #scene{position:fixed; inset:0; display:grid; grid-template-rows:auto minmax(0,1fr) auto; height:100dvh;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    background:radial-gradient(120% 90% at 50% 45%, var(--nuit-2) 0%, var(--nuit) 70%)}
+  header{display:flex; flex-wrap:wrap; align-items:center; gap:.4rem .9rem; padding:.55rem .8rem}
+  .brand{display:flex; align-items:center; gap:.5rem; font-weight:800; font-size:.78rem; letter-spacing:.3em; color:var(--doux)}
+  .brand .dot{width:.6rem; height:.6rem; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(63,180,198,.2)}
+  h1{font-size:clamp(.95rem,2.2vw,1.2rem); font-weight:750; line-height:1.2; letter-spacing:-.01em; flex:1 1 14rem; min-width:0}
+  .lentilles,.lang{display:inline-flex; border:1px solid var(--trait); border-radius:999px; overflow:hidden}
+  .lentilles button,.lang button{border:0; background:transparent; color:var(--doux); font:inherit; font-weight:700; font-size:.82rem;
+    padding:.4rem .85rem; min-height:36px; cursor:pointer}
+  .lentilles button[aria-pressed="true"],.lang button[aria-pressed="true"]{background:var(--encre); color:var(--nuit)}
+  #ciel{position:relative; min-height:0; overflow:hidden; display:grid; --atlas-fond:var(--nuit); --atlas-encre:var(--encre); --atlas-trait:var(--trait);
+    --atlas-accent:#3FB4C6; --atlas-prouve:#7FC08F; --atlas-verifie:#F0703A; --atlas-bulle-fond:#F7F4EE; --atlas-bulle-encre:#26241F}
+  aiame-atlas{display:block; width:100%; justify-self:center; align-self:start; min-height:0}
+  #legende{position:absolute; left:.8rem; bottom:.4rem; right:.8rem; display:flex; flex-wrap:wrap; gap:.2rem .9rem; font-size:.74rem; color:var(--doux);
+    pointer-events:none}
+  #legende .pt{display:inline-block; width:.6rem; height:.6rem; border-radius:50%; margin-right:.3rem; vertical-align:-1px}
+  footer{display:flex; flex-wrap:wrap; align-items:center; gap:.2rem 1rem; padding:.45rem .8rem .55rem; font-size:.78rem; color:var(--doux); border-top:1px solid var(--trait);
+    background:var(--verre)}
+  footer .num{font-variant-numeric:tabular-nums; color:var(--encre); font-weight:700}
+  footer nav{display:flex; flex-wrap:wrap; gap:.1rem 1rem; margin-left:auto}
+  footer nav a{padding:.25rem 0; min-height:28px; display:inline-block}
 
-  section{padding:3rem 0; border-top:1px solid var(--line)}
-  h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:0 0 1.25rem}
-  h2::before{content:""; display:block; width:2.5rem; height:.35rem;
-    border-radius:999px; margin-bottom:.9rem; background:var(--acapulco)}
-  #protocole h2::before{background:var(--miel)}
-  #docs h2::before{background:var(--verveine)}
-  p{margin:0 0 1rem}
-  ul{padding-left:1.2rem; margin:0 0 1rem}
-  li{margin:.45rem 0}
-  li::marker{color:var(--acapulco)}
-  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
-    gap:.9rem; margin:1.2rem 0 .4rem}
-  .pillar{background:var(--card); border:1px solid var(--line); border-radius:12px;
-    padding:.9rem 1rem; box-shadow:var(--shadow)}
-  .pillar b{display:block; margin-bottom:.25rem}
-  .pillar:nth-child(1) b{color:var(--capucine)}
-  .pillar:nth-child(2) b{color:var(--acapulco)}
-  .pillar:nth-child(3) b{color:var(--verveine)}
-  .pillar span{font-size:.9rem; color:var(--argile)}
-  .note{color:var(--argile); font-size:.87rem}
-
-  footer{padding:2.75rem 0 4rem; border-top:1px solid var(--line);
-    color:var(--argile); font-size:.9rem}
-  footer p{margin:0 0 .55rem}
+  /* la fiche d'une valeur : à droite sur grand écran, en feuille basse sur petit — jamais plus d'un tiers/moitié du ciel */
+  #panneau{position:absolute; z-index:5; background:var(--papier); color:var(--carbone); border:1px solid rgba(38,36,31,.18);
+    box-shadow:0 14px 40px rgba(0,0,0,.45); padding:1rem 1.1rem 1.1rem; overflow:auto; overscroll-behavior:contain}
+  @media (min-width:900px){ #panneau{top:4rem; right:.6rem; bottom:.6rem; width:min(24rem,38vw); border-radius:18px} }
+  @media (max-width:899px){ #panneau{left:0; right:0; bottom:0; max-height:52%; border-radius:18px 18px 0 0} }
+  #panneau a{color:#006b7c}
+  .fermer{position:absolute; top:.45rem; right:.5rem; width:2.2rem; height:2.2rem; border-radius:50%; border:1px solid rgba(38,36,31,.25);
+    background:#fff; color:var(--carbone); font:inherit; font-size:1.2rem; line-height:1; cursor:pointer}
+  .eyebrow{font-size:.7rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:#6E685E}
+  .p-nom{font-size:1.2rem; font-weight:850; line-height:1.2; margin:.2rem 2.4rem .4rem 0}
+  .chip{display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; padding:.12rem .55rem; border-radius:999px}
+  .chip.prouvé{background:#DDEBDF; color:#2f6a40} .chip.déclaré{background:#FBEDD1; color:#7a5614}
+  .p-titre{font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:#6E685E; margin:1rem 0 .3rem; font-weight:700}
+  .p-liste{list-style:none; padding:0; display:grid; gap:.35rem; font-size:.85rem}
+  .p-liste li{border-left:2px solid #E5E0D6; padding-left:.6rem}
+  .muted{color:#6E685E; font-size:.88rem}
+  #panneau .vide{color:#6E685E}
+  noscript{position:fixed; inset:0; z-index:9; background:var(--nuit); padding:1.2rem; overflow:auto}
+  noscript h2{font-size:1.2rem; margin-bottom:.6rem} noscript li{margin:.3rem 0 .3rem 1.1rem}
 </style>
 </head>
 <body>
-<main>
-
-<header class="hero">
-  <div class="brand"><span class="dot"></span>AIAME · DEV<a class="lang" href="/en/dev/" lang="en" hreflang="en">EN</a></div>
-  <span class="eyebrow">Recherche fondatrice — ne vend rien</span>
-  <h1>L'asymétrie comme système de référence humain</h1>
-  <p class="lead">Il n'existe aujourd'hui aucun référent visuel humain partagé, irréfutable et non normatif, permettant d'observer l'état d'un être humain sans l'interpréter, le classer ou le juger. Les systèmes existants classent, scorent, prédisent, normalisent. <strong>Aiame observe.</strong></p>
-  <blockquote>L'asymétrie n'est pas une anomalie,<br>elle est la signature minimale du vivant.</blockquote>
-</header>
-
-<section id="b2h">
-  <h2>B2H — la distinction essentielle</h2>
-  <p><strong>Ni B2C orienté dopamine, ni B2B orienté performance froide.</strong> Le B2H fait de l'humain le bénéficiaire final — l'institution est un support, jamais une finalité. C'est une relation de confiance réciproque où <strong>le produit ne cherche jamais à modifier l'utilisateur</strong>, codée comme contrainte structurelle dans le socle d'AIAME.</p>
-  <div class="pillars">
-    <div class="pillar"><b>Dépendance inversée</b><span>Consulter, ignorer ou partir — sans coût. Aucune rétention artificielle.</span></div>
-    <div class="pillar"><b>Silence par défaut</b><span>Des indicateurs structurels, jamais des conclusions. L'indicateur reste muet tant que le bénéfice individuel n'est pas prouvé.</span></div>
-    <div class="pillar"><b>Valeur sans extraction</b><span>Aucun autre humain n'est une référence. Aucune base ML n'est normative. Aucune donnée monétisée.</span></div>
+<div id="scene">
+  <header>
+    <div class="brand"><span class="dot"></span>AIAME</div>
+    <h1><span class="t" data-en="What AIAME holds true — and what holds it.">Ce qu’AIAME tient pour vrai — et ce qui le tient.</span></h1>
+    <div class="lentilles" role="group" aria-label="Lecture / View">
+      <button type="button" data-lentille="bras" aria-pressed="true"><span class="t" data-en="Families">Familles</span></button>
+      <button type="button" data-lentille="preuve" aria-pressed="false"><span class="t" data-en="Held">Tenue</span></button>
+    </div>
+    <div class="lang" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true">FR</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+  </header>
+  <div id="ciel">
+    <aiame-atlas id="atlas" filtres aria-label="Galaxie des valeurs d’AIAME"></aiame-atlas>
+    <div id="legende" aria-live="polite"></div>
+    <aside id="panneau" aria-live="polite" hidden></aside>
   </div>
-  <p class="note">Le socle est formel : la symétrie n'est pas donnée, elle est calculée — et ce calcul n'est possible qu'à partir de l'asymétrie.</p>
-</section>
-
-<section id="protocole">
-  <h2>Une recherche qui ne vend rien</h2>
-  <p>Cette recherche est volontairement séparée de l'activité commerciale d'AIAME (<a href="https://aiame.fr">aiame.fr</a>). Elle est protégée par ses propres règles : un protocole de validation avec <strong>critères d'abandon explicites</strong>, un indicateur volontairement <strong>muet</strong> tant que le bénéfice pour l'individu n'est pas scientifiquement établi, et une équipe rouge interne dont le rôle est de casser le cadre avant quiconque.</p>
-  <p>« Si Aiame disparaît un jour sans avoir été détourné, ce sera considéré comme une issue acceptable. »</p>
-</section>
-
-<section id="docs">
-  <h2>Lire</h2>
+  <footer>
+    <span><span class="num">82</span> <span class="t" data-en="values named" >valeurs nommées</span> · <span class="num">36</span> <span class="t" data-en="held">tenues</span> · <span class="num">46</span> <span class="t" data-en="declared">déclarées</span> · <span class="t" data-en="survey of" >relevé du</span> <span class="num">2026-10-19</span></span>
+    <nav aria-label="Liens">
+      <a href="https://aiame.fr/valeurs/" data-fr="https://aiame.fr/valeurs/" data-en-href="https://aiame.fr/en/valeurs/"><span class="t" data-en="Every value, as a list">Toutes les valeurs, en liste</span></a>
+      <a href="https://aiame.fr/galaxie/"><span class="t" data-en="The organisation’s galaxy">La galaxie de l’organisation</span></a>
+      <a href="https://aiame.fr/dev/recherche.html"><span class="t" data-en="The founding research">La recherche fondatrice</span></a>
+      <a href="https://aiame.fr/divulgation/" data-fr="https://aiame.fr/divulgation/" data-en-href="https://aiame.fr/en/divulgation/"><span class="t" data-en="Disclosure rule">Règle de divulgation</span></a>
+    </nav>
+  </footer>
+</div>
+<noscript>
+  <h2>AIAME — Nos valeurs, et ce qui les tient</h2>
+  <p>Les valeurs d&#x27;AIAME en une galaxie : chacune avec son statut dérivé — tenue quand un garde-fou ou un test échoue si on la viole, déclarée quand rien ne la vérifie encore. Lecture seule ; ce qui reste ouvert est compté, jamais caché.</p>
   <ul>
-    <li><a href="https://github.com/aiame-fr/aiame-fr.github.io/blob/main/README.md">White Paper — Asymmetry as a Human Reference System</a> (v0.1, février 2026, FR/EN — antériorité datée, le cadre philosophique reste actuel ; pour l'état commercial, voir <a href="https://aiame.fr">aiame.fr</a> — et le portfolio des dépôts ci-dessous)</li>
-    <li><a href="/miroir-note.html">Aiame Miroir</a> — le premier instrument issu de cette recherche : visage et main, un référentiel, gratuit, sans compte.</li>
-    <li>Constitution éthique, charte B2H, axiomes, disclosures — non publiés à ce jour : le dépôt qui les contient reste privé, et aucune date de publication n'est annoncée.</li>
-    <li><a href="https://www.aiame.fr/">La galaxie</a> — ce que fait chaque dépôt de l'organisation, avec sa preuve : prouvé, déclaré, écrit ABSENT (décomptes publics ; <a href="/divulgation/">règle de divulgation</a>).</li>
+    <li><a href="https://aiame.fr/valeurs/">Toutes les valeurs, en liste</a> · <a href="https://aiame.fr/en/valeurs/">All values, as a list</a></li>
+    <li><a href="https://aiame.fr/galaxie/">La galaxie de l’organisation</a></li>
+    <li><a href="https://aiame.fr/divulgation/">Règle de divulgation</a></li>
   </ul>
-</section>
+</noscript>
 
-<footer>
-  <p><strong>Aucun traqueur, aucun cookie, aucun script tiers.</strong> Ce site ne dit jamais qui vous êtes. Il ne le sait pas, et il n'essaiera pas.</p>
-  <p>Activité commerciale : <a href="https://aiame.fr">aiame.fr</a> · Contact : <a href="mailto:tech@aiame.fr">tech@aiame.fr</a></p>
-</footer>
+<script>
+/*! aiame-atlas — spirale réutilisable, zéro dépendance, zéro requête réseau.
+ *  Source : aiame-workspace/tools/galaxie/atlas/aiame-atlas.js (EUPL-1.2).
+ *  Une galaxie : un nœud au centre, un bras spiral par groupe, les nœuds posés le long
+ *  de leur bras dans l'ordre donné (`ordre` croissant = du centre vers le bord).
+ *  Vendorer par copie octet-à-octet + CANONICAL.sha256, jamais par import live.
+ *
+ *  <aiame-atlas></aiame-atlas>
+ *  el.data = {
+ *    centre: 'id',                                   // facultatif
+ *    groupes: [{id, label, couleur}],                // couleur : toute couleur CSS, var(--x) compris
+ *    noeuds:  [{id, label, titre, groupe, taille, ordre, anneau, creux, badge, couleur, etiquettes:{clé:valeur}, texte, enfant, preuve, nomme}],   // couleur : celle du nœud seul (sinon celle de son bras)
+ *    cleGroupe: 'branch',                             // la clé d'étiquette qui reprend le groupe (colore la puce, filtre au clic sur le nom d'un bras)
+ *    liens:   [{source, cible, type, fleche, origine, preuve}]
+ *  }
+ *  Preuve (ce qui rend une affirmation vérifiable, jamais devinée) : `preuve` = une chaîne ou une liste (ex. « Devis.tsx:927 ») sur un nœud
+ *    ou un lien. Nœud : montrée dans la bulle (3 au plus, « +N » pour le reste) et cherchable. Lien : lue au survol (<title>).
+ *    `origine` d'un lien = d'où l'on tient qu'il existe : 'fiche' (déclaré par un lecteur), 'code' (retrouvé dans le code),
+ *    'fiche+code' (déclaré ET confirmé). Chaque origine se dessine autrement ; un lien sans origine est dessiné comme avant.
+ *  Niveaux (un univers, des galaxies, des systèmes — le MÊME contrat à chaque étage) :
+ *    `enfant` = un ciel entier (objet {groupes, noeuds, liens…}) porté par une étoile, ou une chaîne (clé/URL) que l'HÔTE
+ *    résout : le composant ne fait jamais de requête réseau. Double-clic, ou Entrée sur l'étoile choisie, ou descendre(id)
+ *    = on entre : l'étoile devient le centre du ciel suivant. Échap (rien de choisi), clic sur le centre, le fil d'Ariane,
+ *    ou remonter() = on ressort. Un filtre à un étage voit aussi ce que contiennent les étoiles (enfants en ligne) : une étoile répond
+ *    sur ce qu'elle CONTIENT (clés, mots et exclusions jugés sur elle + tout ce qu'il y a dedans) ; entrer garde les puces que le ciel
+ *    d'en dessous peut répondre et lâche les autres.
+ *  Méthodes : selectionner(id) · focaliser(ids|null) · teindre(fn|null) · anneaux(bool)
+ *             liens(mode|fn) · masquer(fn|null) · vue(ids|null) · desselectionner() · typesLiens(Set|null)
+ *             descendre(id, data?) · remonter(n?) · chemin (get : [{id, label}] de la racine au ciel courant) · profondeur (get)
+ *  Évènements : atlas-select {id|null} (null = désélection : re-clic, Échap, clic dans le ciel) · atlas-survol {id|null}
+ *               atlas-groupe {id} (clic sur le nom d'un bras)
+ *               atlas-descendre {id, enfant} (enfant = chaîne : l'hôte charge puis appelle descendre(id, data)) · atlas-niveau {chemin, profondeur}
+ *  Filtres (attribut `filtres` = barre intégrée : recherche, puces, sélecteur d'étiquettes, compteur, réinitialiser) :
+ *    étiquettes `clé:valeur` façon GitHub — ET entre clés, OU entre valeurs d'une même clé, `-clé:valeur` exclut ; le texte libre
+ *    est insensible aux accents, mots en ET. Tapez « web:true -live:false angel » puis Entrée ou espace ; Retour arrière retire la dernière puce.
+ *    Méthodes : etatHote(bool) · basculerEtiquette(clé, valeur, exclure?) · aEtiquette(clé, valeur) · filtre (get/set {q, tags:[{k,v,neg}]}) · reinitialiser() · libelles (set)
+ *    Évènements : atlas-filtre {q, tags, ids|null, compte, total} · atlas-reinit (bouton « tout réinitialiser »)
+ *  Thème (variables CSS héritées) : --atlas-fond --atlas-encre --atlas-trait --atlas-doux --atlas-accent
+ */
+(function () {
+  'use strict';
+  if (typeof window === 'undefined' || !window.customElements || customElements.get('aiame-atlas')) return;
 
-</main>
+  const NS = 'http://www.w3.org/2000/svg';
+  const TAU = Math.PI * 2;
+  const el = (tag, attrs, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const f1 = (x) => x.toFixed(1);
+  const sans = (x) => String(x == null ? '' : x).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const CLES_ORDRE = ['branch', 'layer', 'status', 'web', 'live', 'api', 'tests'];
+  const LIB = { recherche: 'Filtrer : nom, domaine, clé:valeur…', etiquettes: 'Étiquettes', reinit: 'Tout réinitialiser', aucun: 'aucun résultat', retirer: 'Retirer', sur: 'sur', racine: 'Racine', entrer: 'entrer', etoiles: 'étoiles', preuve: 'preuve', plus: 'de plus', origines: { 'fiche': 'déclaré', 'code': 'vu dans le code', 'fiche+code': 'déclaré et confirmé par le code' } };
+  const TAG_RE = /^(-?)([a-z][\w-]*):(.*)$/i;
+  // une preuve : une chaîne ou une liste de chaînes → une liste de chaînes non vides
+  const preuvesDe = (x) => (x == null ? [] : Array.isArray(x) ? x : [x]).map(v => String(v).trim()).filter(Boolean);
+  const classeOrigine = (o) => (o === 'fiche' || o === 'code' || o === 'fiche+code') ? ' o-' + o.replace('+', '-') : '';
+  // un ciel enfant porté EN LIGNE par un nœud (une chaîne est une clé que l'hôte résout)
+  const enfantEnLigne = (n) => (n && n.enfant && typeof n.enfant === 'object') ? n.enfant : null;
+  // tous les nœuds sous un nœud, à tous les étages (enfants en ligne seulement) — pour qu'un filtre voie dans les étoiles
+  function descendants(n, acc) {
+    acc = acc || [];
+    const e = enfantEnLigne(n);
+    if (e) (e.noeuds || []).forEach(m => { if (m.id !== n.id) { acc.push(m); descendants(m, acc); } });   // l'étoile elle-même, recentrée, n'est pas son propre descendant
+    return acc;
+  }
+  // le ciel enfant d'une étoile, avec cette étoile pour centre si l'enfant n'en nomme pas
+  function cielEnfant(parent, data) {
+    const d = Object.assign({}, data);
+    d.noeuds = (data.noeuds || []).slice();
+    if (!d.centre) {
+      d.centre = parent.id;
+      if (!d.noeuds.some(m => m.id === parent.id)) {
+        d.noeuds.unshift({ id: parent.id, label: parent.label, titre: parent.titre, groupe: (d.groupes && d.groupes[0] && d.groupes[0].id) || parent.groupe, taille: 12, etiquettes: parent.etiquettes });
+      }
+    }
+    return d;
+  }
+
+  // ── disposition : fonction pure, testable sans DOM ──
+  function disposer(data, o) {
+    o = o || {};
+    const R = o.rayon || 440, r0 = o.rayonInterieur || 105, torsion = o.torsion != null ? o.torsion : 0.95 * Math.PI;
+    const groupes = (data.groupes || []).map(g => g.id);
+    const parG = {};
+    groupes.forEach(g => { parG[g] = []; });
+    (data.noeuds || []).forEach(n => { if (n.id !== data.centre && parG[n.groupe]) parG[n.groupe].push(n); });
+    const max = Math.max(2, ...groupes.map(g => parG[g].length));
+    const pasMin = 0.86 / (max - 1);
+    const pos = {}, bras = [];
+    groupes.forEach((g, i) => {
+      const liste = parG[g].slice().sort((a, b) => ((a.ordre || 0) - (b.ordre || 0)) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+      const theta0 = -Math.PI / 2 + TAU * i / groupes.length;
+      const pt = (t) => { const r = r0 + (R - r0) * t, a = theta0 + torsion * t; return { x: r * Math.cos(a), y: r * Math.sin(a), ang: a, r }; };
+      // un bras court s'étire (pas plus grand) et les départs alternent : le cœur de la galaxie respire
+      const pas = liste.length > 1 ? Math.max(pasMin, Math.min(0.2, 0.86 / (liste.length - 1))) : 0;
+      const t0 = 0.1 + (i % 2) * 0.06;
+      liste.forEach((n, j) => { pos[n.id] = pt(t0 + j * pas); });
+      const fin = t0 + Math.max(liste.length - 1, 0) * pas + 0.07;
+      let d = '';
+      for (let k = 0; k <= 48; k++) { const p = pt(-0.02 + (fin + 0.02) * k / 48); d += (k ? ' L' : 'M') + f1(p.x) + ',' + f1(p.y); }
+      bras.push({ groupe: g, d, bout: pt(fin + 0.07), n: liste.length });
+    });
+    if (data.centre) pos[data.centre] = { x: 0, y: 0, ang: -Math.PI / 2, r: 0 };
+    return { pos, bras, R };
+  }
+
+  const STYLE = `
+  :host{display:block; position:relative; color:var(--atlas-encre, currentColor);
+    --_fond:var(--atlas-fond, transparent); --_trait:var(--atlas-trait, rgba(128,128,128,.35)); --_doux:var(--atlas-doux, #888); --_accent:var(--atlas-accent, #3fb4c6)}
+  svg{display:block; width:100%; height:auto; max-width:100%; overflow:hidden; font:12px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .etoiles circle{fill:currentColor; opacity:.28}
+  .bras .halo{fill:none; stroke:var(--c); stroke-width:34; stroke-linecap:round; opacity:.07}
+  .bras .fil{fill:none; stroke:var(--c); stroke-width:1.1; opacity:.45; stroke-dasharray:2 7; animation:derive 90s linear infinite}
+  @keyframes derive{to{stroke-dashoffset:-900}}
+  .etiq text{font-size:calc(var(--fs,12px) * .92); font-weight:800; letter-spacing:.14em; text-transform:uppercase; fill:var(--c); cursor:pointer; paint-order:stroke; stroke:var(--_fond); stroke-width:3px; stroke-linejoin:round}
+  .etiq text:hover, .etiq text:focus-visible{text-decoration:underline; outline:none}
+  .etiq text.actif{text-decoration:underline; text-decoration-thickness:2px}
+  .coeur-centre{fill:none; stroke:var(--_accent); stroke-width:1; opacity:.5}
+  .lien{fill:none; stroke:currentColor; stroke-width:1.2; opacity:.35; transition:opacity .2s}
+  .lien.vérifie{stroke:var(--atlas-verifie, #d14e0f); stroke-dasharray:6 3; opacity:.8}
+  .lien.finance{stroke:var(--_accent); stroke-width:2.6; opacity:.5}
+  .lien.appel-service{stroke-dasharray:4 3} .lien.dépendance-chemin{stroke-dasharray:1.5 3} .lien.copie-doctrine{stroke-width:.6; opacity:.2}
+  .lien.o-fiche{stroke-dasharray:5 4; opacity:.5}
+  .lien.o-code{stroke:var(--atlas-code, #8a9a3b); opacity:.7}
+  .lien.o-fiche-code{stroke-dasharray:none; stroke-width:1.9; opacity:.75}
+  .lien.hi{opacity:.95; stroke-width:2}
+  .lien[hidden]{display:none}
+  .n{cursor:pointer; outline:none; transition:opacity .25s, transform .9s cubic-bezier(.2,.8,.2,1)}
+  .n .halo{fill:var(--t, var(--c)); opacity:.16; transition:opacity .2s}
+  .n .coeur{fill:var(--t, var(--c)); stroke:var(--_fond); stroke-width:1.5; transition:fill .3s}
+  .n.creux .coeur{fill:var(--_fond); stroke:var(--t, var(--c)); stroke-width:2}   /* --t : la teinte d'une lentille (teindre) atteint aussi le contour creux */
+  .n .anneau-fond{fill:none; stroke:var(--_trait); stroke-width:3}
+  .n .badge rect{fill:var(--atlas-badge, #d9480f)}
+  .n .badge text{fill:var(--atlas-badge-encre, #fff); font:700 7.5px system-ui, sans-serif; letter-spacing:.04em; pointer-events:none}
+  .n .anneau{fill:none; stroke:var(--atlas-prouve, #3e7c4f); stroke-width:3}
+  :host(:not([anneaux])) .n .anneau, :host(:not([anneaux])) .n .anneau-fond{display:none}
+  .n .lbl{font-size:var(--fs,12px); fill:currentColor; paint-order:stroke; stroke:var(--_fond); stroke-width:3px; stroke-linejoin:round; pointer-events:none}
+  .n:hover .halo, .n:focus-visible .halo, .n.sel .halo{opacity:.42}
+  .n:focus-visible .coeur, .n.sel .coeur{stroke:currentColor; stroke-width:2.5}
+  .n.sel .halo{animation:pouls 2.4s ease-in-out infinite}
+  @keyframes pouls{50%{opacity:.14}}
+  .n.dim{opacity:.14}
+  .n[hidden]{display:none}
+  .n .porte{fill:none; stroke:var(--t, var(--c)); stroke-width:1; stroke-dasharray:2 3; opacity:.55}
+  .n:hover .porte, .n.sel .porte{opacity:1; stroke-width:1.5}
+  .n.centre-enfant{cursor:zoom-out}
+  svg.sortie .monde{transition:transform .55s cubic-bezier(.4,0,.6,1), opacity .5s; transform-box:fill-box}
+  svg.sortie.loin .monde{opacity:0}
+  .chemin{display:flex; flex-wrap:wrap; align-items:center; gap:.2rem .35rem; padding:.1rem .1rem .45rem; font:12.5px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .chemin[hidden]{display:none}
+  .chemin button{font:inherit; font-weight:700; color:inherit; background:transparent; border:0; border-radius:999px; padding:.25rem .55rem; cursor:pointer; text-decoration:underline; text-decoration-color:var(--_trait)}
+  .chemin button:hover{background:var(--_trait)}
+  .chemin [aria-current]{font-weight:800; padding:.25rem .55rem}
+  .chemin .sep{opacity:.5}
+  @media (prefers-reduced-motion: reduce){ svg.sortie .monde{transition:none} }
+  svg.cadre .etiq, svg.compact .etiq{display:none}
+  .n .cible{fill:transparent; stroke:none}
+  .bras-nav{display:flex; flex-wrap:wrap; gap:.5rem; padding:.7rem .1rem .2rem; font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .bras-nav[hidden]{display:none}
+  .bras-nav button{font:inherit; font-weight:700; min-height:44px; padding:.45rem 1rem; border-radius:999px; color:var(--c); background:transparent; border:1.5px solid var(--c); cursor:pointer}
+  .bras-nav button[aria-pressed="true"]{background:color-mix(in srgb, var(--c) 24%, transparent); border-width:2.5px; padding:calc(.45rem - 1px) calc(1rem - 1px)}
+  .bras-nav button:focus-visible{outline:2px solid currentColor; outline-offset:2px}
+  svg.etroit .n .lbl{display:none}
+  .n.sans-lbl .lbl{display:none}
+  .n.sans-lbl:hover .lbl, .n.sans-lbl:focus-visible .lbl, .n.sans-lbl.sel .lbl{display:inline}
+  svg.etroit .n.grand .lbl, svg.etroit .n.nomme .lbl, svg.etroit .n.sel .lbl, svg.etroit .n:hover .lbl{display:inline}
+  .barre{display:flex; flex-wrap:wrap; gap:.4rem .5rem; align-items:center; padding:.1rem .1rem .45rem; font:12.5px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .barre[hidden]{display:none}
+  .barre input[type=search]{flex:1 1 11rem; min-width:0; font:inherit; color:inherit; background:transparent; border:1px solid var(--_trait); border-radius:999px; padding:.35rem .8rem}
+  .barre input::placeholder{color:var(--_doux)}
+  .barre button, .barre summary{font:inherit; font-weight:700; color:inherit; background:transparent; border:1px solid var(--_trait); border-radius:999px; padding:.3rem .75rem; cursor:pointer; list-style:none}
+  .barre summary::-webkit-details-marker{display:none}
+  .barre button:hover, .barre summary:hover{background:var(--_trait)}
+  .barre output{color:var(--_doux); font-variant-numeric:tabular-nums}
+  .barre :focus-visible{outline:2px solid var(--_accent); outline-offset:2px}
+  .picker{position:relative}
+  .menu{position:absolute; z-index:4; top:calc(100% + .35rem); left:0; width:min(22rem, 86vw); max-height:60vh; overflow:auto; background:var(--atlas-bulle-fond,#26241f); color:var(--atlas-bulle-encre,#f7f4ee); border-radius:12px; padding:.6rem; box-shadow:0 8px 28px rgba(0,0,0,.35); display:grid; gap:.55rem}
+  .menu h4{margin:0 0 .25rem; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; opacity:.7}
+  .menu .groupe{display:flex; flex-wrap:wrap; gap:.3rem}
+  .puces{display:flex; flex-wrap:wrap; gap:.3rem; padding:0 .1rem .4rem}
+  .puces:empty{display:none}
+  .tag{display:inline-flex; align-items:stretch; font:12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; border:1px solid var(--_trait); border-radius:999px; overflow:hidden; background:transparent; color:inherit; padding:0; cursor:pointer}
+  .tag .k{padding:.28rem .45rem; opacity:.7; border-right:1px solid var(--_trait)}
+  .tag .v{padding:.28rem .5rem; font-weight:700; display:inline-flex; align-items:center; gap:.3rem}
+  .tag .v i{width:.55rem; height:.55rem; border-radius:50%; background:var(--c, currentColor)}
+  .tag .cnt{padding:.28rem .45rem; opacity:.55; border-left:1px solid var(--_trait); font-variant-numeric:tabular-nums}
+  .tag[data-v="true"] .v{color:#7fc08f} .tag[data-v="false"] .v{opacity:.65}
+  .tag[aria-pressed="true"]{background:var(--_accent); color:#0e1320; border-color:var(--_accent)}
+  .tag[aria-pressed="true"] .k, .tag[aria-pressed="true"] .cnt{opacity:.85; border-color:rgba(0,0,0,.25)}
+  .tag.neg .v{text-decoration:line-through}
+  .tag.puce::after{content:"×"; padding:.28rem .5rem; opacity:.7; border-left:1px solid var(--_trait)}
+  .bulle{position:absolute; pointer-events:none; max-width:17rem; background:var(--atlas-bulle-fond, #26241f); color:var(--atlas-bulle-encre, #f7f4ee);
+    padding:.45rem .65rem; border-radius:9px; font:12.5px/1.4 system-ui,sans-serif; box-shadow:0 6px 24px rgba(0,0,0,.25); z-index:2}
+  .bulle b{display:block}
+  .bulle .preuve{font:11.5px/1.35 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; opacity:.8; overflow-wrap:anywhere}
+  .bulle[hidden]{display:none}
+  @media (prefers-reduced-motion: reduce){ .n{transition:none} .bras .fil, .n.sel .halo{animation:none} }`;
+
+  class AiameAtlas extends HTMLElement {
+    constructor() {
+      super();
+      this._racine = this.attachShadow({ mode: 'open' });
+      this._racine.innerHTML = `<style>${STYLE}</style><div class="barre" part="barre" hidden>
+        <input type="search" list="suggestions" autocomplete="off" spellcheck="false">
+        <datalist id="suggestions"></datalist>
+        <details class="picker"><summary></summary><div class="menu"></div></details>
+        <button type="button" class="reinit" hidden></button>
+        <output aria-live="polite"></output>
+      </div><div class="puces" part="puces"></div><nav class="chemin" part="chemin" hidden></nav><svg part="ciel" role="img"></svg><nav class="bras-nav" part="bras" hidden></nav><div class="bulle" hidden></div>`;
+      this._svg = this._racine.querySelector('svg');
+      this._chemin = this._racine.querySelector('.chemin');
+      this._brasNav = this._racine.querySelector('.bras-nav');
+      this._pile = [];   // les ciels au-dessus du ciel courant : [{data, id, label, sel, filtre}], la racine en premier
+      this._barre = this._racine.querySelector('.barre');
+      this._bulle = this._racine.querySelector('.bulle');
+      this._sel = null; this._typesCaches = null; this._focus = null; this._teinte = null; this._modeLiens = 'selection'; this._masque = null; this._cadre = null;
+      this._premier = true;
+      this._filtre = { q: '', tags: [] }; this._ids = null; this._lib = { ...LIB };
+      this._champ = this._racine.querySelector('input'); this._menu = this._racine.querySelector('.menu'); this._puces = this._racine.querySelector('.puces');
+      this._reinit = this._racine.querySelector('.reinit'); this._compte = this._racine.querySelector('output');
+      this._champ.addEventListener('input', () => this._saisie(false));
+      this._champ.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') { ev.preventDefault(); this._saisie(true); }
+        else if (ev.key === 'Backspace' && !this._champ.value && this._filtre.tags.length) { this._filtre.tags.pop(); this._majFiltre(); }
+        else if (ev.key === 'Escape' && (this._champ.value || this._filtre.tags.length)) { ev.stopPropagation(); this._champ.value = ''; this._filtre.q = ''; this._majFiltre(); }
+      });
+      this._reinit.addEventListener('click', () => this.reinitialiser());
+      const picker = this._racine.querySelector('.picker');
+      this._racine.addEventListener('click', (ev) => { if (picker.open && !ev.composedPath().includes(picker)) picker.open = false; });
+      this._racine.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && picker.open) { picker.open = false; picker.querySelector('summary').focus(); ev.stopPropagation(); } }, true);
+      this._libelles();
+      // clic dans le ciel (ni une étoile, ni un nom de bras) et Échap : désélection
+      this._svg.addEventListener('click', (ev) => { if (!ev.target.closest('.n, .etiq')) this.desselectionner(); });
+      // Échap : lâche l'étoile ; rien de choisi et un ciel au-dessus : on remonte d'un étage
+      this._racine.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') { if (this._sel == null && this._pile.length) { ev.preventDefault(); this.remonter(); } else this.desselectionner(); } });
+    }
+    static get observedAttributes() { return ['aria-label', 'filtres']; }
+    attributeChangedCallback() { this._svg.setAttribute('aria-label', this.getAttribute('aria-label') || ''); this._barre.hidden = !this.hasAttribute('filtres'); }
+    connectedCallback() {
+      if (!this._ro && window.ResizeObserver) { this._ro = new ResizeObserver(() => { if (this._etroitHote() !== this._compact) this._viewBox(); else this._echelle(); }); this._ro.observe(this); }
+      if (!this._data) {
+        const s = this.querySelector('script[type="application/json"]');
+        if (s) { try { this.data = JSON.parse(s.textContent); } catch (e) { /* données illisibles : rien à dessiner */ } }
+      }
+    }
+    disconnectedCallback() { if (this._ro) { this._ro.disconnect(); this._ro = null; } }
+
+    get data() { return this._data; }
+    set data(v) { this._pile = []; this._data = v; this._index = {}; (v.noeuds || []).forEach(n => { this._index[n.id] = n; }); this._dessiner(); this._facettes(); this._majFiltre(); this._fil(); }
+    get positions() { return this._disp ? this._disp.pos : {}; }
+
+    get libelles() { return { ...this._lib }; }
+    set libelles(l) { this._lib = { ...LIB, ...(l || {}) }; this._libelles(); this._facettes(); this._majFiltre(); }
+    // L'hôte dit que SON état (lentille, légende…) s'écarte du défaut : le bouton « tout réinitialiser » reste alors visible
+    etatHote(modifie) { this._etatHote = !!modifie; this._reinit.hidden = !(this._ids || this._filtre.tags.length || this._filtre.q || this._sel || this._etatHote); }
+    get filtre() { return { q: this._filtre.q, tags: this._filtre.tags.map(t => ({ ...t })) }; }
+    set filtre(f) { this._filtre = { q: (f && f.q) || '', tags: ((f && f.tags) || []).map(t => ({ k: t.k, v: String(t.v), neg: !!t.neg })) }; this._champ.value = this._filtre.q; this._majFiltre(); }
+    aEtiquette(k, v) { return this._filtre.tags.some(t => t.k === k && sans(t.v) === sans(v) && !t.neg); }
+    basculerEtiquette(k, v, exclure) {
+      const i = this._filtre.tags.findIndex(t => t.k === k && sans(t.v) === sans(v));
+      if (i >= 0) this._filtre.tags.splice(i, 1); else this._filtre.tags.push({ k, v: String(v), neg: !!exclure });
+      this._majFiltre();
+    }
+    reinitialiser() {
+      this._filtre = { q: '', tags: [] }; this._champ.value = '';
+      const avait = this._sel != null; this.selectionner(null);
+      if (avait) this.dispatchEvent(new CustomEvent('atlas-select', { detail: { id: null }, bubbles: true, composed: true }));
+      this.dispatchEvent(new CustomEvent('atlas-reinit', { bubbles: true, composed: true }));
+      this._majFiltre();
+    }
+    selectionner(id) { this._sel = id && this._index[id] ? id : null; this._appliquer(); }
+    desselectionner() { if (this._sel == null) return; this.selectionner(null); this.dispatchEvent(new CustomEvent('atlas-select', { detail: { id: null }, bubbles: true, composed: true })); }
+    // types de liens MASQUÉS (même pour les liens de l'étoile sélectionnée) ; null = aucun filtre
+    typesLiens(masques) { this._typesCaches = masques && masques.size ? new Set(masques) : null; this._appliquer(); }
+    focaliser(ids) { this._focus = ids ? new Set(ids) : null; this._appliquer(); }
+    teindre(fn) { this._teinte = fn || null; this._appliquer(); }
+    anneaux(on) { this.toggleAttribute('anneaux', !!on); }
+    liens(mode) { this._modeLiens = mode || 'selection'; this._appliquer(); }
+    masquer(fn) { this._masque = fn || null; this._appliquer(); }
+    vue(ids) {
+      this._cadre = ids ? new Set(ids) : null;
+      this._masque = this._cadre ? (n => !this._cadre.has(n.id)) : null;
+      this._modeLiens = this._cadre ? (l => this._cadre.has(l.source) && this._cadre.has(l.cible)) : 'selection';
+      this._viewBox(); this._appliquer();
+    }
+    // ── niveaux : entrer dans une étoile, ressortir ──
+    get profondeur() { return this._pile.length; }
+    get chemin() {
+      return [{ id: null, label: this.getAttribute('aria-label') || this._lib.racine }].concat(this._pile.map(e => ({ id: e.idCourant, label: e.labelCourant })));
+    }
+    // Entre dans l'étoile `id`. `data` : le ciel enfant fourni par l'hôte (obligatoire si `enfant` est une chaîne).
+    // Retourne true si le ciel a changé ; false si l'étoile n'a pas d'enfant ou si l'hôte doit d'abord le charger (évènement atlas-descendre).
+    descendre(id, data) {
+      const n = this._index && this._index[id];
+      if (!n || !n.enfant) return false;
+      const ciel = data || enfantEnLigne(n);
+      if (!ciel) { this.dispatchEvent(new CustomEvent('atlas-descendre', { detail: { id, enfant: n.enfant }, bubbles: true, composed: true })); return false; }
+      const p = this._disp && this._disp.pos[id];
+      this._pile.push({ data: this._data, filtre: this.filtre, idCourant: id, labelCourant: n.label || id });
+      const herite = this.filtre;
+      this._sortir(p, () => this._poser(cielEnfant(n, ciel), null, herite));
+      return true;
+    }
+    // Ressort de `n` étages (1 par défaut) : le ciel du dessus revient, l'étoile par laquelle on était entré est choisie.
+    remonter(n) {
+      n = Math.max(1, Math.min(Number(n) || 1, this._pile.length));
+      if (!n || !this._pile.length) return false;
+      let e;
+      while (n--) e = this._pile.pop();
+      this._sortir(null, () => { this._poser(e.data, e.idCourant); this.filtre = e.filtre; });
+      return true;
+    }
+    _poser(data, sel, herite) {
+      this._bulle.hidden = true;   // la bulle de l'étoile survolée du ciel PRÉCÉDENT : sans pointerleave (le ciel change sous le pointeur) elle restait, à sa place d'avant, et un ciel plus bas la rognait (Focus : « France / Drapeau blanc / ↘ entrer »)
+      this._premier = true;   // le ciel suivant entre comme un premier ciel : les étoiles arrivent du centre
+      this._data = data; this._index = {}; (data.noeuds || []).forEach(m => { this._index[m.id] = m; });
+      this._sel = sel && this._index[sel] ? sel : null;
+      this._dessiner(); this._facettes();
+      // un filtre posé AVANT d'entrer suit s'il parle du ciel d'en dessous (« capacite:absent » : le dépôt s'allume, on y entre,
+      // ce qui est absent reste allumé) ; une clé que ce ciel ne porte pas (« branch:socle ») le viderait : elle ne suit pas
+      // (le centre porte les étiquettes du parent : il ne compte pas, sinon toute clé du parent « suivrait » et tout s'éteindrait)
+      const cles = new Set();
+      (data.noeuds || []).forEach(m => { if (m.id !== data.centre) [m].concat(descendants(m)).forEach(x => Object.keys(x.etiquettes || {}).forEach(k => cles.add(k))); });
+      this._filtre = { q: '', tags: ((herite && herite.tags) || []).filter(t => cles.has(t.k)).map(t => ({ ...t })) }; this._champ.value = '';
+      this._majFiltre(); this._fil();
+      this.dispatchEvent(new CustomEvent('atlas-niveau', { detail: { chemin: this.chemin, profondeur: this.profondeur }, bubbles: true, composed: true }));
+    }
+    // L'étoile grossit jusqu'à emplir le ciel (ou le ciel s'efface), puis le ciel suivant est posé. Sans animation : tout de suite.
+    _sortir(p, puis) {
+      const monde = this._svg.querySelector('.monde');
+      const anime = monde && !this.hasAttribute('immobile') && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (!anime) { puis(); return; }
+      this._svg.classList.add('sortie');
+      const vb = this._vb || [0, 0, 1, 1];
+      monde.style.transformOrigin = p ? `${f1(p.x)}px ${f1(p.y)}px` : `${f1(vb[0] + vb[2] / 2)}px ${f1(vb[1] + vb[3] / 2)}px`;
+      monde.style.transform = p ? 'scale(7)' : 'scale(.25)';
+      this._svg.classList.add('loin');
+      let fait = false;
+      const fin = () => { if (fait) return; fait = true; this._svg.classList.remove('sortie', 'loin'); puis(); };
+      monde.addEventListener('transitionend', fin, { once: true });
+      setTimeout(fin, 700);
+    }
+    _fil() {
+      const ch = this.chemin, nav = this._chemin;
+      nav.textContent = '';
+      nav.hidden = !this._pile.length;
+      if (nav.hidden) return;
+      ch.forEach((e, i) => {
+        if (i) { const s = document.createElement('span'); s.className = 'sep'; s.textContent = '›'; nav.appendChild(s); }
+        if (i === ch.length - 1) { const b = document.createElement('b'); b.setAttribute('aria-current', 'location'); b.textContent = e.label; nav.appendChild(b); return; }
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = e.label;
+        b.addEventListener('click', () => this.remonter(ch.length - 1 - i));
+        nav.appendChild(b);
+      });
+    }
+
+    _dessiner() {
+      const D = this._data, svg = this._svg;
+      if (!D) return;
+      const disp = this._disp = disposer(D, { rayon: Number(this.getAttribute('rayon')) || undefined });
+      svg.textContent = '';
+      const defs = el('defs', {}, svg);
+      const monde = el('g', { class: 'monde' }, svg);   // tout le ciel : c'est lui qui grossit ou s'efface quand on change d'étage
+      const mk = el('marker', { id: 'fleche', viewBox: '0 0 10 10', refX: '9', refY: '5', markerWidth: '6', markerHeight: '6', orient: 'auto-start-reverse' }, defs);
+      el('path', { d: 'M0,0 L10,5 L0,10 z', fill: 'currentColor' }, mk);
+      const couleur = {};
+      (D.groupes || []).forEach(g => { couleur[g.id] = g.couleur || 'currentColor'; });
+
+      if (!this.hasAttribute('sans-etoiles')) {
+        // champ d'étoiles déterministe (LCG) : même ciel à chaque rendu, aucun hasard
+        const gE = el('g', { class: 'etoiles', 'aria-hidden': 'true' }, monde);
+        let s = 7;
+        const rnd = () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; };
+        for (let i = 0; i < 140; i++) {
+          const a = rnd() * TAU, r = Math.sqrt(rnd()) * disp.R * 1.15;
+          el('circle', { cx: f1(r * Math.cos(a)), cy: f1(r * Math.sin(a)), r: f1(0.4 + rnd() * 1.1) }, gE);
+        }
+      }
+      const gB = el('g', { class: 'bras', 'aria-hidden': 'true' }, monde);
+      const gEt = el('g', { class: 'etiq' }, monde);
+      this._brasNav.textContent = '';
+      this._brasNav.setAttribute('aria-label', this.getAttribute('aria-label') || '');   // noms de bras : ni masqués aux lecteurs d'écran, ni inertes
+      disp.bras.forEach(b => {
+        if (!b.n) return;
+        const g = el('g', { style: `--c:${couleur[b.groupe]}` }, gB);
+        el('path', { class: 'halo', d: b.d }, g);
+        el('path', { class: 'fil', d: b.d }, g);
+        const cos = Math.cos(b.bout.ang);
+        const grp = (D.groupes || []).find(x => x.id === b.groupe);
+        const nom = (grp && grp.label) || b.groupe;
+        const t = el('text', { x: f1(b.bout.x), y: f1(b.bout.y), 'text-anchor': cos > 0.3 ? 'start' : cos < -0.3 ? 'end' : 'middle', 'dominant-baseline': 'middle',
+          style: `--c:${couleur[b.groupe]}`, 'data-groupe': b.groupe, 'data-x0': f1(b.bout.x), 'data-y0': f1(b.bout.y), 'data-cos': f1(Math.cos(b.bout.ang)), 'data-sin': f1(Math.sin(b.bout.ang)), tabindex: '0', role: 'button', 'aria-label': nom }, gEt);
+        t.textContent = nom;
+        const choisirGroupe = () => { this.dispatchEvent(new CustomEvent('atlas-groupe', { detail: { id: b.groupe }, bubbles: true, composed: true })); if (this.hasAttribute('filtres')) this.basculerEtiquette((D.cleGroupe || 'branch'), b.groupe); };
+        t.addEventListener('click', choisirGroupe);
+        const bt = document.createElement('button'); bt.type = 'button'; bt.textContent = nom; bt.dataset.groupe = b.groupe; bt.setAttribute('aria-pressed', 'false');
+        bt.style.setProperty('--c', couleur[b.groupe]); bt.addEventListener('click', choisirGroupe); this._brasNav.appendChild(bt);
+        t.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); choisirGroupe(); } });
+      });
+      if (D.centre) el('circle', { class: 'coeur-centre', cx: 0, cy: 0, r: 30, 'stroke-dasharray': '3 4' }, monde);
+
+      const gL = this._gLiens = el('g', { class: 'liens' }, monde);
+      const courbe = (a, b) => {
+        const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        return `M${f1(a.x)},${f1(a.y)} Q${f1(mx * 0.62)},${f1(my * 0.62)} ${f1(b.x)},${f1(b.y)}`;
+      };
+      (D.liens || []).forEach((l, i) => {
+        const a = disp.pos[l.source], b = disp.pos[l.cible];
+        if (!a || !b || l.source === l.cible) return;
+        const p = el('path', { class: `lien ${l.type || ''}${classeOrigine(l.origine)}`, d: courbe(a, b), 'data-i': i }, gL);
+        if (l.fleche) p.setAttribute('marker-end', 'url(#fleche)');
+        // lue au survol (infobulle native, aussi pour les lecteurs d'écran) : d'où l'on tient ce lien, et sa preuve
+        const dit = [(this._lib.origines || {})[l.origine]].concat(preuvesDe(l.preuve)).filter(Boolean);
+        if (dit.length) { const t = el('title', {}, p); t.textContent = dit.join(' · '); }
+      });
+
+      const gN = el('g', { class: 'noeuds' }, monde);
+      const ordonnes = (D.noeuds || []).filter(n => disp.pos[n.id]);
+      const anime = this._premier && !this.hasAttribute('immobile') && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+      ordonnes.forEach((n, i) => {
+        const p = disp.pos[n.id], r = n.taille || 6;
+        const centreEnfant = n.id === D.centre && this._pile.length > 0;   // le centre d'un ciel enfant = l'étoile par laquelle on est entré : cliquer = ressortir
+        const g = el('g', { class: 'n' + (n.creux ? ' creux' : '') + (r >= 9 || n.id === D.centre ? ' grand' : '') + (n.nomme ? ' nomme' : '') + (centreEnfant ? ' centre-enfant' : ''), 'data-id': n.id, tabindex: '0', role: 'button',
+          'aria-label': (n.titre ? `${n.label || n.id} — ${n.titre}` : (n.label || n.id)) + (n.badge ? ` · ${String(n.badge).slice(0, 8)}` : ''), style: `--c:${n.couleur || couleur[n.groupe] || 'currentColor'}` }, gN);
+        el('circle', { class: 'halo', cx: f1(p.x), cy: f1(p.y), r: f1(r + 7) }, g);
+        // une étoile qui contient un ciel : une porte en pointillé autour d'elle, et on peut y entrer
+        if (n.enfant && !centreEnfant) el('circle', { class: 'porte', cx: f1(p.x), cy: f1(p.y), r: f1(r + (n.anneau != null ? 9 : 7.5)) }, g);
+        if (n.anneau != null) {
+          const ra = r + 4.5, a1 = -Math.PI / 2, a2 = a1 + TAU * Math.max(n.anneau, 0.001) * 0.9999;
+          el('circle', { class: 'anneau-fond', cx: f1(p.x), cy: f1(p.y), r: f1(ra) }, g);
+          // Un tour complet = un CERCLE : un arc dont départ et arrivée tombent sur les mêmes coordonnées (arrondies à
+          // 0,1) n'est pas dessiné (spécification SVG) — « plein » s'affichait comme « vide », constaté dans aiame-sov.
+          if (n.anneau >= 0.99) el('circle', { class: 'anneau', cx: f1(p.x), cy: f1(p.y), r: f1(ra) }, g);
+          else el('path', { class: 'anneau', d: `M${f1(p.x + ra * Math.cos(a1))},${f1(p.y + ra * Math.sin(a1))} A${f1(ra)},${f1(ra)} 0 ${n.anneau > 0.5 ? 1 : 0} 1 ${f1(p.x + ra * Math.cos(a2))},${f1(p.y + ra * Math.sin(a2))}` }, g);
+        }
+        el('circle', { class: 'cible', cx: f1(p.x), cy: f1(p.y), r: f1(r) }, g);   // zone de toucher, SOUS le cœur : grossit en mode compact
+        el('circle', { class: 'coeur', cx: f1(p.x), cy: f1(p.y), r: f1(r) }, g);
+        g.dataset.r = r;
+        // une pastille au coin de l'étoile (« NEW ») : 8 caractères au plus, posée en TEXTE (jamais en HTML) ; la lecture d'écran la reçoit par l'aria-label de l'étoile
+        if (n.badge) {
+          const bt = String(n.badge).slice(0, 8), bw = bt.length * 5.4 + 9, bx = p.x + r + 1, by = p.y - r - 12;
+          const gb = el('g', { class: 'badge', 'aria-hidden': 'true' }, g);
+          el('rect', { x: f1(bx), y: f1(by), width: f1(bw), height: 11, rx: 5.5 }, gb);
+          const tb = el('text', { x: f1(bx + bw / 2), y: f1(by + 8.2), 'text-anchor': 'middle' }, gb);
+          tb.textContent = bt;
+        }
+        const cos = Math.cos(p.ang), centre = n.id === D.centre;
+        const t = el('text', { class: 'lbl', x: f1(centre ? p.x : p.x + (r + 6) * (cos >= 0 ? 1 : -1)), y: f1(centre ? p.y + r + 16 : p.y + 4),
+          'text-anchor': centre ? 'middle' : (cos >= 0 ? 'start' : 'end') }, g);
+        t.textContent = n.label || n.id;
+        if (anime) {
+          g.style.transform = `translate(${f1(-p.x)}px,${f1(-p.y)}px)`;
+          g.style.transitionDelay = `${Math.min(i * 16, 700)}ms`;
+          g.style.opacity = '0';
+        }
+        if (centreEnfant) {
+          g.addEventListener('click', () => this.remonter());
+          g.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); this.remonter(); } });
+        } else {
+          g.addEventListener('click', () => this._choisir(n.id));
+          // Entrée sur l'étoile DÉJÀ choisie = on entre dedans (si elle contient un ciel) ; sinon Entrée/Espace choisit
+          g.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); if (ev.key === 'Enter' && this._sel === n.id && n.enfant) this.descendre(n.id); else this._choisir(n.id); } });
+          if (n.enfant) g.addEventListener('dblclick', (ev) => { ev.preventDefault(); this.descendre(n.id); });
+        }
+        g.addEventListener('pointerenter', (ev) => this._survol(n, ev));
+        g.addEventListener('pointermove', (ev) => this._survol(n, ev));
+        g.addEventListener('pointerleave', () => this._survol(null));
+        g.addEventListener('focus', () => this.dispatchEvent(new CustomEvent('atlas-survol', { detail: { id: n.id }, bubbles: true, composed: true })));
+      });
+      if (anime) {
+        this._premier = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => gN.querySelectorAll('.n').forEach(g => { g.style.transform = ''; g.style.opacity = ''; })));
+      }
+      this._viewBox(); this._appliquer();
+    }
+
+    // Téléphone : sous 480 px le ciel RACINE passe en mode « compact » — les noms de bras (illisibles à ~6 px, et qui élargissaient le cadre)
+    // deviennent des boutons de 44 px sous le ciel, les étoiles grossissent pour le doigt. Un ciel enfant garde son cadre.
+    // Il faut un ÉCRAN étroit, pas seulement un hôte étroit : la page Focus borne la largeur du ciel à sa hauteur d'écran (309 px sur un bureau de 700 px de haut),
+    // et le mode compact y a poussé des boutons sous le ciel, hors du premier écran (mesuré par test_landing_e2e d'aiame-focus). Écran : 600 px de large au plus.
+    _etroitHote() { return !this._pile.length && (this.clientWidth || this._svg.clientWidth || 700) < 480 && (!window.matchMedia || window.matchMedia('(max-width: 600px)').matches); }
+    _viewBox() {
+      const disp = this._disp;
+      if (!disp) return;
+      this._compact = this._etroitHote();
+      this._svg.classList.toggle('compact', this._compact);
+      this._brasNav.hidden = !this._compact || !this._brasNav.firstChild;
+      let ids = this._cadre ? Array.from(this._cadre).filter(id => disp.pos[id]) : null;
+      if (ids && ids.length) {
+        const xs = ids.map(id => disp.pos[id].x), ys = ids.map(id => disp.pos[id].y);
+        const x0 = Math.min(...xs) - 130, x1 = Math.max(...xs) + 130, y0 = Math.min(...ys) - 30, y1 = Math.max(...ys) + 30;
+        this._vb = [x0, y0, x1 - x0, y1 - y0];
+      } else {
+        // cadre = le contenu réel (étoiles + bouts de bras), pas le rayon maximal : la galaxie remplit son ciel
+        const pts = Object.values(disp.pos).concat(disp.bras.filter(b => b.n).map(b => b.bout));
+        const xs = pts.map(p => p.x), ys = pts.map(p => p.y);
+        let x0 = Math.min(...xs) - 100, x1 = Math.max(...xs) + 100;
+        let y0 = Math.min(...ys) - 40, y1 = Math.max(...ys) + 40;
+        // Le nom d'un bras (AGIR, FIABILITÉ…) s'écrit au bout du bras, et dépasse le point : le cadre lui laisse sa place (mesuré : « ATIONS »
+        // et « FIABILIT » rognés à 570 px). Sa largeur dépend de la taille du texte, qui dépend de l'échelle, qui dépend du cadre : on itère.
+        if (!this._compact) {
+          const w = this.clientWidth || this._svg.clientWidth || 700, ax0 = x0, ax1 = x1;
+          const noms = disp.bras.filter(b => b.n).map(b => {
+            const g = (this._data.groupes || []).find(x => x.id === b.groupe);
+            return { b: b.bout, long: String((g && g.label) || b.groupe).length, cos: Math.cos(b.bout.ang) };
+          });
+          let fs = 12;
+          for (let tour = 0; tour < 4; tour++) {
+            let a = ax0, z = ax1, h0 = y0, h1 = y1;
+            noms.forEach(m => {
+              const lg = m.long * 0.82 * fs + 4;   // majuscules grasses + espacement .14em ; 0.75 rogne encore (mesuré à 390 et 570 px)
+              if (m.cos > 0.3) z = Math.max(z, m.b.x + lg);
+              else if (m.cos < -0.3) a = Math.min(a, m.b.x - lg);
+              else { z = Math.max(z, m.b.x + lg / 2); a = Math.min(a, m.b.x - lg / 2); }
+              h0 = Math.min(h0, m.b.y - fs); h1 = Math.max(h1, m.b.y + fs);
+            });
+            x0 = a; x1 = z; y0 = h0; y1 = h1;
+            fs = Math.min(24, Math.max(11, 12 / (w / (x1 - x0))));
+          }
+        }
+        // Un ciel ENFANT porte des noms longs (une capacité, pas un dépôt) : le cadre laisse la place du texte, du côté où il s'écrit.
+        // Jamais la racine : son cadre est celui de toujours.
+        if (this._pile.length) {
+          // la largeur d'un nom dépend de la taille du texte, qui dépend de l'échelle, qui dépend du cadre : on itère (converge en 3-4 tours)
+          const w = this.clientWidth || this._svg.clientWidth || 700, bx0 = x0, bx1 = x1;
+          let cw = 8.5;
+          for (let tour = 0; tour < 4; tour++) {
+            let a = bx0, b = bx1;
+            Object.keys(disp.pos).forEach(id => {
+              const p = disp.pos[id], n = this._index[id];
+              if (!n || id === this._data.centre) return;
+              const bord = (n.taille || 6) + 6 + Math.min(String(n.label || id).length, 24) * cw;
+              if (Math.cos(p.ang) >= 0) b = Math.max(b, p.x + bord); else a = Math.min(a, p.x - bord);
+            });
+            x0 = a; x1 = b;
+            cw = 0.62 * Math.min(24, Math.max(11, 12 / (w / (b - a))));
+          }
+        }
+        // Un ciel ENFANT n'est jamais plus haut que large : quelques étoiles s'élargissent au lieu de s'étirer en hauteur.
+        // Jamais la racine : son cadre est celui de toujours (l'élargir rapetissait tout, et le texte avec — mesuré dans aiame-sov à 390 px).
+        const manque = (y1 - y0) - (x1 - x0);
+        if (this._pile.length && manque > 0) { x0 -= manque / 2; x1 += manque / 2; }
+        this._vb = [x0, y0, x1 - x0, y1 - y0];
+      }
+      this._svg.classList.toggle('cadre', !!(ids && ids.length));
+      this._milieu = ids && ids.length ? this._vb[0] + this._vb[2] / 2 : null;
+      this._etiquettes(this._milieu);
+      this._svg.setAttribute('viewBox', this._vb.map(f1).join(' '));
+      this._echelle();
+    }
+    // Étiquettes : vers l'extérieur de la galaxie ; dans une vue cadrée, vers le milieu du cadre (rien de coupé au bord).
+    _etiquettes(milieu) {
+      const D = this._data, pos = this._disp.pos;
+      this._svg.querySelectorAll('.n').forEach(g => {
+        const id = g.dataset.id, p = pos[id], n = this._index[id], t = g.querySelector('.lbl');
+        if (!p || !t || id === D.centre) return;
+        const r = n.taille || 6, droite = milieu == null ? Math.cos(p.ang) >= 0 : p.x < milieu;
+        t.setAttribute('x', f1(p.x + (r + 6) * (droite ? 1 : -1)));
+        t.setAttribute('text-anchor', droite ? 'start' : 'end');
+      });
+    }
+    _echelle() {
+      if (!this._vb) return;
+      const w = this.clientWidth || this._svg.clientWidth;
+      if (!w) return;
+      const k = w / this._vb[2];
+      // texte lisible à toute largeur : ~12 px écran, borné pour ne pas envahir un petit ciel
+      this._svg.style.setProperty('--fs', f1(Math.min(24, Math.max(11, 12 / k))) + 'px');
+      this._svg.classList.toggle('etroit', k < 0.62 && !this._cadre);
+      // compact : l'étoile se voit à ~5 px d'écran au moins, et se touche à 16 px de rayon (cible de 32 px) — jamais plus petite que sa taille
+      this._svg.querySelectorAll('.n').forEach(g => {
+        const r0 = parseFloat(g.dataset.r), c = g.querySelector('.coeur'), z = g.querySelector('.cible');
+        if (!c || !z || !(r0 > 0) || g.classList.contains('centre-enfant')) return;
+        c.setAttribute('r', f1(this._compact ? Math.max(r0, 5 / k) : r0));
+        z.setAttribute('r', f1(this._compact ? Math.max(r0, 16 / k) : r0));
+      });
+      this._eclaircir();
+    }
+    // Un nom de bras (AGIR, DEMAIN…) est posé au bout de son bras ; il ne recouvre ni une étoile ni un autre nom de bras, et garde ~8 px d'écran
+    // de marge (mesuré : « les faits » posé SUR une étoile dans un ciel de huit bras). Il glisse le long de son bras (puis de côté) vers la place
+    // la plus proche qui est libre ET dans le cadre ; sans place libre il garde la sienne. Les noms d'étoiles s'écartent ensuite des noms de bras.
+    _ecarterNomsDeBras() {
+      const noms = Array.from(this._svg.querySelectorAll('.etiq text')), vb = this._vb;
+      noms.forEach(t => { if (t.dataset.x0 != null) { t.setAttribute('x', t.dataset.x0); t.setAttribute('y', t.dataset.y0); } });   // retour à la place d'origine avant de réessayer
+      if (!vb || !noms.length) return;
+      const w = this.clientWidth || this._svg.clientWidth || 700, k = w / vb[2], m = Math.max(2, 8 / k);   // marge : ~8 px d'écran, en unités du dessin
+      const etoiles = [];
+      this._svg.querySelectorAll('.n:not([hidden]) .coeur').forEach(c => { const b = c.getBBox(); etoiles.push({ x0: b.x, x1: b.x + b.width, y0: b.y, y1: b.y + b.height }); });
+      const pris = [];
+      const libre = (r, mm) => !etoiles.some(q => r.x0 < q.x1 + mm && q.x0 < r.x1 + mm && r.y0 < q.y1 + mm && q.y0 < r.y1 + mm) && !pris.some(q => r.x0 < q.x1 + mm && q.x0 < r.x1 + mm && r.y0 < q.y1 + mm && q.y0 < r.y1 + mm);
+      const dedans = (r) => r.x0 >= vb[0] + 2 && r.x1 <= vb[0] + vb[2] - 2 && r.y0 >= vb[1] + 1 && r.y1 <= vb[1] + vb[3] - 1;
+      noms.forEach(t => {
+        let b; try { b = t.getBBox(); } catch (e) { return; }
+        if (!b.width) return;   // vue cadrée / compacte : nom masqué
+        const r = { x0: b.x, x1: b.x + b.width, y0: b.y, y1: b.y + b.height };
+        if (libre(r, m) && dedans(r)) { pris.push(r); return; }
+        const cx = Number(t.dataset.cos), sy = Number(t.dataset.sin), h = b.height;
+        // le long du bras vers l'extérieur d'abord, puis vers l'intérieur, puis de côté (perpendiculairement)
+        const pas = [[1, 0], [2, 0], [3, 0], [-1, 0], [-2, 0], [0, 1], [0, -1], [1, 1], [1, -1], [2, 1], [2, -1], [-1, 1], [-1, -1], [0, 2], [0, -2]];
+        // d'abord la marge entière (~8 px), puis un tiers, puis aucune : dans un cadre serré, ne jamais recouvrir une étoile vaut mieux que la marge
+        for (const mm of [m, m / 3, 0]) for (const [a, c] of pas) {
+          const dx = (cx * a - sy * c) * h * 0.9, dy = (sy * a + cx * c) * h * 0.9, r2 = { x0: r.x0 + dx, x1: r.x1 + dx, y0: r.y0 + dy, y1: r.y1 + dy };
+          if (!libre(r2, mm) || !dedans(r2)) continue;
+          t.setAttribute('x', f1(Number(t.dataset.x0) + dx)); t.setAttribute('y', f1(Number(t.dataset.y0) + dy)); pris.push(r2); return;
+        }
+        pris.push(r);
+      });
+    }
+    // Un nom ne se lit ni sous une étoile, ni sur un autre nom. Chaque nom, par priorité (l'étoile choisie, le centre, la plus grande,
+    // puis l'ordre), est posé de son côté d'origine ; s'il recouvre une étoile ou un nom déjà posé, on essaie de l'AUTRE côté de son
+    // étoile ; si les deux côtés sont pris : dans un ciel ENFANT dense il se tait (il reparaît au survol, au focus et à la sélection, et
+    // reste dans la bulle et pour les lecteurs d'écran) ; dans la RACINE il garde son côté d'origine — chaque étoile y garde son nom,
+    // jamais masqué. Un nom qui ne gêne personne n'est jamais déplacé.
+    _eclaircir() {
+      this._etiquettes(this._milieu === undefined ? null : this._milieu);   // retour aux côtés d'origine avant de réessayer
+      Object.keys(this._disp ? this._disp.pos : {}).forEach(id => { const g = this._svg.querySelector(`.n[data-id="${CSS.escape(id)}"]`), t = g && g.querySelector('.lbl'), p = this._disp.pos[id]; if (t && id !== this._data.centre) t.setAttribute('y', f1(p.y + 4)); });
+      this._ecarterNomsDeBras();
+      const gs = Array.from(this._svg.querySelectorAll('.n'));
+      gs.forEach(g => g.classList.remove('sans-lbl', 'retourne'));
+      const enfant = this._pile.length > 0, pos = this._disp ? this._disp.pos : {};
+      const prio = (g) => { const n = this._index[g.dataset.id] || {}; return (n.id === this._sel ? -2 : n.id === this._data.centre ? -1 : 0) - (n.taille || 6) / 100; };
+      const visibles = gs.filter(g => !g.hasAttribute('hidden'));
+      const pris = [];   // les étoiles d'abord, puis les noms déjà posés
+      visibles.forEach(g => { const c = g.querySelector('.coeur'); if (c) { const b = c.getBBox(); pris.push({ x0: b.x, x1: b.x + b.width, y0: b.y, y1: b.y + b.height, de: g }); } });
+      // les noms de bras sont des obstacles aussi (un nom d'étoile ne s'écrit pas sur « VENDRE ») ; masqués (vue cadrée) : boîte nulle, ignorés
+      this._svg.querySelectorAll('.etiq text').forEach(t => { let b; try { b = t.getBBox(); } catch (e) { return; } if (b.width) pris.push({ x0: b.x - 2, x1: b.x + b.width + 2, y0: b.y - 1, y1: b.y + b.height + 1, de: null }); });
+      const gene = (r, g) => pris.some(q => q.de !== g && r.x0 < q.x1 && q.x0 < r.x1 && r.y0 < q.y1 && q.y0 < r.y1);
+      // Ciel ÉTROIT : un nom ne sort pas de la boîte (le svg la coupe) ; il passe de l'autre côté de son étoile, comme pour une collision.
+      // Jamais en ciel large : son cadre est celui de toujours.
+      const etroit = this._svg.classList.contains('etroit') && this._vb, vx0 = etroit ? this._vb[0] : 0, vx1 = etroit ? this._vb[0] + this._vb[2] : 0, vy0 = etroit ? this._vb[1] : 0, vy1 = etroit ? this._vb[1] + this._vb[3] : 0;
+      const hors = (r) => etroit && (r.x0 + 3 < vx0 || r.x1 - 3 > vx1 || r.y0 + 1 < vy0 || r.y1 - 1 > vy1);
+      visibles.sort((a, b) => prio(a) - prio(b)).forEach(g => {
+        const t = g.querySelector('.lbl'); if (!t) return;
+        let b; try { b = t.getBBox(); } catch (e) { return; }
+        if (!b.width) return;   // nom non affiché (ciel étroit) : rien à placer
+        const r = { x0: b.x - 3, x1: b.x + b.width + 3, y0: b.y - 1, y1: b.y + b.height + 1, de: g };
+        if (!gene(r, g) && !hors(r)) { pris.push(r); return; }
+        const id = g.dataset.id, p = pos[id], n = this._index[id];
+        if (p && n && id !== this._data.centre) {
+          // d'autres places, de la plus proche de l'origine à la plus éloignée : l'autre côté de l'étoile, puis une ligne plus haut ou plus bas
+          const droite = Number(t.getAttribute('x')) > p.x, dec = (n.taille || 6) + 6, h = b.height * 0.9;
+          const places = [];
+          [0, -h, h, -2 * h, 2 * h].forEach(dy => [droite, !droite].forEach(d => { if (dy || d !== droite) places.push({ dy, d }); }));
+          for (const { dy, d } of places) {
+            const x0 = d ? p.x + dec : p.x - dec - b.width, r2 = { x0: x0 - 3, x1: x0 + b.width + 3, y0: r.y0 + dy, y1: r.y1 + dy, de: g };
+            if (gene(r2, g) || hors(r2)) continue;
+            t.setAttribute('x', f1(d ? p.x + dec : p.x - dec)); t.setAttribute('text-anchor', d ? 'start' : 'end'); t.setAttribute('y', f1(p.y + 4 + dy));
+            g.classList.add('retourne'); pris.push(r2); return;
+          }
+        }
+        if (enfant) g.classList.add('sans-lbl'); else pris.push(r);
+      });
+    }
+    _choisir(id) {
+      if (id === this._sel) { this.desselectionner(); return; }   // re-clic sur l'étoile choisie = on la lâche
+      this.selectionner(id);
+      this.dispatchEvent(new CustomEvent('atlas-select', { detail: { id }, bubbles: true, composed: true }));
+    }
+    _survol(n, ev) {
+      const b = this._bulle;
+      this.dispatchEvent(new CustomEvent('atlas-survol', { detail: { id: n ? n.id : null }, bubbles: true, composed: true }));
+      const e = n && enfantEnLigne(n), dedans = e ? (e.noeuds || []).filter(m => m.id !== n.id).length : null;
+      const preuves = n ? preuvesDe(n.preuve) : [];
+      if (!n || (!n.titre && !n.enfant && !preuves.length)) { b.hidden = true; return; }
+      b.textContent = '';
+      const t = document.createElement('b'); t.textContent = n.label || n.id; b.appendChild(t);
+      if (n.titre) b.appendChild(document.createTextNode(n.titre));
+      preuves.slice(0, 3).forEach(v => { const d = document.createElement('div'); d.className = 'preuve'; d.textContent = '↳ ' + v; b.appendChild(d); });
+      if (preuves.length > 3) { const d = document.createElement('div'); d.className = 'preuve'; d.textContent = `+${preuves.length - 3} ${this._lib.plus}`; b.appendChild(d); }
+      if (n.enfant && !(n.id === this._data.centre && this._pile.length)) {   // ce qu'il y a dedans, et le geste pour y entrer
+        const d = document.createElement('div'); d.textContent = `↘ ${dedans != null ? dedans + ' ' + this._lib.etoiles + ' — ' : ''}${this._lib.entrer}`; b.appendChild(d);
+      }
+      b.hidden = false;
+      const r = this.getBoundingClientRect();
+      const x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;
+      b.style.left = Math.max(4, Math.min(x, r.width - b.offsetWidth - 6)) + 'px';
+      b.style.top = Math.max(4, Math.min(y, r.height - b.offsetHeight - 6)) + 'px';
+    }
+    // ── filtres : étiquettes clé:valeur + texte libre ──
+    _libelles() {
+      this._champ.placeholder = this._lib.recherche; this._champ.setAttribute('aria-label', this._lib.recherche);
+      this._racine.querySelector('summary').textContent = this._lib.etiquettes + ' ▾';
+      this._reinit.textContent = this._lib.reinit;
+    }
+    _cles() { const f = this._facettesIndex || {}; return Object.keys(f).sort((a, b) => { const ia = CLES_ORDRE.indexOf(a), ib = CLES_ORDRE.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || (a < b ? -1 : 1); }); }
+    _facettes() {
+      const f = {};
+      // une étoile compte UNE fois par valeur, qu'elle la porte elle-même ou par une étoile qu'elle contient : le sélecteur liste ce qu'il y a dedans
+      ((this._data && this._data.noeuds) || []).forEach(n => {
+        const vues = {};
+        [n].concat(descendants(n)).forEach(m => { for (const k in (m.etiquettes || {})) { const v = String(m.etiquettes[k]); (vues[k] = vues[k] || new Set()).add(v); } });
+        for (const k in vues) vues[k].forEach(v => { (f[k] = f[k] || {})[v] = (f[k][v] || 0) + 1; });
+      });
+      this._facettesIndex = f;
+      this._couleurs = {}; ((this._data && this._data.groupes) || []).forEach(g => { this._couleurs[g.id] = g.couleur; });
+      this._menu.textContent = '';
+      const sug = this._racine.getElementById('suggestions'); sug.textContent = '';
+      this._cles().forEach(k => {
+        const valeurs = Object.keys(f[k]).sort((a, b) => f[k][b] - f[k][a] || (a < b ? -1 : 1));
+        valeurs.forEach(v => { const o = document.createElement('option'); o.value = `${k}:${v}`; sug.appendChild(o); });
+        if (valeurs.length < 2) return;      // une clé à une seule valeur ne filtre rien : pas dans le sélecteur
+        const h = document.createElement('h4'); h.textContent = k; const g = document.createElement('div'); g.className = 'groupe';
+        valeurs.forEach(v => { const b = this._puce(k, v, f[k][v]); b.dataset.picker = '1'; b.addEventListener('click', () => this.basculerEtiquette(k, v)); g.appendChild(b); });
+        this._menu.appendChild(h); this._menu.appendChild(g);
+      });
+    }
+    _puce(k, v, n) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'tag'; b.dataset.k = k; b.dataset.v = v;
+      const ck = document.createElement('span'); ck.className = 'k'; ck.textContent = k;
+      const cv = document.createElement('span'); cv.className = 'v';
+      if (k === ((this._data && this._data.cleGroupe) || 'branch') && this._couleurs && this._couleurs[v]) { const i = document.createElement('i'); i.style.setProperty('--c', this._couleurs[v]); cv.appendChild(i); }
+      cv.appendChild(document.createTextNode(v));
+      b.appendChild(ck); b.appendChild(cv);
+      if (n != null) { const cn = document.createElement('span'); cn.className = 'cnt'; cn.textContent = String(n); b.appendChild(cn); }
+      return b;
+    }
+    // Découpe la saisie : les jetons `clé:valeur` CONNUS deviennent des étiquettes (à Entrée ou à l'espace) ; le reste est du texte libre.
+    _decouper(texte, final) {
+      const libres = [], tags = [], f = this._facettesIndex || {};
+      texte.split(/\s+/).filter(Boolean).forEach(j => {
+        const m = TAG_RE.exec(j);
+        if (m && f[m[2]]) {
+          const valeur = Object.keys(f[m[2]]).find(v => sans(v) === sans(m[3]));
+          if (valeur !== undefined) { if (final) tags.push({ k: m[2], v: valeur, neg: m[1] === '-' }); else libres.push(null); return; }
+          if (!final) { libres.push(null); return; }      // « web:tr » en cours de frappe : ni texte, ni filtre
+        }
+        libres.push(j);
+      });
+      return { libres: libres.filter(x => x !== null), tags };
+    }
+    _saisie(final) {
+      const v = this._champ.value, fin = final || /\s$/.test(v);
+      const { libres, tags } = this._decouper(v, fin);
+      if (fin) {
+        tags.forEach(t => {   // « -web:true » alors que « web:true » existe : on inverse la puce, on ne l'ignore pas
+          const i = this._filtre.tags.findIndex(x => x.k === t.k && sans(x.v) === sans(t.v));
+          if (i >= 0) this._filtre.tags[i].neg = t.neg; else this._filtre.tags.push(t);
+        });
+        this._champ.value = libres.join(' ') + (libres.length && !final ? ' ' : '');
+      }
+      this._filtre.q = libres.join(' ');
+      this._majFiltre();
+    }
+    _calculIds() {
+      const { q, tags } = this._filtre, mots = sans(q).split(/\s+/).filter(Boolean);
+      if (!mots.length && !tags.length) return null;
+      const oui = {}; tags.filter(t => !t.neg).forEach(t => { (oui[t.k] = oui[t.k] || new Set()).add(sans(t.v)); });   // OU dans une clé
+      const non = tags.filter(t => t.neg), ids = new Set();
+      const haystack = (m) => sans(m.texte || [m.id, m.label, m.titre].concat(preuvesDe(m.preuve)).join(' '));
+      // Une étoile répond sur ce qu'elle CONTIENT : elle-même et tout ce qu'il y a dedans (enfants en ligne, à tous les étages).
+      // Chaque clé, chaque mot, chaque exclusion se juge sur cet ensemble : « kind:repo etat:ok » allume le dépôt qui est un repo
+      // ET qui contient un module « ok » ; « -etat:ok » écarte un dépôt qui en contient un. Sans enfant, l'ensemble est l'étoile seule.
+      ((this._data && this._data.noeuds) || []).forEach(n => {
+        const U = [n].concat(descendants(n));
+        for (const k in oui) if (!U.some(m => oui[k].has(sans((m.etiquettes || {})[k])))) return;                       // ET entre clés
+        for (const t of non) if (U.some(m => sans((m.etiquettes || {})[t.k]) === sans(t.v))) return;
+        if (mots.length) { const hs = U.map(haystack); if (!mots.every(w => hs.some(h => h.includes(w)))) return; }
+        ids.add(n.id);
+      });
+      return ids;
+    }
+    _majFiltre() {
+      if (!this._data) return;
+      this._ids = this._calculIds();
+      this._puces.textContent = '';
+      this._filtre.tags.forEach(t => {
+        const b = this._puce(t.neg ? '-' + t.k : t.k, t.v); b.classList.add('puce'); b.dataset.k = t.k; b.classList.toggle('neg', t.neg);
+        b.setAttribute('aria-label', `${this._lib.retirer} ${t.neg ? '-' : ''}${t.k}:${t.v}`);
+        b.addEventListener('click', () => this.basculerEtiquette(t.k, t.v));
+        this._puces.appendChild(b);
+      });
+      this._menu.querySelectorAll('.tag').forEach(b => b.setAttribute('aria-pressed', String(this._filtre.tags.some(t => t.k === b.dataset.k && sans(t.v) === sans(b.dataset.v) && !t.neg))));
+      const cg = this._data.cleGroupe || 'branch';
+      this._svg.querySelectorAll('.etiq text').forEach(t => t.classList.toggle('actif', this.aEtiquette(cg, t.dataset.groupe)));
+      this._brasNav.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(this.aEtiquette(cg, b.dataset.groupe))));
+      const total = this._data.noeuds.length;
+      this._compte.textContent = this._ids ? `${this._ids.size} ${this._lib.sur} ${total}${this._ids.size === 0 ? ' — ' + this._lib.aucun : ''}` : '';
+      this.dispatchEvent(new CustomEvent('atlas-filtre', { detail: { q: this._filtre.q, tags: this.filtre.tags, ids: this._ids ? Array.from(this._ids) : null, compte: this._ids ? this._ids.size : total, total }, bubbles: true, composed: true }));
+      this._appliquer();
+    }
+    _appliquer() {
+      const D = this._data;
+      if (!D || !this._gLiens) return;
+      const sel = this._sel;
+      const ok = (id) => (!this._focus || this._focus.has(id)) && (!this._ids || this._ids.has(id));   // focus de l'hôte ET filtre de l'utilisateur
+      const filtre = !!(this._focus || this._ids);
+      this._svg.querySelectorAll('.n').forEach(g => {
+        const n = this._index[g.dataset.id];
+        g.classList.toggle('sel', n.id === sel);
+        g.classList.toggle('dim', !ok(n.id) && n.id !== sel);   // l'étoile choisie ne disparaît jamais
+        g.toggleAttribute('hidden', !!(this._masque && this._masque(n)));  // SVGElement n'a pas de propriété .hidden
+        const t = this._teinte ? this._teinte(n) : null;
+        if (t) g.style.setProperty('--t', t); else g.style.removeProperty('--t');
+      });
+      const liens = D.liens || [];
+      const visibleN = (id) => { const n = this._index[id]; return !!n && !(this._masque && this._masque(n)); };
+      this._gLiens.querySelectorAll('.lien').forEach(p => {
+        const l = liens[Number(p.dataset.i)];
+        const touche = !!sel && (l.source === sel || l.cible === sel);
+        const m = this._modeLiens;
+        let vis = typeof m === 'function' ? m(l) : m === 'tous' ? true : touche;
+        if (touche) vis = true;   // les liens de l'étoile choisie se voient dans TOUTES les lentilles (avant : cachés en mode « fonction »)
+        if (!visibleN(l.source) || !visibleN(l.cible)) vis = false;
+        if (this._typesCaches && this._typesCaches.has(l.type)) vis = false;
+        if (filtre && !touche && !(ok(l.source) && ok(l.cible))) vis = false;
+        p.toggleAttribute('hidden', !vis);
+        p.classList.toggle('hi', touche);
+      });
+      this._reinit.hidden = !(this._ids || this._filtre.tags.length || this._filtre.q || sel || this._etatHote);
+    }
+  }
+  AiameAtlas.disposer = disposer;
+  customElements.define('aiame-atlas', AiameAtlas);
+})();
+
+</script>
+<script id="donnees" type="application/json">{"releve":"2026-10-19","ordre":["preuve","verification","humain","souverainete","memoire","economie","frugalite","langue","ouverture","face"],"familles":{"preuve":{"label_fr":"Vérité et preuve","label_en":"Truth and proof","texte_fr":"Dire ce qui est, prouver ce qu'on affirme, écrire ABSENT quand rien n'est là.","texte_en":"Say what is, prove what is claimed, write ABSENT when nothing is there."},"verification":{"label_fr":"Vérification","label_en":"Verification","texte_fr":"Des contrôles qui échouent vraiment, eux-mêmes vérifiés — et une abstention qui ne passe jamais pour un vert.","texte_en":"Checks that really fail, themselves checked — and an abstention never passed off as green."},"humain":{"label_fr":"L'humain décide","label_en":"Humans decide","texte_fr":"L'IA prépare, l'humain décide ; personne n'est noté, comparé ni interprété.","texte_en":"AI prepares, humans decide; nobody is scored, compared or interpreted."},"souverainete":{"label_fr":"Souveraineté et vie privée","label_en":"Sovereignty and privacy","texte_fr":"Local d'abord, données chez leur propriétaire, aucun modèle frontière ni tiers non déclaré dans le chemin d'exécution.","texte_en":"Local first, data with its owner, no frontier model or undeclared third party in the execution path."},"memoire":{"label_fr":"Mémoire et provenance","label_en":"Memory and provenance","texte_fr":"Une source, jamais recopiée ; l'histoire ne se réécrit pas ; ce qui n'est pas poussé n'est pas sauvé.","texte_en":"One source, never copied; history is not rewritten; what is not pushed is not saved."},"economie":{"label_fr":"Économie honnête","label_en":"Honest economics","texte_fr":"Rien n'est vendu avant d'être propre de bout en bout ; coûts et revenus dits, même quand c'est zéro.","texte_en":"Nothing is sold before it is clean end to end; costs and revenue stated, even when zero."},"frugalite":{"label_fr":"Frugalité","label_en":"Frugality","texte_fr":"Déterministe d'abord, le modèle en dernier ; local avant payant ; rien de construit sans besoin réel.","texte_en":"Deterministic first, the model last; local before paid; nothing built without a real need."},"langue":{"label_fr":"Langue et parole","label_en":"Language and voice","texte_fr":"Anglais pour la machine, français pour le citoyen ; ce qu'AIAME ne dira jamais.","texte_en":"English for the machine, French for the citizen; what AIAME will never say."},"ouverture":{"label_fr":"Ouverture","label_en":"Openness","texte_fr":"Sans compte, divulgué une fois corrigé, antériorité publique, outillage libre.","texte_en":"No account, disclosed once fixed, public prior art, free tooling."},"face":{"label_fr":"La science protégée","label_en":"The protected science","texte_fr":"Visage et main : muette, invendue, jamais interprétative. Une mesure qui montre, un référent commun, aucun verdict.","texte_en":"Face and hand: mute, unsold, never interpretive. A measurement that shows, a common reference, no verdict."}},"valeurs":[{"id":"verifiable-sans-croire","label":"Vérifiable sans croire","titre_fr":"Ce que nous affirmons se vérifie sans nous croire : chaque affirmation livre le contrôle que n'importe qui peut rejouer.","titre_en":"What we claim can be checked without believing us: every claim ships the check anyone can rerun.","famille":"preuve","statut":"prouvé","date":"2026-08-01","preuves":["aiame-doctrine:garde-fous/test_garde_fous.sh:2","aiame-racines:tests/test_provenance.py:21"],"preuves_n":2},{"id":"gris-honnete","label":"Gris honnête, jamais vert fabriqué","titre_fr":"Un indicateur non mesuré s'affiche en gris ; un chiffre ne sort que s'il est vérifiable.","titre_en":"An unmeasured indicator is shown in grey; a figure only goes out if it is verifiable.","famille":"preuve","statut":"prouvé","date":"2026-08-01","preuves":["aiame-focus-budget:tests/test_pap_parseur.py:129","aiame-ledger:tests/test_coherence.py:115","aiame-racines:tests/test_fiche.py:71"],"preuves_n":3},{"id":"source-primaire","label":"La source primaire, jamais un résumé","titre_fr":"On vérifie à la source primaire ; un résumé, une page officielle ou une preuve interne n'en tiennent pas lieu ; une réponse se consigne écrite et datée.","titre_en":"Check at the primary source; a summary, an official page or an internal proof is no substitute; an answer is recorded in writing, dated.","famille":"preuve","statut":"déclaré","date":"2026-07-28","preuves":[],"preuves_n":0},{"id":"je-ne-sais-pas","label":"« Je ne sais pas » plutôt qu'une fausse assurance","titre_fr":"Quand le service ne sait pas, il le dit ; il ne devine jamais, il rejette en le motivant.","titre_en":"When the service does not know, it says so; it never guesses, it refuses with a reason.","famille":"preuve","statut":"prouvé","date":"2026-07-25","preuves":["aiame-angel:backend/tests/test_obligations_service.py:90","aiame-compass:test_aggregate.py:92","aiame-compliance:backend/tests/test_report.py:8","aiame-dream:tests/test_cli_e2e.py:77","aiame-mcp:backend/tests/test_offline_honesty.py:1"],"preuves_n":9},{"id":"prouve-pas-declare","label":"Prouvé, pas déclaré","titre_fr":"Un avancement se déclare avec sa preuve — test, mesure, capture — jamais sur la foi d'un README ; on classe par preuve.","titre_en":"Progress is declared with its proof — test, measurement, screenshot — never on a README's word; things are classified by proof.","famille":"preuve","statut":"prouvé","date":"2026-07-24","preuves":[],"preuves_n":0},{"id":"mesurer-pas-estimer","label":"Mesurer, pas estimer","titre_fr":"Une mesure du comportement réel, une capture d'écran, une porte mesurée — jamais une estimation, une lecture de CSS ou une date.","titre_en":"A measurement of real behaviour, a screenshot, a measured gate — never an estimate, a CSS reading or a date.","famille":"preuve","statut":"prouvé","date":"2026-06-18","preuves":["aiame-fr.github.io:.githooks/pre-push:68"],"preuves_n":1},{"id":"rigueur-falsifiable","label":"Une science falsifiable : critères d'abandon écrits avant","titre_fr":"Rien n'est ajusté après coup : des critères d'abandon explicites, un seuil statistique exigeant, une version reproductible, et la capacité de s'arrêter.","titre_en":"Nothing is adjusted after the fact: explicit abandon criteria, a demanding statistical threshold, a reproducible version, and the ability to stop.","famille":"preuve","statut":"déclaré","date":"2026-01-21","preuves":[],"preuves_n":0},{"id":"discours-contre-mesure","label":"Le discours se mesure : rien n'est dit avant d'être mesuré","titre_fr":"Les mots de marketing non mesurés sont interdits ; une phrase qui rassure trop ou ressemble à une promesse est suspecte ; une mention incomplète n'est jamais publiée.","titre_en":"Unmeasured marketing words are forbidden; a sentence that reassures too much or sounds like a promise is suspect; an incomplete notice is never published.","famille":"preuve","statut":"déclaré","date":"2025-08-07","preuves":[],"preuves_n":0},{"id":"loi-de-la-preuve","label":"La Loi de la Preuve : chaque chiffre porte sa source","titre_fr":"Tout chiffre affiché et toute recommandation portent leur provenance, jusqu'à la pièce ; un chiffre est un appel de fonction, pas une phrase.","titre_en":"Every displayed figure and recommendation carries its provenance down to the document; a figure is a function call, not a sentence.","famille":"preuve","statut":"prouvé","date":"2025-07-29","preuves":["aiame-focus-budget:tests/test_donnees.py:40","aiame-focus-carburant:backend/tests/test_live_refresh.py:90","aiame-ledger:tests/test_coherence.py:33","aiame-pouls:tests/test_coherence.py:20","aiame-racines:tests/test_provenance.py:21"],"preuves_n":6},{"id":"zero-bullshit","label":"Zéro bullshit","titre_fr":"Ce qui est incertain se dit ; ce qui manque s'écrit ABSENT en toutes lettres, jamais présenté comme livré.","titre_en":"What is uncertain is said; what is missing is written ABSENT, never presented as delivered.","famille":"preuve","statut":"prouvé","date":"2025-07-22","preuves":["aiame-angel:frontend/e2e/ma-tournee.spec.ts:242","aiame-angel:frontend/src/app/tournee/messages.test.ts:41","aiame-dream:tests/test_dream.py:112","aiame-graine:core-orchestrator/backend/tests/test_f2_auc.py:31","aiame-hand:frontend/e2e/hand.spec.ts:33"],"preuves_n":8},{"id":"verifier-en-direct","label":"On vérifie en direct, l'absence est un échec","titre_fr":"La preuve se prend sur l'état réel, avant plutôt qu'après ; un fichier manquant est une déclaration rompue ; une absence ne prouve rien ; une règle doit pouvoir être falsifiée.","titre_en":"Proof is taken on the real state, before rather than after; a missing file is a broken declaration; an absence proves nothing; a rule must be falsifiable.","famille":"preuve","statut":"prouvé","date":"2025-07-22","preuves":["aiame-doctrine:garde-fous/verifier-copies.sh:194","aiame-doctrine:garde-fous/verifier-copies.sh:202","aiame-doctrine:garde-fous/verifier-copies.sh:243","aiame-doctrine:garde-fous/verifier-copies.sh:46","aiame-doctrine:garde-fous/verifier-copies.sh:9"],"preuves_n":5},{"id":"fraicheur-declaree","label":"Fraîcheur déclarée","titre_fr":"La fraîcheur se déclare par source : chaque chiffre dit sa date et son âge maximal, une date absente ou illisible s'affiche inconnue, jamais présumée fraîche.","titre_en":"Freshness is declared per source: every figure states its source date and maximum age; an undated or unreadable date is shown as unknown, never presumed fresh.","famille":"verification","statut":"prouvé","date":"2026-10-07","preuves":["aiame-focus-budget:frontend/tests/mutations.check.sh:259","aiame-focus-lycees:.githooks/pre-push:40","aiame-focus-lycees:backend/tests/test_freshness.py:83"],"preuves_n":3},{"id":"mecanisme-pas-discipline","label":"Un mécanisme, pas une discipline","titre_fr":"Ce qui compte est imposé par le code, le type ou un contrôle déterministe — jamais laissé à la bonne volonté, jamais contourné à la main.","titre_en":"What matters is enforced by code, type or a deterministic check — never left to goodwill, never bypassed by hand.","famille":"verification","statut":"prouvé","date":"2026-08-22","preuves":["aiame-budget:.githooks/pre-push:5"],"preuves_n":1},{"id":"copie-verifiee","label":"Une copie vendorée est vérifiée par somme","titre_fr":"Ce qui est partagé est copié avec sa somme de contrôle et comparé au canon ; un modèle est épinglé par son empreinte.","titre_en":"What is shared is copied with its checksum and compared with the canon; a model is pinned by its digest.","famille":"verification","statut":"prouvé","date":"2026-08-08","preuves":["aiame-cartographe:.githooks/pre-push:36","aiame-compass:.githooks/pre-push:43","aiame-core:.githooks/pre-push:46","aiame-focus-parcours:frontend/tests/mutations.check.sh:67","aiame-focus:.githooks/pre-push:17"],"preuves_n":12},{"id":"prototype-declare","label":"Un prototype se dit prototype","titre_fr":"Ce qui n'est pas prêt pour la production le dit, et une vérification refuse de le laisser passer pour livré.","titre_en":"Anything not production-ready says so, and a check refuses to let it pass as delivered.","famille":"verification","statut":"prouvé","date":"2026-07-28","preuves":["aiame-agri-gers:backend/tests/test_settings_production_guard.py:4","aiame-sov:scripts/garde_fous_locaux.sh:200"],"preuves_n":2},{"id":"lecture-seule-moindre-privilege","label":"Lecture seule et moindre privilège","titre_fr":"Lire sans écrire ; un contenu n'est jamais une instruction ; un jeton n'est jamais cru sur parole ; aucun oracle d'énumération.","titre_en":"Read without writing; content is never an instruction; a token is never taken on trust; no enumeration oracle.","famille":"verification","statut":"prouvé","date":"2026-07-28","preuves":["aiame-auth:backend/tests/test_auth_api.py:104","aiame-auth:backend/tests/test_password_reset.py:125","aiame-infra:scripts/test_apod_tag.sh:2","aiame-sov:backend/tests/test_rag_prompt_injection.py:90"],"preuves_n":4},{"id":"conversations-honnetes","label":"Un défaut hors la règle ne se contourne pas","titre_fr":"Un garde-fou qui discrimine ; le faux positif se corrige sans affaiblir le contrôle ; une régression silencieuse n'est jamais tolérée.","titre_en":"A guard that discriminates; a false positive is fixed without weakening the check; a silent regression is never tolerated.","famille":"verification","statut":"prouvé","date":"2026-07-25","preuves":["aiame-doctrine:garde-fous/test_garde_fous.sh:11","aiame-doctrine:garde-fous/test_garde_fous.sh:117","aiame-doctrine:garde-fous/test_garde_fous.sh:416","aiame-doctrine:garde-fous/test_lavage_git.sh:43"],"preuves_n":4},{"id":"verificateur-verifie","label":"Le vérificateur est vérifié — et tourne d'abord sur nous","titre_fr":"Une mesure indépendante, un second lecteur, un modèle de menace écrit ; les garde-fous s'appliquent d'abord à AIAME elle-même.","titre_en":"An independent measurement, a second reader, a written threat model; guards apply to AIAME itself first.","famille":"verification","statut":"déclaré","date":"2026-07-23","preuves":[],"preuves_n":0},{"id":"jamais-push-main","label":"Jamais de push direct sur main","titre_fr":"Branche et revue, partout, même seul ; on commit par chemin nommé, jamais tout d'un coup.","titre_en":"Branch and review, everywhere, even alone; commit by named path, never everything at once.","famille":"verification","statut":"prouvé","date":"2026-06-18","preuves":["aiame-doctrine:.githooks/pre-push:71","aiame-doctrine:garde-fous/test_lavage_git.sh:66"],"preuves_n":2},{"id":"abstention-pas-un-vert","label":"Une abstention n'est jamais un vert","titre_fr":"Un contrôle qui n'a rien pu mesurer échoue ou s'abstient en le disant ; ce qui n'est pas déclaré est refusé, jamais accepté par défaut.","titre_en":"A check that could measure nothing fails or abstains and says so; what is not declared is refused, never accepted by default.","famille":"verification","statut":"prouvé","date":"2026-06-18","preuves":["aiame-agri-gers:backend/tests/test_resources.py:64","aiame-auth:backend/tests/test_password_hasher.py:40","aiame-budget:.githooks/pre-push:4","aiame-core:.githooks/pre-push:13","aiame-creator:.githooks/pre-push:13"],"preuves_n":22},{"id":"red-team-d-abord","label":"Chaque capacité a sa contre-lecture adversariale","titre_fr":"Un contradicteur construit en parallèle, à chaque étape décisive : l'ange face au diable, le jumeau adversarial, la tour de contrôle.","titre_en":"An adversary built in parallel, at every decisive step: angel against devil, the adversarial twin, the control tower.","famille":"verification","statut":"déclaré","date":"2026-01-21","preuves":[],"preuves_n":0},{"id":"garde-fou-prouve","label":"Un garde-fou jamais vu échouer ne prouve rien","titre_fr":"On fabrique la violation, on vérifie que le contrôle rougit, on restaure ; tout bug a son test.","titre_en":"Fabricate the violation, check the guard turns red, restore; every bug gets its test.","famille":"verification","statut":"prouvé","date":"2025-08-07","preuves":["aiame-agri-gers:.githooks/pre-push:40","aiame-angel:backend/tests/test_registre_lisible_par_le_moteur.py:14","aiame-angel:backend/tests/test_vendored_checksums.py:46","aiame-apod:services/apod/backend/tests/test_no_access_log.py:9","aiame-cartographe:backend/tests/test_pipeline_no_secret_leak.py:1"],"preuves_n":37},{"id":"separation-des-couches","label":"Chaque couche ne connaît que la sienne","titre_fr":"Séparation des domaines et des couches : un module ne connaît aucun autre module ; la montée en charge se pense dès le début.","titre_en":"Separation of domains and layers: a module knows no other module; scale-up is thought through from the start.","famille":"verification","statut":"déclaré","date":"2025-07-24","preuves":[],"preuves_n":0},{"id":"qualite-du-code","label":"Les règles de l'art, rien de jetable","titre_fr":"Pas de dette, pas d'incohérence ; le code est testé, documenté, configuré explicitement et bâti sur des standards éprouvés.","titre_en":"No debt, no inconsistency; code is tested, documented, explicitly configured and built on proven standards.","famille":"verification","statut":"prouvé","date":"2025-07-24","preuves":["aiame-doctrine:garde-fous/verifier-copies.sh:147"],"preuves_n":1},{"id":"conformite-d-abord","label":"La conformité pensée dès l'origine","titre_fr":"Conformité légale et AI Act dès la conception : journaux d'audit, explicabilité, repli symbolique ; inspectable, explicable, déboguable.","titre_en":"Legal and AI Act compliance by design: audit logs, explainability, symbolic fallback; inspectable, explainable, debuggable.","famille":"verification","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"approbation-liee-au-texte","label":"Approbation liée au texte","titre_fr":"Une approbation est liée au texte exact approuvé : si le texte change d'un caractère, l'approbation ne tient plus et rien ne part.","titre_en":"An approval is bound to the exact text approved: change one character and the approval no longer holds, and nothing ships.","famille":"humain","statut":"prouvé","date":"2026-10-13","preuves":["aiame-mask:scripts/public-mesh.test.ts:65"],"preuves_n":1},{"id":"loi-du-regard","label":"La Loi du Regard","titre_fr":"L'utilisateur ne choisit jamais un type de graphique : le moteur le déduit de la donnée.","titre_en":"The user never picks a chart type: the engine deduces it from the data.","famille":"humain","statut":"déclaré","date":"2026-08-19","preuves":[],"preuves_n":0},{"id":"claude-co-auteur","label":"Claude co-auteur, jamais auteur","titre_fr":"L'outil qui écrit est nommé co-auteur ; un commit ne dit pas qui est l'auteur d'une œuvre.","titre_en":"The tool that writes is named co-author; a commit does not say who authored a work.","famille":"humain","statut":"déclaré","date":"2026-07-29","preuves":[],"preuves_n":0},{"id":"decision-datee-reversible","label":"Une décision est datée, signée par l'owner, réversible","titre_fr":"Chaque décision porte sa date et son champ réversible ; l'écart non tranché se consigne ; une exception est nommée et n'est pas un précédent ; l'owner signe, jamais un agent.","titre_en":"Each decision carries its date and a reversible field; an unsettled gap is recorded; an exception is named and is no precedent; the owner signs, never an agent.","famille":"humain","statut":"déclaré","date":"2026-07-28","preuves":[],"preuves_n":0},{"id":"montrer-sans-conclure","label":"Montrer, jamais conclure","titre_fr":"AIAME montre ; l'utilisateur comprend ; aucun verdict, aucune interprétation, un écart se montre sans être tranché.","titre_en":"AIAME shows; the user understands; no verdict, no interpretation, a gap is shown without being settled.","famille":"humain","statut":"prouvé","date":"2026-01-31","preuves":["aiame-angel:backend/tests/test_api_obligations.py:72","aiame-angel:frontend/e2e/structure-and-obligations.spec.ts:64","aiame-apod:services/apod/backend/tests/test_ingestion.py:136","aiame-focus-budget:tests/test_mutations_pap.py:96","aiame-focus-lycees:frontend/tests/logic.test.js:123"],"preuves_n":9},{"id":"b2h-benefice-humain","label":"B2H : l'humain est le bénéficiaire final","titre_fr":"Une relation respectueuse, transparente et réciproque : bien-être, autonomie sans pression, participation volontaire, charte révisée périodiquement.","titre_en":"A respectful, transparent, reciprocal relationship: well-being, autonomy without pressure, voluntary participation, a charter reviewed periodically.","famille":"humain","statut":"déclaré","date":"2025-08-07","preuves":[],"preuves_n":0},{"id":"humilite-contradiction","label":"Une IA qui contredit, qui doute, qui ne flatte pas","titre_fr":"Refuser la complaisance : le contradicteur plutôt que l'approbateur, l'humilité épistémique — personne ne détient la vérité.","titre_en":"Refuse sycophancy: the contradictor rather than the approver, epistemic humility — nobody holds the truth.","famille":"humain","statut":"déclaré","date":"2025-07-29","preuves":[],"preuves_n":0},{"id":"usager-d-abord","label":"L'usager d'abord","titre_fr":"Protéger et renforcer la personne : elle garde le contrôle total, l'IA ne passe jamais outre, on lui laisse de l'espace.","titre_en":"Protect and empower the person: she keeps full control, the AI never overrides, space is left for her.","famille":"humain","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"reprise-en-main","label":"La reprise en main absolue","titre_fr":"Si un modèle personnalisé risque un tort mental ou financier, il est désactivé ou réinitialisé : la clause finale de la Constitution.","titre_en":"If a personalised model risks mental or financial harm, it is disabled or reset: the Constitution's final clause.","famille":"humain","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"pere-protecteur","label":"Agir comme un père protecteur","titre_fr":"Une orientation mûre, pas une obéissance aveugle : le « bon père de famille » prudent, conservateur par défaut.","titre_en":"Mature guidance, not blind obedience: the prudent \"good steward\", conservative by default.","famille":"humain","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"pas-d-addiction","label":"Ni addiction, ni manipulation, ni viralité","titre_fr":"Jamais tromper, manipuler ni contraindre ; pas de rétention artificielle, pas d'exploitation émotionnelle, pas de récompense ; un miroir non social.","titre_en":"Never deceive, manipulate or coerce; no artificial retention, no emotional exploitation, no rewards; a non-social mirror.","famille":"humain","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"jamais-de-scoring","label":"B2H : jamais de scoring, jamais de comparaison","titre_fr":"Personne n'est noté, classé, comparé ni surveillé individuellement ; aucune captation.","titre_en":"Nobody is scored, ranked, compared or individually monitored; no capture.","famille":"humain","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"humain-decide","label":"L'initiative bornée : l'IA prépare, l'humain décide","titre_fr":"Rien à effet externe — envoi, paiement, signature, publication, déploiement — sans validation humaine explicite ; Claude rédige, ne décide jamais.","titre_en":"Nothing with an external effect — sending, paying, signing, publishing, deploying — without explicit human validation; Claude drafts, never decides.","famille":"humain","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"consentement","label":"Consentement explicite, départ sans coût","titre_fr":"Désactivé par défaut, visible, révocable ; ce qui est privé ne s'ouvre pas sans accord ; l'effacement promis est testé ; partir ne coûte rien.","titre_en":"Off by default, visible, revocable; what is private does not open without consent; promised deletion is tested; leaving costs nothing.","famille":"humain","statut":"prouvé","date":"2025-07-22","preuves":["aiame-hand:backend/tests/test_erasure.py:1"],"preuves_n":1},{"id":"augmenter-pas-remplacer","label":"Augmenter, jamais remplacer","titre_fr":"L'IA amplifie les gestes de chacun, elle ne les remplace pas et ne cherche pas à modifier la personne.","titre_en":"AI amplifies each person's own actions; it does not replace them and does not try to change the person.","famille":"humain","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"donnees-au-proprietaire","label":"Les données appartiennent à qui les produit","titre_fr":"L'accès aux données ne se verrouille jamais ; on partage une capacité, jamais la donnée ; rien n'est mis en commun entre utilisateurs sans anonymisation.","titre_en":"Data access never locks; a capability is shared, never the data; nothing is pooled across users without anonymisation.","famille":"souverainete","statut":"prouvé","date":"2026-08-30","preuves":["aiame-mask:scripts/garde_fous.sh:76"],"preuves_n":1},{"id":"secrets-hors-arbre","label":"Les secrets ne vivent pas dans l'arbre","titre_fr":"Secrets, biométrie et identifiants bancaires hors de tout dépôt, jamais affichés, chiffrés côté client ; aucune porte dérobée.","titre_en":"Secrets, biometrics and bank identifiers outside any repository, never displayed, client-side encrypted; no backdoor.","famille":"souverainete","statut":"prouvé","date":"2026-07-25","preuves":["aiame-compass:test_config.py:68","aiame-doctrine:garde-fous/garde_fous.sh:64","aiame-doctrine:garde-fous/test_garde_fous.sh:195","aiame-infra:scripts/test_luks_unlock.sh:4","aiame-knowledge:backend/tests/test_extract_docs.py:85"],"preuves_n":8},{"id":"jamais-de-modele-frontiere","label":"Aucun modèle frontière dans le chemin d'exécution","titre_fr":"Les modèles sont remplaçables, exécutés localement ou en Europe ; la logique métier n'est jamais couplée à l'un d'eux.","titre_en":"Models are replaceable, run locally or in Europe; business logic is never coupled to one of them.","famille":"souverainete","statut":"prouvé","date":"2026-07-15","preuves":["aiame-core:scripts/garde_fous.sh:3","aiame-creator:scripts/garde_fous.sh:50","aiame-doctrine:garde-fous/garde_fous.sh:50","aiame-doctrine:garde-fous/garde_fous.sh:58","aiame-doctrine:garde-fous/test_garde_fous.sh:94"],"preuves_n":9},{"id":"aucune-retention","label":"Rien de personnel ne reste","titre_fr":"Aucune rétention, aucun journal nominatif, aucun média biométrique conservé ; une image n'est jamais rendue, le visage jamais à l'écran.","titre_en":"No retention, no named log, no biometric media kept; an image is never rendered, the face never on screen.","famille":"souverainete","statut":"prouvé","date":"2026-02-18","preuves":["aiame-cartographe:backend/tests/test_resolve.py:48","aiame-mcp:backend/tests/test_gate.py:57","aiame-miroir:.githooks/pre-push:68","aiame-miroir:frontend/src/lib/voiceMeasure.privacy.test.ts:6","aiame-pause:backend/tests/test_privacy.py:124"],"preuves_n":7},{"id":"modele-remplacable","label":"Le modèle est remplaçable","titre_fr":"Les LLM sont remplaçables ; aucun couplage de la logique métier à l'un d'eux ; la provenance des modèles se classe en niveaux mesurés.","titre_en":"LLMs are replaceable; business logic is never coupled to one; model provenance is classed in measured tiers.","famille":"souverainete","statut":"déclaré","date":"2026-01-30","preuves":[],"preuves_n":0},{"id":"souverainete-individuelle","label":"Les données du visage appartiennent à l'utilisateur","titre_fr":"La souveraineté individuelle : les données faciales sont à la personne ; la mémoire et le savoir de l'entreprise sont à l'entreprise.","titre_en":"Individual sovereignty: facial data belongs to the person; the company's memory and knowledge belong to the company.","famille":"souverainete","statut":"déclaré","date":"2026-01-04","preuves":[],"preuves_n":0},{"id":"pas-de-revente","label":"Aucune revente de données, aucun profilage publicitaire","titre_fr":"Les données ne se revendent pas ; le profilage publicitaire tiers n'existe pas ; le collectif ne reçoit que la forme du travail.","titre_en":"Data is never resold; third-party advertising profiling does not exist; the collective only receives the shape of the work.","famille":"souverainete","statut":"déclaré","date":"2026-01-04","preuves":[],"preuves_n":0},{"id":"local-ai","label":"Un système d'IA local de confiance","titre_fr":"Un système d'exploitation IA local pour les PME européennes : la vie privée comme fonction, pas comme option.","titre_en":"A trusted local AI operating system for European SMEs: privacy as a feature, not an option.","famille":"souverainete","statut":"déclaré","date":"2025-08-28","preuves":[],"preuves_n":0},{"id":"juridiction-europe","label":"Juridiction européenne, dépendances déclarées","titre_fr":"Hors UE est un interdit ; la juridiction et le contrôle capitalistique de chaque dépendance sont consignés ; aucun tiers non déclaré.","titre_en":"Non-EU is forbidden; the jurisdiction and capital control of each dependency are recorded; no undeclared third party.","famille":"souverainete","statut":"prouvé","date":"2025-08-27","preuves":["aiame-apod:services/apod/backend/tests/test_compliance.py:76","aiame-doctrine:garde-fous/garde_fous.sh:200","aiame-doctrine:garde-fous/garde_fous.sh:202","aiame-doctrine:garde-fous/garde_fous.sh:205","aiame-doctrine:garde-fous/garde_fous.sh:209"],"preuves_n":12},{"id":"local-first","label":"Local d'abord","titre_fr":"Local par défaut, sous le contrôle de l'utilisateur ; aucune sortie réseau ni appel tiers non nécessaire ; la souveraineté est un mécanisme, pas un slogan.","titre_en":"Local by default, under the user's control; no network egress or third-party call that is not needed; sovereignty is a mechanism, not a slogan.","famille":"souverainete","statut":"prouvé","date":"2025-07-22","preuves":["aiame-miroir:frontend/tests/egress.spec.ts:20","aiame-pause:backend/tests/test_privacy.py:138"],"preuves_n":2},{"id":"journal-ia","label":"Toute réponse d'une IA est journalisée","titre_fr":"Un seul écrivain du journal IA, deux journaux complémentaires, journalisation qui ne se désactive pas.","titre_en":"A single writer of the AI journal, two complementary journals, logging that cannot be switched off.","famille":"memoire","statut":"déclaré","date":"2026-10-07","preuves":[],"preuves_n":0},{"id":"chronologie-recent-d-abord","label":"Toute chronologie : du plus récent au plus ancien","titre_fr":"Un composant qui montre des entrées datées les range d'abord du plus récent ; inverser et filtrer sont des options du lecteur, jamais un nouveau défaut.","titre_en":"A component showing dated entries sorts them newest first; reversing and filtering are reader options, never a new default.","famille":"memoire","statut":"déclaré","date":"2026-08-19","preuves":[],"preuves_n":0},{"id":"pousser-d-abord","label":"Un dépôt sans distant est un dépôt sans sauvegarde","titre_fr":"Pousser d'abord ; chaque artefact a son miroir ; une mémoire qu'on ne sait pas restaurer est un risque, une restauration se prouve.","titre_en":"Push first; every artefact has its mirror; a memory that cannot be restored is a risk, a restore is proven.","famille":"memoire","statut":"déclaré","date":"2026-07-28","preuves":[],"preuves_n":0},{"id":"nouvelle-version-jamais-edition","label":"On corrige par une nouvelle version, jamais en éditant","titre_fr":"Textes fondateurs mot pour mot ; une décision fusionnée se corrige par une nouvelle décision datée ; les non-négociables ne s'affaiblissent pas.","titre_en":"Founding texts word for word; a merged decision is corrected by a new dated decision; non-negotiables are never weakened.","famille":"memoire","statut":"déclaré","date":"2026-07-28","preuves":[],"preuves_n":0},{"id":"extrait-jamais-ecrit","label":"Une source, extraite — jamais recopiée","titre_fr":"Le code public n'est jamais écrit, il est extrait ; une liste a une seule source ; ce qui est généré ne s'édite pas à la main.","titre_en":"Public code is never written, it is extracted; a list has a single source; what is generated is not hand-edited.","famille":"memoire","statut":"prouvé","date":"2026-06-18","preuves":["aiame-orientation:.githooks/pre-push:35"],"preuves_n":1},{"id":"figer-pour-avancer","label":"Figer pour avancer","titre_fr":"Une référence figée incontestable, un journal d'expérimentation horodaté, une progression linéaire.","titre_en":"An incontestable frozen reference, a timestamped experiment log, linear progress.","famille":"memoire","statut":"déclaré","date":"2026-01-05","preuves":[],"preuves_n":0},{"id":"temps-long","label":"Le temps long plutôt que l'instantané","titre_fr":"Pas de rupture, pas de dépendance à un fournisseur, une mémoire qui dure : l'indépendance à long terme.","titre_en":"No breaking changes, no vendor dependence, a memory that lasts: long-term independence.","famille":"memoire","statut":"déclaré","date":"2025-08-16","preuves":[],"preuves_n":0},{"id":"horodate-reproductible","label":"Daté, horodaté, reproductible","titre_fr":"Archive octet pour octet, empreinte, horodatage tiers : on date sans montrer, et on peut refaire.","titre_en":"Byte-for-byte archive, digest, third-party timestamp: dated without being shown, and reproducible.","famille":"memoire","statut":"prouvé","date":"2025-08-06","preuves":["aiame-focus-budget:.githooks/pre-push:40"],"preuves_n":1},{"id":"historique-ne-se-reecrit-pas","label":"L'historique ne se réécrit pas","titre_fr":"Pas de réécriture d'historique, pas de suppression : on archive, on ajoute, les corrections se disent.","titre_en":"No history rewrite, no deletion: archive, append, corrections are stated.","famille":"memoire","statut":"prouvé","date":"2025-08-05","preuves":["aiame-fin:backend/tests/test_compliance.py:104","aiame-fin:backend/tests/test_compliance.py:95","aiame-sov:backend/tests/test_admin_controls.py:227"],"preuves_n":3},{"id":"constitution-ethique","label":"Une constitution éthique, écrite d'abord","titre_fr":"AIAME s'est dotée d'une Constitution avant son premier produit — dix articles, extraits mot pour mot.","titre_en":"AIAME gave itself a Constitution before its first product — ten articles, extracted word for word.","famille":"memoire","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"cout-revenu-publies","label":"Coûts et revenus publiés, même à zéro","titre_fr":"Le ratio coût/revenu de chaque service vendu sera publié ; un revenu nul se dit, il ne se cache pas.","titre_en":"The cost/revenue ratio of each sold service will be published; zero revenue is stated, not hidden.","famille":"economie","statut":"déclaré","date":"2026-07-29","preuves":[],"preuves_n":0},{"id":"rien-vendu-avant-e2e","label":"Rien n'est vendu avant d'être propre de bout en bout","titre_fr":"Un prix sans infrastructure derrière est une violation ; aucun service AIAME n'est vendu, au plus proposé en bac à sable.","titre_en":"A price with no infrastructure behind it is a violation; no AIAME service is sold, at most offered in a sandbox.","famille":"economie","statut":"prouvé","date":"2026-02-10","preuves":["aiame-doctrine:legal/test_build_legal_red.py:107","aiame-fr.github.io:scripts/verifier_vitrine.sh:29","aiame-fr.github.io:scripts/verifier_vitrine.sh:45"],"preuves_n":3},{"id":"interet-public","label":"L'intérêt public, pas une place de marché","titre_fr":"AIAME sert l'intérêt public ; elle ne devient ni une place de marché ni une plateforme agréée qui capte.","titre_en":"AIAME serves the public interest; it becomes neither a marketplace nor a captive certified platform.","famille":"economie","statut":"déclaré","date":"2026-02-05","preuves":[],"preuves_n":0},{"id":"ethique-avantage","label":"L'éthique est un avantage compétitif","titre_fr":"On ne construit pas une démo d'IA mais des plateformes ; l'éthique est ce qui rend le produit durable.","titre_en":"We do not build an AI demo but platforms; ethics is what makes the product last.","famille":"economie","statut":"déclaré","date":"2026-01-27","preuves":[],"preuves_n":0},{"id":"contrat-transparent","label":"Un contrat sans piège : l'exception se signale, la sortie est gratuite","titre_fr":"Le prestataire signale lui-même ses exceptions ; la résiliation tient en un geste, sans justification ni frais.","titre_en":"The provider flags its own exceptions; termination takes one gesture, with no justification and no fees.","famille":"economie","statut":"déclaré","date":"2025-08-06","preuves":[],"preuves_n":0},{"id":"prix-juste","label":"Un prix juste, symbolique, jamais prédateur","titre_fr":"Une tarification juste et transparente, accessible et non prédatrice : du symbolique plutôt que de l'extractif.","titre_en":"Fair and transparent pricing, accessible and non-predatory: symbolic rather than extractive.","famille":"economie","statut":"déclaré","date":"2025-07-29","preuves":[],"preuves_n":0},{"id":"rien-sans-besoin","label":"Rien de construit sans besoin réel","titre_fr":"Pas de dépôt sans utilisateur, pas de fonction sans demande, pas de cœur commun imposé.","titre_en":"No repository without a user, no feature without a request, no imposed common core.","famille":"frugalite","statut":"prouvé","date":"2026-08-01","preuves":["aiame-pouls:tests/test_coreless.py:43","aiame-racines:tests/test_coreless.py:3"],"preuves_n":2},{"id":"deterministe-d-abord","label":"Déterministe d'abord, le modèle en dernier","titre_fr":"Une règle avant un modèle, un modèle local avant un service ; le coût des modèles tend vers zéro.","titre_en":"A rule before a model, a local model before a service; model cost tends to zero.","famille":"frugalite","statut":"prouvé","date":"2026-06-17","preuves":["aiame-focus-budget:tests/test_hygiene.py:1"],"preuves_n":1},{"id":"verifications-locales","label":"Vérifier en local, pas en payant deux fois","titre_fr":"Les tests tournent avant chaque push, sur le poste ; aucune minute d'intégration continue payante pour la même vérification.","titre_en":"Tests run before each push, on the machine; no paid CI minute for the same check.","famille":"frugalite","statut":"prouvé","date":"2026-02-05","preuves":["aiame-doctrine:.githooks/pre-push:2","aiame-doctrine:garde-fous/verifier-copies.sh:12","aiame-focus:.githooks/pre-push:2","aiame-mask:.githooks/pre-push:2"],"preuves_n":4},{"id":"sobriete","label":"La sobriété est une forme de respect","titre_fr":"Un modèle aussi petit que possible, des options gratuites d'abord, l'effort juste.","titre_en":"A model as tiny as possible, free options first, the right amount of effort.","famille":"frugalite","statut":"déclaré","date":"2025-09-15","preuves":[],"preuves_n":0},{"id":"ce-qu-aiame-ne-dira-jamais","label":"Ce qu'AIAME ne dira jamais","titre_fr":"Six phrases interdites par la charte de communication, contrôlées mécaniquement sur chaque page.","titre_en":"Six sentences forbidden by the communication charter, mechanically checked on every page.","famille":"langue","statut":"déclaré","date":"2026-01-17","preuves":[],"preuves_n":0},{"id":"anglais-machine-francais-citoyen","label":"Anglais pour la machine, français pour le citoyen","titre_fr":"Le code et les schémas en anglais ; la surface que lit un citoyen en français, langue par défaut.","titre_en":"Code and schemas in English; the surface a citizen reads in French, the default language.","famille":"langue","statut":"prouvé","date":"2025-07-24","preuves":[],"preuves_n":0},{"id":"divulgation","label":"Divulgué une fois corrigé","titre_fr":"Un constat se publie une fois corrigé, date et preuve ; ouvert, il n'apparaît qu'en nombre.","titre_en":"A finding is published once fixed, with date and proof; while open, it appears only as a count.","famille":"ouverture","statut":"déclaré","date":"2026-10-08","preuves":[],"preuves_n":0},{"id":"respect-des-editeurs","label":"Respect des éditeurs","titre_fr":"Nous lisons ce que les éditeurs nous permettent : robots.txt d'abord, identité déclarée, rythme tenu, et quand on nous dit non, nous nous arrêtons et nous le consignons.","titre_en":"We read only what publishers allow: robots.txt first, declared identity, steady pace, and when told no we stop and record it.","famille":"ouverture","statut":"prouvé","date":"2026-08-20","preuves":["aiame-workspace:scripts/garde_fous.sh:185","aiame-workspace:scripts/test_garde_fous.sh:194","aiame-workspace:tools/gouv-audit/test_audit.sh:42","aiame-workspace:tools/gouv-audit/test_audit.sh:46"],"preuves_n":4},{"id":"information-ouverte","label":"L'information ouverte, la mémoire de l'humanité","titre_fr":"Aiame.Info : retrouver l'information ouverte ; générer seulement après avoir retrouvé.","titre_en":"Aiame.Info: retrieve open information; only generate after retrieving.","famille":"ouverture","statut":"déclaré","date":"2026-07-25","preuves":[],"preuves_n":0},{"id":"sans-compte","label":"Sans compte, gratuit pour la personne","titre_fr":"Ce qui sert une personne s'utilise sans compte ni inscription.","titre_en":"What serves a person is used with no account and no sign-up.","famille":"ouverture","statut":"déclaré","date":"2026-07-23","preuves":[],"preuves_n":0},{"id":"outillage-libre","label":"Outillage libre et souverain","titre_fr":"Des outils libres pour le commerce, open source, souverains, local d'abord.","titre_en":"Tools free for commercial use, open source, sovereign, local first.","famille":"ouverture","statut":"déclaré","date":"2025-07-22","preuves":[],"preuves_n":0},{"id":"visage-pas-une-ressource","label":"Le visage n'est pas une ressource exploitable","titre_fr":"La technologie éclaire l'humain, jamais ne le réduit : un miroir intime et anonyme pour mieux se comprendre.","titre_en":"Technology enlightens the human, never reduces them: an intimate, anonymous mirror to understand oneself better.","famille":"face","statut":"déclaré","date":"2026-01-05","preuves":[],"preuves_n":0},{"id":"face-refus","label":"Ce que FACE refuse, et pour qui elle n'est pas","titre_fr":"Refus explicites : pas d'identification, pas de classement, pas pour les mineurs, un cercle strictement fermé, un maillage partagé reste un visage.","titre_en":"Explicit refusals: no identification, no ranking, not for minors, a strictly closed circle, a shared mesh remains a face.","famille":"face","statut":"déclaré","date":"2026-01-04","preuves":[],"preuves_n":0},{"id":"referent-commun","label":"Un référent commun et des axiomes, pas une norme","titre_fr":"Un référent perceptif externe commun ; la symétrie est calculée à partir de l'asymétrie ; aucune base de modèle n'est normative ; on ne cherche aucune normalisation de l'humain.","titre_en":"A common external perceptual reference; symmetry is computed from asymmetry; no model baseline is normative; no standardisation of the human is sought.","famille":"face","statut":"déclaré","date":"2025-08-03","preuves":[],"preuves_n":0},{"id":"muet-et-invendu","label":"Muette et invendue : AIAME montre, ne conclut pas","titre_fr":"La science du visage se montre publiquement, gratuitement et sans compte à condition de rester muette — des signaux mesurés, zéro interprétation — et de n'être jamais vendue.","titre_en":"The face science may be shown publicly, free and without an account provided it stays mute — measured signals, zero interpretation — and is never sold.","famille":"face","statut":"déclaré","date":"2025-07-24","preuves":[],"preuves_n":0},{"id":"branche-protegee","label":"Deux branches, une science protégée","titre_fr":"E3 est l'organe de revenu, E2 le cœur protégé : une part du revenu net de E3 finance la recherche, la recherche à accès restreint peut nourrir une décision ailleurs.","titre_en":"E3 is the revenue organ, E2 the protected core: a share of E3's net revenue funds the research; restricted-access research may feed a decision elsewhere.","famille":"face","statut":"déclaré","date":"2025-07-23","preuves":[],"preuves_n":0}],"stats":{"nommees":82,"tenues":36,"declarees":46}}</script>
+<script>
+(function(){
+  'use strict';
+  const D = JSON.parse(document.getElementById('donnees').textContent);
+  const CENTRE = 'aiame';
+  const STATUTS = [['prouvé', '#7FC08F'], ['déclaré', '#E2B45A']];
+  const L = {
+    fr: {tenue:'tenue', declaree:'déclarée', fermer:'Fermer', pieces:'Ce qui la tient', plus:'de plus', aucune:'Tenue — la pièce n’est pas publiée (hors des dépôts publics de ce relevé).',
+         declNote:'Déclarée : écrite ou décidée, rien ne la vérifie encore.', famille:'Famille', liste:'Voir la famille dans la liste', date:'écrite le',
+         legBras:'une étoile par valeur · un bras par famille · grande = plus de pièces', legPreuve:'couleur = statut dérivé de la valeur · aucune main ne l’écrit',
+         vide:'Choisissez une étoile : la valeur, son statut et ce qui la tient.'},
+    en: {tenue:'held', declaree:'declared', fermer:'Close', pieces:'What holds it', plus:'more', aucune:'Held — the evidence is not published (outside the public repositories of this survey).',
+         declNote:'Declared: written or decided, and nothing checks it yet.', famille:'Family', liste:'See the family in the list', date:'written on',
+         legBras:'one star per value · one arm per family · larger = more pieces', legPreuve:'colour = status derived from the value · no hand writes it',
+         vide:'Pick a star: the value, its status and what holds it.'},
+  };
+  const LIBELLES = {
+    fr: {recherche:'Filtrer : un mot, statut:prouvé…', etiquettes:'Étiquettes', reinit:'Tout réinitialiser', aucun:'aucun résultat', retirer:'Retirer', sur:'sur', racine:'Valeurs', entrer:'entrer', etoiles:'valeurs', plus:'de plus'},
+    en: {recherche:'Filter: a word, statut:prouvé…', etiquettes:'Tags', reinit:'Reset all', aucun:'no result', retirer:'Remove', sur:'of', racine:'Values', entrer:'enter', etoiles:'values', plus:'more'},
+  };
+  const etat = {lang: 'fr', lentille: 'bras', sel: null};
+  try { const l = localStorage.getItem('galaxie-lang'); if (l === 'en' || l === 'fr') etat.lang = l; else if ((navigator.language || '').toLowerCase().startsWith('en')) etat.lang = 'en'; } catch (e) {}
+  const T = (k) => L[etat.lang][k];
+  const txt = (d, k) => d[k + '_' + etat.lang] || d[k + '_fr'] || '';
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ms = (d) => Date.parse(d) || 0;
+  const V = {}; D.valeurs.forEach(v => { V[v.id] = v; });
+  const couleurFamille = (fid) => `var(--f${D.ordre.indexOf(fid) % 9})`;
+  const atlas = document.getElementById('atlas'), pan = document.getElementById('panneau');
+
+  const donneesAtlas = () => ({
+    centre: CENTRE, cleGroupe: 'famille',
+    groupes: D.ordre.map(f => ({id: f, label: txt(D.familles[f], 'label'), couleur: couleurFamille(f)})),
+    noeuds: [{id: CENTRE, label: 'doctrine', titre: txt(D.familles[D.ordre[0]], 'texte'), groupe: D.ordre[0], taille: 13, etiquettes: {kind: 'centre'}}]
+      .concat(D.valeurs.map(v => ({id: v.id, label: v.label, titre: txt(v, 'titre'), groupe: v.famille, ordre: ms(v.date),
+        taille: Math.min(12, 5 + Math.sqrt(v.preuves_n)), etiquettes: {famille: v.famille, statut: v.statut},
+        texte: [v.id, v.label, txt(v, 'titre')].join(' ')}))),
+    liens: [],
+  });
+
+  function legende() {
+    const svg = atlas.shadowRoot.querySelector('svg'), etroit = !!(svg && svg.classList.contains('etroit'));
+    const familles = etroit ? D.ordre.map(f => `<span><span class="pt" style="background:${couleurFamille(f)}"></span>${esc(txt(D.familles[f], 'label'))}</span>`).join('') : '';
+    document.getElementById('legende').innerHTML = etat.lentille === 'preuve'
+      ? STATUTS.map(([s, c]) => `<span><span class="pt" style="background:${c}"></span>${esc(s === 'prouvé' ? T('tenue') : T('declaree'))}</span>`).join('') + `<span>${T('legPreuve')}</span>`
+      : (familles || `<span>${T('legBras')}</span>`);
+  }
+  function lentille(nom) {
+    etat.lentille = nom;
+    document.querySelectorAll('.lentilles button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lentille === nom)));
+    atlas.teindre(nom === 'preuve' ? (n => { const s = (n.etiquettes || {}).statut; return s ? (STATUTS.find(x => x[0] === s) || [])[1] || null : null; }) : null);
+    atlas.liens('selection'); legende(); atlas.etatHote(nom !== 'bras');
+  }
+  const chip = (s) => `<span class="chip ${esc(s)}">${esc(s === 'prouvé' ? T('tenue') : T('declaree'))}</span>`;
+  function panneauValeur(vid) {
+    const v = V[vid], f = D.familles[v.famille];
+    let corps;
+    if (v.statut === 'prouvé') {
+      corps = v.preuves.length
+        ? `<p class="p-titre">${T('pieces')}</p><ul class="p-liste">${v.preuves.map(p => `<li><code>${esc(p)}</code></li>`).join('')}${v.preuves_n > v.preuves.length ? `<li class="muted">+ ${v.preuves_n - v.preuves.length} ${T('plus')}</li>` : ''}</ul>`
+        : `<p class="muted">${T('aucune')}</p>`;
+    } else corps = `<p class="muted">${T('declNote')}</p>`;
+    pan.innerHTML = `<button type="button" class="fermer" aria-label="${T('fermer')}">×</button>
+      <p class="eyebrow">${esc(txt(f, 'label'))}</p><h2 class="p-nom">${esc(v.label)}</h2><p>${chip(v.statut)}</p>
+      <p style="margin-top:.6rem">${esc(txt(v, 'titre'))}</p>${corps}
+      <p class="muted" style="margin-top:.8rem">${T('date')} ${esc(v.date)} · <a href="${etat.lang === 'en' ? 'https://aiame.fr/en/valeurs/' : 'https://aiame.fr/valeurs/'}#${esc(v.famille)}">${T('liste')}</a></p>`;
+    pan.hidden = false;
+    pan.querySelector('.fermer').addEventListener('click', lacher);
+  }
+  function lacher() { etat.sel = null; atlas.selectionner(null); pan.hidden = true; pan.replaceChildren(); try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
+  function surSelection(id) {
+    if (!id || id === CENTRE || !V[id]) { lacher(); return; }
+    etat.sel = id; panneauValeur(id);
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  }
+  atlas.addEventListener('atlas-select', (ev) => surSelection(ev.detail.id));
+  atlas.addEventListener('atlas-reinit', () => { lentille('bras'); if (etat.sel) lacher(); });
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && etat.sel && !ev.defaultPrevented) lacher(); });
+  document.querySelectorAll('.lentilles button').forEach(b => b.addEventListener('click', () => lentille(b.dataset.lentille)));
+
+  function langue(l) {
+    etat.lang = l; document.documentElement.lang = l;
+    try { localStorage.setItem('galaxie-lang', l); } catch (e) {}
+    document.querySelectorAll('.t[data-en]').forEach(sp => { if (!sp.dataset.fr) sp.dataset.fr = sp.textContent; sp.textContent = l === 'en' ? sp.dataset.en : sp.dataset.fr; });
+    document.querySelectorAll('footer a[data-en-href]').forEach(a => { a.href = l === 'en' ? a.dataset.enHref : a.dataset.fr; });
+    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+    atlas.libelles = LIBELLES[l]; atlas.data = donneesAtlas(); lentille(etat.lentille); requestAnimationFrame(() => { ajuster(); legende(); });
+    const cur = etat.sel; etat.sel = null; pan.hidden = true; if (cur) { atlas.selectionner(cur); surSelection(cur); }
+  }
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => langue(b.dataset.lang)));
+
+  // Le composant dessine un ciel carré dont la hauteur suit la largeur : on réduit sa largeur jusqu'à ce que tout (barre de filtre comprise)
+  // tienne dans l'écran. Le composant lui-même n'est pas touché (même octets que sur les autres pages).
+  const ciel = document.getElementById('ciel');
+  // un nom d'étoile plus long que la marge du cadre déborde au lieu d'être coupé : #ciel (overflow:hidden) tient l'écran, la racine du composant est ouverte
+  const regle = document.createElement('style'); regle.textContent = 'svg{overflow:visible} svg.etroit .etiq{display:none}'; atlas.shadowRoot.appendChild(regle);
+  function ajuster() {
+    const cw = ciel.clientWidth, ch = ciel.clientHeight;
+    if (!cw || !ch) return;
+    const svg = atlas.shadowRoot.querySelector('svg'), vbw = (svg && svg.viewBox.baseVal.width) || 1000;
+    // grand écran : les noms débordent dans les marges, on les leur laisse ; sinon le composant passe en ciel étroit (k < 0,62) et garde
+    // chaque nom dans sa boîte — en ne montrant que les grandes étoiles, le reste au survol et à la sélection.
+    const marge = cw - 2 * 240;
+    let w = marge >= 0.62 * vbw ? Math.min(cw, marge) : Math.min(cw, Math.floor(0.6 * vbw));
+    atlas.style.width = w + 'px';
+    for (let i = 0; i < 4 && atlas.offsetHeight > ch + 1; i++) { w = Math.max(220, Math.floor(w * ch / atlas.offsetHeight)); atlas.style.width = w + 'px'; }
+  }
+  if (window.ResizeObserver) new ResizeObserver(() => { ajuster(); legende(); }).observe(ciel); else window.addEventListener('resize', () => { ajuster(); legende(); });
+  atlas.addEventListener('atlas-niveau', () => requestAnimationFrame(() => { ajuster(); legende(); }));
+  atlas.libelles = LIBELLES[etat.lang]; atlas.data = donneesAtlas(); lentille('bras'); requestAnimationFrame(() => { ajuster(); legende(); });
+  if (etat.lang === 'en') langue('en');
+  const h = decodeURIComponent((location.hash || '').slice(1));
+  if (h && V[h]) { atlas.selectionner(h); surSelection(h); }
+})();
+</script>
 </body>
 </html>
